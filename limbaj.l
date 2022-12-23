@@ -22,6 +22,27 @@
 [a-z] return WORD
 [0‑9]   yylval=atoi(yytext); return NUMBER;
 
+TYPE "int"|"float"|"char"|"string"|"bool"
+IF "if"
+ELSE "else"
+FOR "for"
+WHILE "while"
+SWITCH "switch"
+CASE "case"
+BREAK "break"
+DEFAULT "default"
+PRINT "print"
+ID [a-zA-Z][a-zA-Z0-9]*
+INTEGER 0|[-]?[1-9][0-9]*
+FLOAT [-]?([0][.][0-9][1-9]*)|[-]?([1-9][0-9]*[.][0-9]*)
+ARRAY {ID}([\[]{INTEGER}[\]])+
+STRING (["].*["])
+BOOL "true"|"false"
+SPACE (" ")+
+OP_LOGIC "&&"|"||"|"<="|">="|"=="|"!="|"<"|">"
+OP_MATH1 "+"|"-"
+OP_MATH2 "*"|"/"|"%"
+
 
 
 "int"|"float"|"char"|"string" {return TIP;}
