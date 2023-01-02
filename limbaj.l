@@ -6,9 +6,8 @@
 %option noyywrap
 %%
 
-
 "begin"  printf("When find begin do this\n");
-[a‑z]    printf("Lowercase word\n");
+[a-z]    printf("Lowercase word\n");
 [A‑Z]    printf("Uppercase word\n");
 [a‑ZA‑Z] printf("Word\n");
 [0‑9]    printf("Integer\n");

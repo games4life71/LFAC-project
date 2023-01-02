@@ -6,7 +6,8 @@ extern int yylineno;
 extern int yylval;
 %}
 
-%token  ASSIGN 
+%token CLASS
+%token ASSIGN 
 %token ID
 %token TYPE 
 %token COMPOSITE
@@ -38,6 +39,10 @@ extern int yylval;
 %token MAIN_END
 %token UNIVERSAL_START
 %token UNIVERSAL_END
+%token FUNCTIONS_START
+%token FUNCTIONS_END
+%token USERDEF_START
+%token USERDEF_END
 
 %start arith_expr
 %left PLUS
@@ -63,22 +68,47 @@ extern int yylval;
 //     ...
 //   important_code_end
 
-program: univ_sec main_sec  {printf("The program is correct \n");} ;
+program: univ_sec func_sec userdef_sec main_sec  {printf("The program is correct \n");} ;
 
 
 
 univ_sec : UNIVERSAL_START univ_vars UNIVERSAL_END {printf("The universal section is correct \n");} ;
 
 univ_vars : variable  {printf("The universal variable is correct \n");} 
- | univ_vars variable ;
+ | univ_vars variable
+ ;
 
-variable : TYPE ID ASSIGN E {printf("The variable is correct \n");}
+variable : TYPE ID ASSIGN E {printf("The variable is correct \n");} ;
 
+func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
 
-main_sec : MAIN_START main_instruction MAIN_END {printf("The main section is correct \n");} ;
+functions : function 
+| functions function
+;
 
-main_instruction : instruction {printf("The main instruction is correct \n");} 
- | main_instruction instruction ;
+function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' {printf("The function is correct \n");} //sintaxa: (returnVal) name (args){...}
+
+arguments : variable_argument //tb de pus ca posibili param si expresii
+| arguments ',' variable_argument
+| function_argument
+| | arguments ',' function_argument
+;
+
+variable_argument : TYPE ID ;
+
+function_argument : '(' TYPE ')' ID '(' function_argument_params ')' ;
+
+function_argument_params : TYPE
+| function_argument_params ',' TYPE
+| function_argument
+| function_argument_params ',' function_argument
+;
+
+main_sec : MAIN_START instructions MAIN_END {printf("The main section is correct \n");} ;
+
+instructions : instruction {printf("The instruction is correct \n");} 
+ | instructions instruction 
+ ;
 
 instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction statement ';' | //for multiple statements
