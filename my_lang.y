@@ -73,7 +73,7 @@ extern int yylval;
 %token RETURN
 
 %left PLUS
-%type <intval> E
+
 %start program
 %%
 
@@ -106,7 +106,9 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
  ;
 
 variable : TYPE ID ASSIGN rvalue {printf("The variable is correct \n");}|
-           TYPE ARRAY; // char a[5];
+           TYPE ARRAY  |  // char a[5]; 
+           TYPE ID ;  // int a;
+
 
 rvalue : ID {printf("The rvalue is correct \n");}|
         INTEGER {printf("The rvalue is correct \n");}|
@@ -154,9 +156,9 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction control_instruction ';' | //for multiple instructions
 
 
-statement: ID ASSIGN E {printf("The statement is correct \n");} ;
+statement: ID ASSIGN math_statem{printf("The statement is correct \n");} ;
 
-declaration: TYPE ID ASSIGN E {printf("The declaration is correct \n");} ;
+declaration: TYPE ID ASSIGN math_statem {printf("The declaration is correct \n");} ;
 
 
 //implemented just the IF and ELSE instruction 
@@ -177,12 +179,25 @@ condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");}
 rvalue: ID {printf("The rvalue is correct \n");}
 lvalue: ID {printf("The lvalue is correct \n");}
 
+math_statem : math_statem OP_MATH1 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)+7 
+             math_statem OP_MATH2 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)*7
+             math_val OP_MATH1 math_statem {printf("The math statement is correct \n");} |  //eg. 5+(6-7)
+             math_val OP_MATH2 math_statem {printf("The math statement is correct \n");} | //eg. 5*(6-7)
+             math_val OP_MATH1 math_val {printf("The math statement is correct \n");} |  //eg. 5+6
+             math_val OP_MATH2 math_val {printf("The math statement is correct \n");};   //eg. 5*6   
+
+
+math_val : lvalue {printf("The math value is correct \n");} |  // a + 5 where a is lvalue 
+            INTEGER {printf("The math value is correct \n");} | //3+4 
+            FLOAT {printf("The math value is correct \n");} | //3.4+5.6
+            BOOL {printf("The math value is correct \n");}; //true+false
+
 
 
 //all possible combinations of expressions
-E : E OP_MATH1 E {$$ = $1+$3;}|
- E OP_MATH2 E {$$ = $1-$3;}|
-| INTEGER {$$ = $1; printf("The value of int  is %d  \n",($1));};
+// E : E OP_MATH1 E {$$ = $1+$3;}|
+//  E OP_MATH2 E {$$ = $1-$3;}|
+// | INTEGER {$$ = $1; printf("The value of int  is %d  \n",($1));};
 
 
 space: SPACE {printf("Space and the content of yytext is %s \n",*yytext);};
