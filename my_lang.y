@@ -4,7 +4,34 @@ extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 extern int yylval;
+ 
+ //c code structs to be used in the parser
+
+  struct funct_param{
+    char type[50];
+    char name[50];
+  }
+
+  struct lvalue
+  {
+
+    char name[50];
+    char type[50];
+    char value[50];
+    char scope[50];
+  }
+
+        //maybe  a struct for a node in the AST tree ?? 
 %}
+
+
+%union{  
+    
+    int intval;
+    char * strval;
+    struct funct_param funct_param;
+    struct funct_param funct_param_list[10];
+}
 
 %token CLASS
 %token ASSIGN 
@@ -14,7 +41,7 @@ extern int yylval;
 %token ARRAY
 %token CONSTANT
 %token COMPOSITE_ARRAY
-%token INTEGER
+%token<intval> INTEGER
 %token FLOAT
 %token BOOL
 %token STRING
@@ -43,15 +70,12 @@ extern int yylval;
 %token FUNCTIONS_END
 %token USERDEF_START
 %token USERDEF_END
+%token RETURN
 
-%start arith_expr
 %left PLUS
-
+%type <intval> E
+%start program
 %%
-
-
-
-
 
 //here the program starts with a global section and a main section
 //  how the program should look like 
@@ -67,10 +91,13 @@ extern int yylval;
 //     b = 5 ; //assign a value to b
 //     ...
 //   important_code_end
-
 program: univ_sec func_sec userdef_sec main_sec  {printf("The program is correct \n");} ;
 
+userdef_sec : USERDEF_START userdef_vars USERDEF_END {printf("The userdef section is correct \n");} ;
 
+userdef_vars : variable  {printf("The userdef variable is correct \n");} 
+ | userdef_vars variable
+ ;
 
 univ_sec : UNIVERSAL_START univ_vars UNIVERSAL_END {printf("The universal section is correct \n");} ;
 
@@ -78,7 +105,16 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
  | univ_vars variable
  ;
 
-variable : TYPE ID ASSIGN E {printf("The variable is correct \n");} ;
+variable : TYPE ID ASSIGN rvalue {printf("The variable is correct \n");}|
+           TYPE ARRAY; // char a[5];
+
+rvalue : ID {printf("The rvalue is correct \n");}|
+        INTEGER {printf("The rvalue is correct \n");}|
+        FLOAT {printf("The rvalue is correct \n");}|
+        BOOL {printf("The rvalue is correct \n");}|
+        STRING {printf("The rvalue is correct \n");}|
+        math_statem {printf("The rvalue is correct \n");};
+
 
 func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
 
@@ -141,11 +177,11 @@ condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");}
 rvalue: ID {printf("The rvalue is correct \n");}
 lvalue: ID {printf("The lvalue is correct \n");}
 
-arith_expr : E {printf("The result of op is is:%d \n",($1));}   
-| arith_expr  E {printf("The result of op 2is is:%d \n",($2));} ;
 
-E : E PLUS E {$$ = $1+$3;}|
- E MINUS E {$$ = $1-$3;}|
+
+//all possible combinations of expressions
+E : E OP_MATH1 E {$$ = $1+$3;}|
+ E OP_MATH2 E {$$ = $1-$3;}|
 | INTEGER {$$ = $1; printf("The value of int  is %d  \n",($1));};
 
 
