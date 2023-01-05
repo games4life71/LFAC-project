@@ -156,16 +156,20 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction control_instruction ';' | //for multiple instructions
 
 
-statement: ID ASSIGN math_statem{printf("The statement is correct \n");} ;
+statement: ID ASSIGN math_statem{printf("The statement is correct \n");}| 
+           lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
+           lvalue ASSIGN rvalue {printf("The statement is correct \n");}|
+           ID '(' ')' {printf("The statement is correct \n");}|  //call a function with no arguments 
+           ID '(' arguments ')' {printf("The statement is correct \n");}; //call a function with arguments
 
 declaration: TYPE ID ASSIGN math_statem {printf("The declaration is correct \n");} ;
 
 
 //implemented just the IF and ELSE instruction 
 control_instruction: IF "$$$" condition "$$$" '{' instruction '}' {printf("The if instruction is correct \n");} 
-| IF "$$$" condition "$$$" '{' instruction '}' ELSE '{' instruction '}' {printf("The if-else instruction is correct \n");} ;
-
-
+| IF "$$$" condition "$$$" '{' instruction '}' ELSE '{' instruction '}' {printf("The if-else instruction is correct \n");}|
+FOR '(' ID ASSIGN math_statem ';' condition ';' ID ASSIGN math_statem ')' '{' instruction '}' {printf("The for instruction is correct \n");}|
+WHILE '(' condition ')' '{' instruction '}' {printf("The while instruction is correct \n");}; 
 
 
 //all possible combinations of conditions
