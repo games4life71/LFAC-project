@@ -1,5 +1,12 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <stdbool.h>
+#include "functions.h" //header file with the functions used in the parser
+
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
@@ -35,8 +42,8 @@ extern int yylval;
 
 %token CLASS
 %token ASSIGN 
-%token ID
-%token TYPE 
+%token<strval> ID
+%token<strval> TYPE 
 %token COMPOSITE
 %token ARRAY
 %token CONSTANT
@@ -105,9 +112,24 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
  | univ_vars variable
  ;
 
-variable : TYPE ID ASSIGN rvalue {printf("The variable is correct \n");}|
-           TYPE ARRAY  |  // char a[5]; 
-           TYPE ID ;  // int a;
+variable : TYPE ID ASSIGN rvalue
+        { 
+          printf("The variable is correct \n");
+          add_var($2, $1, rvalue,"global",false,0);  
+        } |
+
+        TYPE ARRAY
+        {
+        char *name = strtok($2, "[");
+        char *size = strtok(NULL, "]");
+        int size_int = atoi(size);
+        add_var(name, $1, "","global",true,size_int);
+        }  |  // char a[5]; 
+        TYPE ID
+        {
+        add_var($2, $1, "","global",false,0);
+        }    // char a;
+         ;  // int a;
 
 
 rvalue : ID {printf("The rvalue is correct \n");}|
@@ -117,6 +139,7 @@ rvalue : ID {printf("The rvalue is correct \n");}|
         STRING {printf("The rvalue is correct \n");}|
         math_statem {printf("The rvalue is correct \n");};
 
+lvalue: ID {printf("The lvalue is correct \n");}
 
 func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
 
@@ -150,19 +173,62 @@ instructions : instruction {printf("The instruction is correct \n");}
 
 instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction statement ';' | //for multiple statements
-             declaration ';' | //e.g. string s = "hello"; 
+             declaration ';' | //e.g. string s; 
              instruction declaration ';' | //for multiple declarations
              control_instruction ';' | // if, for, while, switch
              instruction control_instruction ';' | //for multiple instructions
+          
 
-
-statement: ID ASSIGN math_statem{printf("The statement is correct \n");}| 
+statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a = 3 + 4;
            lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
-           lvalue ASSIGN rvalue {printf("The statement is correct \n");}|
+           lvalue ASSIGN rvalue 
+           {
+            printf("The statement is correct \n");
+            //if the var is declared as a global var
+            if(is_declared_global($1))
+            {
+              //compute the assignment
+            }
+            else if(is_declared($1))
+            {
+              //compute the assignment
+            }
+            else
+            {
+              printf("The variable %s is not declared \n", $1);
+            }
+
+           } |
            ID '(' ')' {printf("The statement is correct \n");}|  //call a function with no arguments 
            ID '(' arguments ')' {printf("The statement is correct \n");}; //call a function with arguments
 
-declaration: TYPE ID ASSIGN math_statem {printf("The declaration is correct \n");} ;
+declaration: TYPE ID 
+            {
+              printf("The declaration is correct \n");
+              add_var($2, $1,"","main",false,0);
+
+            } |
+             TYPE ID ASSIGN rvalue  //int a = 3;
+             {
+              printf("The declaration is correct \n");
+              add_var($2, $1,$4,"main",false,0);
+              
+             } |
+             TYPE ARRAY 
+             {
+              printf("The declaration is correct \n");
+              char *id = strtok($2, "["); //int a[10]
+              char *size = strtok(NULL, "]");
+              int arr_size = atoi(size);
+              //printf("the size is %s \n", size);
+              add_var(id, $1,"","main",true,arr_size);
+             } |
+             TYPE ID ASSIGN math_statem 
+             {
+              printf("The declaration is correct \n");
+              //compute the math statement first ?  
+               
+            } ;
 
 
 //implemented just the IF and ELSE instruction 
@@ -180,8 +246,8 @@ condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");}
 
 
 //assign the right value to the left and right  value
-rvalue: ID {printf("The rvalue is correct \n");}
-lvalue: ID {printf("The lvalue is correct \n");}
+
+
 
 math_statem : math_statem OP_MATH1 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)+7 
              math_statem OP_MATH2 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)*7
