@@ -31,6 +31,7 @@ struct array_info
     int array_size;     // holds the size of the array
    struct element elements[100];  // holds the elements of the array
 };
+
 struct var_info var_table[1000]; // holds the variable table 
 
 int var_table_index = 0; // holds the index of the variable table   
