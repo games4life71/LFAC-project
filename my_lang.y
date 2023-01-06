@@ -21,7 +21,6 @@ extern int yylval;
 
   struct lvalue
   {
-
     char name[50];
     char type[50];
     char value[50];
@@ -38,14 +37,16 @@ extern int yylval;
     char * strval;
     struct funct_param funct_param;
     struct funct_param funct_param_list[10];
+    struct lvalue lval;
 }
+
 
 %token CLASS
 %token ASSIGN 
 %token<strval> ID
 %token<strval> TYPE 
 %token COMPOSITE
-%token ARRAY
+%token<strval> ARRAY
 %token CONSTANT
 %token COMPOSITE_ARRAY
 %token<intval> INTEGER
@@ -78,9 +79,13 @@ extern int yylval;
 %token USERDEF_START
 %token USERDEF_END
 %token RETURN
-
+%token STRUCT_START
+%token STRUCT_END
+%token CLASS_START
+%token CLASS_END
 %left PLUS
-
+%type <lval> lvalue
+%type <lval> rvalue
 %start program
 %%
 
@@ -100,7 +105,30 @@ extern int yylval;
 //   important_code_end
 program: univ_sec func_sec userdef_sec main_sec  {printf("The program is correct \n");} ;
 
-userdef_sec : USERDEF_START userdef_vars USERDEF_END {printf("The userdef section is correct \n");} ;
+userdef_sec : USERDEF_START userdef USERDEF_END {printf("The userdef section is correct \n");} ;
+
+
+userdef : userdef_vars {printf("The userdef is correct \n");} 
+ | userdef userdef_vars
+ | struct_def {printf("The userdef is correct \n");}
+ | userdef struct_def 
+ | class_def {printf("The userdef is correct \n");}
+ | userdef class_def;
+
+struct_def : STRUCT_START struct_vars STRUCT_END {printf("The struct is correct \n");} ;
+
+
+struct_vars : variable  {printf("The struct variable is correct \n");} 
+ | struct_vars variable //for multiple variables in a struct
+ ;
+
+
+class_def : CLASS_START class_info CLASS_END {printf("The class is correct \n");} ;
+
+class_info: variable  {printf("The class variable is correct \n");} 
+ | class_info variable //for multiple variables in a class
+ | function  {printf("The class function is correct \n");}
+ | class_info function; //for multiple functions in a class
 
 userdef_vars : variable  {printf("The userdef variable is correct \n");} 
  | userdef_vars variable
@@ -140,6 +168,8 @@ rvalue : ID {printf("The rvalue is correct \n");}|
         math_statem {printf("The rvalue is correct \n");};
 
 lvalue: ID {printf("The lvalue is correct \n");}
+        | ARRAY { printf("The lvalue is correct \n");} ;
+         
 
 func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
 
@@ -283,6 +313,5 @@ printf("eroare: %s la linia:%d\n",s,yylineno);
 
 int main(int argc, char** argv){
 yyin=fopen(argv[1],"r"); // if we want to parse a file instead of the standard input 
-
 yyparse();
 } 
