@@ -168,7 +168,43 @@ rvalue : ID {printf("The rvalue is correct \n");}|
         math_statem {printf("The rvalue is correct \n");};
 
 lvalue: ID {printf("The lvalue is correct \n");}
-        | ARRAY { printf("The lvalue is correct \n");} ;
+        | ARRAY   
+          {
+           printf("The lvalue is correct \n");
+           //check if the variable is declared
+           char *name = strtok($1, "[");
+
+           if(!is_declared(name,"global"))
+           {
+            printf("The variable %s is not declared \n",name);
+            exit(1);
+           }
+           else
+           {
+            //check if the variable is an array
+            if(!is_array(name,"global"))
+            {
+              printf("The variable %s is not an array \n",name);
+              exit(1);
+            }
+            else
+            {
+              //check if the index is valid
+              char *index = strtok(NULL, "]");
+              int index_int = atoi(index);
+              int size = get_size(name,"global");
+              if(index_int >= size)
+              {
+                printf("The index %d is out of bounds \n",index_int);
+                exit(1);
+              }
+              //get the array from the table 
+              struct array_info *curr_array = get_array(name,"global");
+              
+              $$ = curr_array->elements[index_int]->value;
+            }
+           }
+          } ; 
          
 
 func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
@@ -213,7 +249,9 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
            lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
            lvalue ASSIGN rvalue 
            {
-            printf("The statement is correct \n");
+            //call a function to update val in the symbol table 
+
+            //printf("The statement is correct \n");
             //if the var is declared as a global var
             if(is_declared_global($1))
             {
