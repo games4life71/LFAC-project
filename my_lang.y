@@ -10,7 +10,7 @@
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
-extern int yylval;
+
 
         //maybe  a struct for a node in the AST tree ?? 
         //c code structs to be used in the parser

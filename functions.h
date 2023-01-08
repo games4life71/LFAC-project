@@ -146,7 +146,18 @@ int is_declared_global(char *id)
     return 0;
 }
 
-
+int get_size(char *id, char *scope)
+{
+    int i;
+    for (i = 0; i < var_table_index; i++)
+    {
+        if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
+        {
+            return var_table[i].array_size;
+        }
+    }
+    return 0;
+}
 //function to return a pointer to the array with the given id
 struct array_info* get_array(char *id)
 {
