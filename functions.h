@@ -12,7 +12,7 @@ struct var_info
 {
     char id[BITS_5];    // holds the id of the variable (name)
     char type[BITS_5];  // holds the type of the variable
-    char value[BITS_6]; // holds the value of the variable
+    char value[BITS_6]; // holds the value of the variable if array 0 
     char scope[BITS_5]; // holds the scope of the variable : main , function,global etc
     bool is_array;      // holds whether the variable is an array or not
     int array_size;     // holds the size of the array
@@ -119,21 +119,21 @@ void add_var(char *id, char *type, char *value, char *scope, bool is_array, int 
 }
 
 // function to check if a variable is already declared
-bool is_declared(char *id, char *scope)
+int is_declared(char *id, char *scope)
 {
     int i;
     for (i = 0; i < var_table_index; i++)
     {
         if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 // function to check if a variable is already declared in the global scope
-bool is_declared_global(char *id)
+int is_declared_global(char *id)
 {
     int i;
     for (i = 0; i < var_table_index; i++)
@@ -156,6 +156,7 @@ struct array_info* get_array(char *id)
         if (strcmp(array_table[i].id, id) == 0 )
         {
             return &array_table[i];
+            
         }
     }
 }
@@ -173,3 +174,13 @@ bool is_array(char *id, char *scope)
     }
     return 0;
 }
+void add_func(char *id, char *return_type, char *scope, int param_count)
+{
+    strcpy(func_table[func_table_index].id, id);
+    strcpy(func_table[func_table_index].return_type, return_type);
+    strcpy(func_table[func_table_index].scope, scope);
+    func_table[func_table_index].param_count = param_count;
+    func_table_index++;
+}
+
+

@@ -11,13 +11,15 @@ extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 extern int yylval;
- 
- //c code structs to be used in the parser
+
+        //maybe  a struct for a node in the AST tree ?? 
+        //c code structs to be used in the parser
 
   struct funct_param{
     char type[50];
     char name[50];
-  }
+  };
+
 
   struct lvalue
   {
@@ -25,67 +27,66 @@ extern int yylval;
     char type[50];
     char value[50];
     char scope[50];
-  }
-
-        //maybe  a struct for a node in the AST tree ?? 
+  };
 %}
 
 
+
 %union{  
-    
     int intval;
-    char * strval;
-    struct funct_param funct_param;
-    struct funct_param funct_param_list[10];
-    struct lvalue lval;
+    char * strval;  
+    struct lvalue*  lval;
 }
 
 
-%token CLASS
-%token ASSIGN 
+%token <strval> CLASS
+%token<strval> ASSIGN 
 %token<strval> ID
 %token<strval> TYPE 
-%token COMPOSITE
+%token <strval>COMPOSITE
 %token<strval> ARRAY
-%token CONSTANT
-%token COMPOSITE_ARRAY
+%token <strval>CONSTANT
+%token <strval>COMPOSITE_ARRAY
 %token<intval> INTEGER
-%token FLOAT
-%token BOOL
-%token STRING
-%token OP_MATH1
-%token OP_MATH2
-%token OP_LOGIC
-%token INC
-%token DEC
-%token PRINT
-%token IF
-%token ELSE
-%token FOR 
-%token WHILE
-%token SWITCH
-%token CASE
-%token BREAK 
-%token NUM
-%token PLUS
-%token SPACE
-%token MINUS
-%token MAIN_START
-%token MAIN_END
-%token UNIVERSAL_START
-%token UNIVERSAL_END
-%token FUNCTIONS_START
-%token FUNCTIONS_END
-%token USERDEF_START
-%token USERDEF_END
-%token RETURN
-%token STRUCT_START
-%token STRUCT_END
-%token CLASS_START
-%token CLASS_END
-%left PLUS
+%token <strval>FLOAT
+%token <strval>BOOL
+%token <strval>STRING
+%token <strval>OP_MATH1
+%token <strval>OP_MATH2
+%token <strval>OP_LOGIC
+%token <strval>INC
+%token <strval>DEC
+%token <strval>PRINT
+%token <strval>IF
+%token <strval>ELSE
+%token<strval> FOR 
+%token <strval>WHILE
+%token <strval>SWITCH
+%token <strval>CASE
+%token <strval>BREAK 
+%token <strval>NUM
+%token <strval>SPACE
+%token <strval>MINUS
+%token <strval>MAIN_START
+%token <strval>MAIN_END
+%token <strval>UNIVERSAL_START
+%token <strval>UNIVERSAL_END
+%token <strval>FUNCTIONS_START
+%token <strval>FUNCTIONS_END
+%token <strval>USERDEF_START
+%token <strval>USERDEF_END
+%token <strval>RETURN
+%token <strval>STRUCT_START
+%token <strval>STRUCT_END
+%token <strval>CLASS_START
+%token <strval>CLASS_END
+%left <strval>PLUS
+
+
 %type <lval> lvalue
 %type <lval> rvalue
+
+
 %start program
 %%
 
@@ -103,6 +104,7 @@ extern int yylval;
 //     b = 5 ; //assign a value to b
 //     ...
 //   important_code_end
+
 program: univ_sec func_sec userdef_sec main_sec  {printf("The program is correct \n");} ;
 
 userdef_sec : USERDEF_START userdef USERDEF_END {printf("The userdef section is correct \n");} ;
@@ -140,10 +142,10 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
  | univ_vars variable
  ;
 
-variable : TYPE ID ASSIGN rvalue
+variable : TYPE ID ASSIGN rvalue 
         { 
           printf("The variable is correct \n");
-          add_var($2, $1, rvalue,"global",false,0);  
+          add_var($2, $1, $4,"global",false,0);  
         } |
 
         TYPE ARRAY
@@ -179,6 +181,7 @@ lvalue: ID {printf("The lvalue is correct \n");}
             printf("The variable %s is not declared \n",name);
             exit(1);
            }
+           
            else
            {
             //check if the variable is an array
@@ -190,8 +193,10 @@ lvalue: ID {printf("The lvalue is correct \n");}
             else
             {
               //check if the index is valid
+              char * id = strtok($1, "["); 
               char *index = strtok(NULL, "]");
               int index_int = atoi(index);
+
               int size = get_size(name,"global");
               if(index_int >= size)
               {
@@ -199,9 +204,9 @@ lvalue: ID {printf("The lvalue is correct \n");}
                 exit(1);
               }
               //get the array from the table 
-              struct array_info *curr_array = get_array(name,"global");
-              
-              $$ = curr_array->elements[index_int]->value;
+              struct array_info *curr_array = get_array(name);
+              struct element  curr_elem = curr_array->elements[index_int];
+              $$ = curr_elem.value;
             }
            }
           } ; 
@@ -213,7 +218,16 @@ functions : function
 | functions function
 ;
 
-function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' {printf("The function is correct \n");} //sintaxa: (returnVal) name (args){...}
+function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
+
+{
+  //add new function to the table
+  //add_func($4, $2, $6);
+
+
+  printf("The function is correct \n");
+  
+} //sintaxa: (returnVal) name (args){...}
 
 arguments : variable_argument //tb de pus ca posibili param si expresii
 | arguments ',' variable_argument
@@ -241,8 +255,8 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction statement ';' | //for multiple statements
              declaration ';' | //e.g. string s; 
              instruction declaration ';' | //for multiple declarations
-             control_instruction ';' | // if, for, while, switch
-             instruction control_instruction ';' | //for multiple instructions
+             control_instruction  | // if, for, while, switch
+             instruction control_instruction  | //for multiple instructions
           
 
 statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a = 3 + 4;
@@ -253,22 +267,28 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
 
             //printf("The statement is correct \n");
             //if the var is declared as a global var
-            if(is_declared_global($1))
-            {
-              //compute the assignment
-            }
-            else if(is_declared($1))
-            {
-              //compute the assignment
-            }
-            else
-            {
-              printf("The variable %s is not declared \n", $1);
-            }
+            // if(is_declared_global($1))
+            // {
+            //   //compute the assignment
+            // }
+            // else if(is_declared($1))
+            // {
+            //   //compute the assignment
+            // }
+            // else
+            // {
+            //   printf("The variable %s is not declared \n", $1);
+            // }
 
            } |
-           ID '(' ')' {printf("The statement is correct \n");}|  //call a function with no arguments 
-           ID '(' arguments ')' {printf("The statement is correct \n");}; //call a function with arguments
+           ID '(' ')' 
+           {
+            printf("The statement is correct \n"); //call a function with no arguments
+           }|   
+           ID '(' arguments ')' 
+           {
+            printf("The statement is correct \n");
+           }; //call a function with arguments
 
 declaration: TYPE ID 
             {
@@ -279,7 +299,7 @@ declaration: TYPE ID
              TYPE ID ASSIGN rvalue  //int a = 3;
              {
               printf("The declaration is correct \n");
-              add_var($2, $1,$4,"main",false,0);
+              add_var($2, $1,$4,"main",false,0); //incompatible type for $4
               
              } |
              TYPE ARRAY 
@@ -307,7 +327,7 @@ WHILE '(' condition ')' '{' instruction '}' {printf("The while instruction is co
 
 
 //all possible combinations of conditions
-condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");}
+condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");} 
 | condition OP_LOGIC condition {printf("The condition is correct \n");};
 | condition OP_LOGIC rvalue {printf("The condition is correct \n");}
 | lvalue OP_LOGIC condition {printf("The condition is correct \n");};
@@ -322,6 +342,8 @@ math_statem : math_statem OP_MATH1 math_val {printf("The math statement is corre
              math_val OP_MATH1 math_statem {printf("The math statement is correct \n");} |  //eg. 5+(6-7)
              math_val OP_MATH2 math_statem {printf("The math statement is correct \n");} | //eg. 5*(6-7)
              math_val OP_MATH1 math_val {printf("The math statement is correct \n");} |  //eg. 5+6
+             math_statem OP_MATH1 math_statem {printf("The math statement is correct \n");} |  //eg. (5-6)+(6-7)
+             math_statem OP_MATH2 math_statem {printf("The math statement is correct \n");} |  //eg. (5-6)*(6-7)
              math_val OP_MATH2 math_val {printf("The math statement is correct \n");};   //eg. 5*6   
 
 
