@@ -28,6 +28,8 @@ extern int yylineno;
     char value[50];
     char scope[50];
   };
+
+int current_function_arguments = 0;
 %}
 
 
@@ -36,6 +38,8 @@ extern int yylineno;
     int intval;
     char * strval;  
     struct lvalue*  lval;
+    struct funct_param arg_list[30];
+    struct funct_param arg;
 }
 
 
@@ -85,7 +89,8 @@ extern int yylineno;
 
 %type <lval> lvalue
 %type <lval> rvalue
-
+%type <arg_list> variables
+%type <arg> variable_argument
 
 %start program
 %%
@@ -142,20 +147,20 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
  | univ_vars variable
  ;
 
-variable : TYPE ID ASSIGN rvalue 
+variable : TYPE ID ASSIGN rvalue ';'
         { 
           printf("The variable is correct \n");
           add_var($2, $1, $4,"global",false,0);  
         } |
 
-        TYPE ARRAY
+        TYPE ARRAY ';'
         {
         char *name = strtok($2, "[");
         char *size = strtok(NULL, "]");
         int size_int = atoi(size);
         add_var(name, $1, "","global",true,size_int);
         }  |  // char a[5]; 
-        TYPE ID
+        TYPE ID ';'
         {
         add_var($2, $1, "","global",false,0);
         }    // char a;
@@ -219,25 +224,33 @@ functions : function
 ;
 
 function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
-
 {
   //add new function to the table
-  //add_func($4, $2, $6);
+  add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  current_function_arguments = 0;
+  printf("The function is correct \n"); 
+}
+| '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'
+{
+  //add new function to the table
+  // void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
+  add_func($4, $2, NULL, "function", 0);
+  current_function_arguments = 0;
+  printf("The function is correct \n"); 
+}
+; //sintaxa: (returnVal) name (args){...}
 
-
-  printf("The function is correct \n");
-  
-} //sintaxa: (returnVal) name (args){...}
-
-arguments : variable_argument //tb de pus ca posibili param si expresii
-| arguments ',' variable_argument
+arguments : variable_argument { $$[current_function_arguments].type = $1.type; $$[current_function_arguments].name = $1.name; current_function_arguments++; } //tb de pus ca posibili param si expresii
+| arguments ',' variable_argument { $$[current_function_arguments].type = $3.type; $$[current_function_arguments].name = $3.name; current_function_arguments++; }
 | function_argument
 | | arguments ',' function_argument
 ;
 
-variable_argument : TYPE ID ;
+variable_argument : TYPE ID { strcpy($$.type, $1); strcpy($$.name, $2); } ;
 
-function_argument : '(' TYPE ')' ID '(' function_argument_params ')' ;
+function_argument : '(' TYPE ')' ID '(' function_argument_params ')'
+| '(' TYPE ')' ID '(' ')'
+ ;
 
 function_argument_params : TYPE
 | function_argument_params ',' TYPE

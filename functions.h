@@ -29,7 +29,7 @@ struct func_info
     char return_type[BITS_5];      // holds the type of the function
     char scope[BITS_5];            // holds the scope of the function : main , function,global etc
     int param_count;               // holds the number of parameters of the function
-    struct param_info params[100]; // holds the parameters of the function
+    struct param_info params[30]; // holds the parameters of the function
 };
 
 struct element
@@ -185,12 +185,39 @@ bool is_array(char *id, char *scope)
     }
     return 0;
 }
-void add_func(char *id, char *return_type, char *scope, int param_count)
+
+int is_func_declared(char* id, char* return_type, struct param_info* params, int param_count){
+    for(int i = 0; i < func_table_index; i++){
+        if(strcmp(func_table[i].id, id) == 0){ //acelasi nume
+            if(func_table[i].param_count == param_count){ //acelasi nr param
+                int sameType = 1;
+                for(int k = 0; k < param_count; k++){
+                    if(strcmp(func_table[i].params[k].type, params[k].type) != 0) sameType = 0;
+                }
+                if(sameType == 1) return 1; //functia e deja in tabel
+            }
+        }
+    }
+
+    return 0; //functia nu e in tabel
+}
+
+//add function to the table
+void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
 {
+    if(is_func_declared(id, return_type, param_count)){
+        printf("Error: Function %s is already declared.\n");
+        return ;
+    }
     strcpy(func_table[func_table_index].id, id);
     strcpy(func_table[func_table_index].return_type, return_type);
     strcpy(func_table[func_table_index].scope, scope);
     func_table[func_table_index].param_count = param_count;
+    for(int i = 0; i < param_count; i++){
+        strcpy(func_table[func_table_index].params[i].id, params[i].id);
+        strcpy(func_table[func_table_index].params[i].type, params[i].type);
+    }
+
     func_table_index++;
 }
 
