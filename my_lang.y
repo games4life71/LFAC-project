@@ -38,8 +38,8 @@ int current_function_arguments = 0;
     int intval;
     char * strval;  
     struct lvalue*  lval;
-    struct funct_param arg_list[30];
-    struct funct_param arg;
+    struct funct_param* arg;
+    struct funct_param* arg_list[30];
 }
 
 
@@ -51,7 +51,7 @@ int current_function_arguments = 0;
 %token<strval> ARRAY
 %token <strval>CONSTANT
 %token <strval>COMPOSITE_ARRAY
-%token<intval> INTEGER
+%token<strval> INTEGER
 %token <strval>FLOAT
 %token <strval>BOOL
 %token <strval>STRING
@@ -84,6 +84,7 @@ int current_function_arguments = 0;
 %token <strval>STRUCT_END
 %token <strval>CLASS_START
 %token <strval>CLASS_END
+%token<strval> DEFAULT
 %left <strval>PLUS
 
 
@@ -112,7 +113,7 @@ int current_function_arguments = 0;
 
 program: univ_sec func_sec userdef_sec main_sec  {printf("The program is correct \n");} ;
 
-userdef_sec : USERDEF_START userdef USERDEF_END {printf("The userdef section is correct \n");} ;
+userdef_sec : USERDEF_START userdef USERDEF_END {printf("The userdef section is correct \n");} |  ;
 
 
 userdef : userdef_vars {printf("The userdef is correct \n");} 
@@ -120,7 +121,8 @@ userdef : userdef_vars {printf("The userdef is correct \n");}
  | struct_def {printf("The userdef is correct \n");}
  | userdef struct_def 
  | class_def {printf("The userdef is correct \n");}
- | userdef class_def;
+ | userdef class_def
+ |;
 
 struct_def : STRUCT_START struct_vars STRUCT_END {printf("The struct is correct \n");} ;
 
@@ -138,43 +140,53 @@ class_info: variable  {printf("The class variable is correct \n");}
  | class_info function; //for multiple functions in a class
 
 userdef_vars : variable  {printf("The userdef variable is correct \n");} 
- | userdef_vars variable
+ | userdef_vars variable 
+ | //nothing
  ;
 
-univ_sec : UNIVERSAL_START univ_vars UNIVERSAL_END {printf("The universal section is correct \n");} ;
+univ_sec : UNIVERSAL_START univ_vars UNIVERSAL_END{printf("The universal section is correct \n");} |  ;
 
 univ_vars : variable  {printf("The universal variable is correct \n");} 
  | univ_vars variable
- ;
+ |  ;
+//nothing
 
-variable : TYPE ID ASSIGN rvalue ';'
+variable : TYPE ID ';' 
+        {
+        //add_var($2, $1, "","global",false,0);
+        //print_var_table();
+         printf("The var is correct \n");
+
+        }|
+       TYPE ID ASSIGN rvalue ';'
         { 
+          
           printf("The variable is correct \n");
-          add_var($2, $1, $4,"global",false,0);  
+          //add_var($2, $1, $4,"global",false,0);  
         } |
-
         TYPE ARRAY ';'
-        {
-        char *name = strtok($2, "[");
-        char *size = strtok(NULL, "]");
-        int size_int = atoi(size);
-        add_var(name, $1, "","global",true,size_int);
-        }  |  // char a[5]; 
-        TYPE ID ';'
-        {
-        add_var($2, $1, "","global",false,0);
-        }    // char a;
-         ;  // int a;
+       {
+        // char *name = strtok($2, "[");
+        // char *size = strtok(NULL, "]");
+        // int size_int = atoi(size);
+        // add_var(name, $1, "","global",true,size_int);
+        } ;
+        
+       
 
 
 rvalue : ID {printf("The rvalue is correct \n");}|
-        INTEGER {printf("The rvalue is correct \n");}|
+        INTEGER {printf("The rvalue is %s correct \n",$1);}|
         FLOAT {printf("The rvalue is correct \n");}|
         BOOL {printf("The rvalue is correct \n");}|
         STRING {printf("The rvalue is correct \n");}|
-        math_statem {printf("The rvalue is correct \n");};
+        math_statem {printf("The rvalue is correct \n");} ;
 
-lvalue: ID {printf("The lvalue is correct \n");}
+lvalue: ID 
+  {
+  printf("The lvalue is correct \n");
+  
+  }
         | ARRAY   
           {
            printf("The lvalue is correct \n");
@@ -211,22 +223,24 @@ lvalue: ID {printf("The lvalue is correct \n");}
               //get the array from the table 
               struct array_info *curr_array = get_array(name);
               struct element  curr_elem = curr_array->elements[index_int];
+              //return the value of the element
               $$ = curr_elem.value;
             }
            }
           } ; 
          
 
-func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} ;
+func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} | ;
 
 functions : function 
 | functions function
+|
 ;
 
 function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
   //add new function to the table
-  add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  //add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
@@ -240,13 +254,13 @@ function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}'
 }
 ; //sintaxa: (returnVal) name (args){...}
 
-arguments : variable_argument { $$[current_function_arguments].type = $1.type; $$[current_function_arguments].name = $1.name; current_function_arguments++; } //tb de pus ca posibili param si expresii
-| arguments ',' variable_argument { $$[current_function_arguments].type = $3.type; $$[current_function_arguments].name = $3.name; current_function_arguments++; }
+arguments : variable_argument { /*$$[current_function_arguments].type = $1.type; $$[current_function_arguments].name = $1.name; current_function_arguments++; */} //tb de pus ca posibili param si expresii
+| arguments ',' variable_argument {/* $$[current_function_arguments].type = $3.type; $$[current_function_arguments].name = $3.name; current_function_arguments++;*/ }
 | function_argument
 | | arguments ',' function_argument
 ;
 
-variable_argument : TYPE ID { strcpy($$.type, $1); strcpy($$.name, $2); } ;
+variable_argument : TYPE ID { strcpy($$->type, $1); strcpy($$->name, $2); } ;
 
 function_argument : '(' TYPE ')' ID '(' function_argument_params ')'
 | '(' TYPE ')' ID '(' ')'
@@ -262,6 +276,7 @@ main_sec : MAIN_START instructions MAIN_END {printf("The main section is correct
 
 instructions : instruction {printf("The instruction is correct \n");} 
  | instructions instruction 
+ |
  ;
 
 instruction: statement ';' | // e.g. s = 5; s = 6;
@@ -306,7 +321,7 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
 declaration: TYPE ID 
             {
               printf("The declaration is correct \n");
-              add_var($2, $1,"","main",false,0);
+              //add_var($2, $1,"","main",false,0);
 
             } |
              TYPE ID ASSIGN rvalue  //int a = 3;
@@ -350,30 +365,61 @@ condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");}
 
 
 
-math_statem : math_statem OP_MATH1 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)+7 
-             math_statem OP_MATH2 math_val {printf("The math statement is correct \n");} |  // e.g. (5-6)*7
-             math_val OP_MATH1 math_statem {printf("The math statement is correct \n");} |  //eg. 5+(6-7)
-             math_val OP_MATH2 math_statem {printf("The math statement is correct \n");} | //eg. 5*(6-7)
-             math_val OP_MATH1 math_val {printf("The math statement is correct \n");} |  //eg. 5+6
-             math_statem OP_MATH1 math_statem {printf("The math statement is correct \n");} |  //eg. (5-6)+(6-7)
-             math_statem OP_MATH2 math_statem {printf("The math statement is correct \n");} |  //eg. (5-6)*(6-7)
-             math_val OP_MATH2 math_val {printf("The math statement is correct \n");};   //eg. 5*6   
+math_statem : math_statem OP_MATH1 math_val 
+            {
+             printf("The math statement is correct \n");
+            } |  // e.g. (5-6)+7 
+             math_statem OP_MATH2 math_val 
+            {
+            printf("The math statement is correct \n");
+            } |  // e.g. (5-6)*7
+             math_val OP_MATH1 math_statem 
+            {
+             printf("The math statement is correct \n");
+            } |  //eg. 5+(6-7)
+             math_val OP_MATH2 math_statem 
+            {
+              printf("The math statement is correct \n");
+            } | //eg. 5*(6-7)
+             math_val OP_MATH1 math_val 
+            {
+              printf("The math statement is correct \n");
+            } |  //eg. 5+6
+             math_statem OP_MATH1 math_statem 
+            {
+              printf("The math statement is correct \n");
+            } |  //eg. (5-6)+(6-7)
+             math_statem OP_MATH2 math_statem 
+            {
+              printf("The math statement is correct \n");
+            } |  //eg. (5-6)*(6-7)
+             math_val OP_MATH2 math_val 
+            {
+              printf("The math statement is correct \n");
+            };   //eg. 5*6   
 
 
-math_val : lvalue {printf("The math value is correct \n");} |  // a + 5 where a is lvalue 
-            INTEGER {printf("The math value is correct \n");} | //3+4 
-            FLOAT {printf("The math value is correct \n");} | //3.4+5.6
-            BOOL {printf("The math value is correct \n");}; //true+false
+math_val : lvalue 
+          {
+            printf("The math value is correct \n");
+          } |  // a + 5 where a is lvalue 
+            INTEGER 
+          {
+            printf("The math value is correct \n");
+            
+          } | //3+4 
+            FLOAT 
+          {
+            printf("The math value is correct \n");
+          } | //3.4+5.6
+          BOOL 
+          {
+            printf("The math value is correct \n");
+          }; //true+false
 
 
 
-//all possible combinations of expressions
-// E : E OP_MATH1 E {$$ = $1+$3;}|
-//  E OP_MATH2 E {$$ = $1-$3;}|
-// | INTEGER {$$ = $1; printf("The value of int  is %d  \n",($1));};
 
-
-space: SPACE {printf("Space and the content of yytext is %s \n",*yytext);};
 
 
 %%
@@ -388,3 +434,4 @@ int main(int argc, char** argv){
 yyin=fopen(argv[1],"r"); // if we want to parse a file instead of the standard input 
 yyparse();
 } 
+

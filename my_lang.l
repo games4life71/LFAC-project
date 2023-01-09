@@ -28,12 +28,12 @@ OP_MATH2 "*"|"/"|"%"
 
 %%
 
-{INTEGER} {printf("matched  '%s' with len %d\n",yytext,strlen(yytext)); return INTEGER;}
-{TYPE} {return TYPE;}
+{INTEGER} {/*printf("matched  '%s' with len %d\n",yytext,strlen(yytext));*/yylval.strval = strdup(yytext); return INTEGER;}
+{TYPE} {printf("the type is %s\n",yytext); return TYPE;}
 {FLOAT} {return FLOAT;}
 {STRING} {return STRING;}
 {BOOL} {return BOOL;}
-{ARRAY} {return ARRAY;}
+{ARRAY} { /*printf("matched array token is %s\n",yytext);*/ return ARRAY;}
 {OP_LOGIC} {return OP_LOGIC;}
 {IF} {return IF;}
 {ELSE} {return ELSE;}
@@ -43,24 +43,34 @@ OP_MATH2 "*"|"/"|"%"
 {CASE} {return CASE;}
 {BREAK} {return BREAK;}
 {PRINT} {return PRINT;}
+{ID}([.]{ID})* {printf("the id is %s with len %d\n",yytext,strlen(yytext)); return ID;}
+{OP_MATH1} {return OP_MATH1;}
+{OP_MATH2} {return OP_MATH2;}
+
+
 
 "important_code_start" return MAIN_START;
 "important_code_end" return MAIN_END;
 "universal_code_start" return UNIVERSAL_START;
-"universal_code_end" return UNIVERSAL_END;
+"universal_code_end" { printf("matched univ_end\n"); return UNIVERSAL_END;}
 "struct_start" return STRUCT_START;
 "struct_end" return STRUCT_END;
 "class_start" return CLASS_START;
 "class_end" return CLASS_END;
+"user_code_start" return USERDEF_START;
+"user_code_end" return USERDEF_END;
+"function_start" return FUNCTIONS_START;
+"function_end" return FUNCTIONS_END;
 
-[+' ']+ { printf("matched  '%s' with len %d\n",yytext,strlen(yytext)); return PLUS;}
-[-' ']+ { printf("matched  '%s' with len %d\n",yytext,strlen(yytext)); return MINUS ;}
-[' ']* { printf("matched space \n"); return SPACE;}
-@[_a-zA-Z][_a-zA-Z0-9]* {return ID;}
-'=' {return ASSIGN;}
+
+
+
+"=" {printf("assign matched\n");return ASSIGN;}
 [\t];
-\n {yylineno++;};
-. {return yytext[0];}
+{SPACE} {}
+
+\n {  yylineno++;}
+. {  /*printf("nothing matched..returning %s with len %d\n",yytext, strlen(yytext));*/ return yytext[0]; }
 
 
 

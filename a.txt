@@ -1,0 +1,19 @@
+universal_code_start
+
+int a[100];
+universal_code_end
+
+function_start
+
+function_end
+
+
+
+user_code_start
+
+user_code_end
+
+
+important_code_start
+int a =3;
+important_code_end
