@@ -185,12 +185,12 @@ bool is_array(char *id, char *scope)
     }
     return 0;
 }
-
+// function to check if the function is already declared
 int is_func_declared(char* id, char* return_type, struct param_info* params, int param_count){
     for(int i = 0; i < func_table_index; i++){
         if(strcmp(func_table[i].id, id) == 0){ //acelasi nume
             if(func_table[i].param_count == param_count){ //acelasi nr param
-                int sameType = 1;
+                    int sameType = 1;
                 for(int k = 0; k < param_count; k++){
                     if(strcmp(func_table[i].params[k].type, params[k].type) != 0) sameType = 0;
                 }
@@ -205,10 +205,10 @@ int is_func_declared(char* id, char* return_type, struct param_info* params, int
 //add function to the table
 void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
 {
-    if(is_func_declared(id, return_type, param_count)){
-        printf("Error: Function %s is already declared.\n");
-        return ;
-    }
+//     if(is_func_declared(id, return_type, params, param_count)){
+//         printf("Error: Function %s is already declared.\n");
+//         return ;
+//     }
     strcpy(func_table[func_table_index].id, id);
     strcpy(func_table[func_table_index].return_type, return_type);
     strcpy(func_table[func_table_index].scope, scope);
@@ -222,3 +222,12 @@ void add_func(char *id, char *return_type, struct param_info* params, char *scop
 }
 
 
+void print_var_table()
+{
+    int i;
+    for (i = 0; i < var_table_index; i++)
+    {
+        printf("%s %s %s %s %d %d \n", var_table[i].id, var_table[i].type, var_table[i].value, var_table[i].scope, var_table[i].is_array, var_table[i].array_size);
+
+    }
+}
