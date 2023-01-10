@@ -248,20 +248,25 @@ void print_var_table()
 
 struct lvalue* getIDType(char *idName)
 {
+
+   //printf("the id is %s\n",idName);
     //loop through var table
     for(int i = 0; i < var_table_index; i++)
     {
         if(strcmp(var_table[i].id, idName) == 0)
         {
             struct lvalue* lval;
-           
+            lval = (struct lvalue*)malloc(sizeof(struct lvalue));
             strcpy(lval->type, var_table[i].type);
             strcpy(lval->value, var_table[i].value);
             strcpy(lval->scope, var_table[i].scope);
             strcpy(lval->name, var_table[i].id);
+           // printf("returning lval with type %s and value %s", lval->type, lval->value);
             return lval;
         }
     }
+    printf("[DEBUG] the id %s not found \n",idName);
+    return NULL;
 }
 
 

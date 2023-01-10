@@ -180,7 +180,14 @@ variable : TYPE ID ';'
        
 
 
-rvalue : ID {printf("The rvalue is correct \n"); $$ = (struct lvalue*)getIDType($1);}|
+rvalue : lvalue
+        {
+        
+        //printf("The rvalue is correct found rvalue %s \n",$1); 
+        $$ = (struct lvalue*)getIDType($1);
+        
+        
+        }|
         INTEGER 
         {
           printf("The rvalue is %s correct \n",$1);
@@ -193,14 +200,14 @@ rvalue : ID {printf("The rvalue is correct \n"); $$ = (struct lvalue*)getIDType(
         }|
         FLOAT 
         {
-          printf("The rvalue is correct \n")
+          printf("The rvalue is correct \n");
           
           $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
           strcpy($$->type , "float");
           strcpy($$->name , $1);
           strcpy($$->value, $1);
           
-          ;}|
+          }|
         BOOL {
           printf("The rvalue is correct \n");
           
@@ -224,21 +231,30 @@ rvalue : ID {printf("The rvalue is correct \n"); $$ = (struct lvalue*)getIDType(
 
 lvalue:  ID 
           {
-          printf("The lvalue is correct \n");
-          $$ = (struct lvalue*)getIDType($1); //assign lvalue the value and id of the ID
+          //printf("The lvalue is correct found id %s \n",$1);
+          //print_var_table();
+          //printf("tthe type of $1 is %s\n",$1.type);
+
+          $$ = getIDType($1); //assign lvalue the value and id of the ID
+          if($$ == NULL)
+          {
+            printf("The variable %s is not declared..\n",$1);
+            exit(1);
+          }
+
           
           }|
-          | ARRAY   
+          ARRAY   
           {
            printf("The lvalue is correct \n");
            //check if the variable is declared
            char *name = strtok($1, "[");
 
            if(!is_declared(name,"global"))
-           {
+          {
             printf("The variable %s is not declared \n",name);
             exit(1);
-           }
+          }
            
            else
            {
@@ -263,12 +279,12 @@ lvalue:  ID
               }
               //get the array from the table 
               struct array_info *curr_array = get_array(name);
-              struct element  curr_elem = curr_array->elements[index_int];
-              //return the value of the element
-              $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
-              strcpy($$->type , curr_elem.type);
-              strcpy($$->name , curr_elem.name);
-              strcpy($$->value, curr_elem.value);
+              // struct element  curr_elem = curr_array->elements[index_int];
+              // //return the value of the element
+              // $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+              // strcpy($$->type , curr_elem->type);
+              // strcpy($$->name , curr_elem->name);
+              // strcpy($$->value, curr_elem->value);
               
             }
            }
@@ -332,12 +348,11 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction control_instruction  | //for multiple instructions
           
 
-statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a = 3 + 4;
-           lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
+statement: 
            lvalue ASSIGN rvalue 
            {
             //call a function to update val in the symbol table 
-            update_val($1, $3);
+            //update_val($1,"lala" $3);
             printf("The statement is correct \n");
             //if the var is declared as a global var
             // if(is_declared_global($1))
@@ -354,6 +369,8 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
             // }
 
            } |
+           
+           lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
            ID '(' ')' 
            {
             printf("The statement is correct \n"); //call a function with no arguments
@@ -368,7 +385,7 @@ declaration: TYPE ID
               //printf("The declaration is correct \n");
               add_var($2, $1,"default","main",false,0);
               print_var_table();
-
+              save_var_table();
             } |
              TYPE ID ASSIGN rvalue  //int a = 3;
              {
@@ -395,8 +412,8 @@ declaration: TYPE ID
 
 
 //implemented just the IF and ELSE instruction 
-control_instruction: IF "$$$" condition "$$$" '{' instruction '}' {printf("The if instruction is correct \n");} 
-| IF "$$$" condition "$$$" '{' instruction '}' ELSE '{' instruction '}' {printf("The if-else instruction is correct \n");}|
+control_instruction: IF '(' condition ')' '{' instruction '}' {printf("The if instruction is correct \n");} 
+| IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}' {printf("The if-else instruction is correct \n");}|
 FOR '(' ID ASSIGN math_statem ';' condition ';' ID ASSIGN math_statem ')' '{' instruction '}' {printf("The for instruction is correct \n");}|
 WHILE '(' condition ')' '{' instruction '}' {printf("The while instruction is correct \n");}; 
 
@@ -452,7 +469,7 @@ math_val : lvalue
           } |  // a + 5 where a is lvalue 
             INTEGER 
           {
-            printf("The math value is correct \n");
+            printf("The math value is correct here! \n");
             
           } | //3+4 
             FLOAT 
@@ -479,6 +496,7 @@ printf("eroare: %s la linia:%d\n",s,yylineno);
 
 int main(int argc, char** argv){
 yyin=fopen(argv[1],"r"); // if we want to parse a file instead of the standard input 
+var_table_file = fopen("var_table.txt","w");
 yyparse();
 } 
 

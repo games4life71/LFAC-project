@@ -968,7 +968,7 @@ YY_RULE_SETUP
 case 16:
 YY_RULE_SETUP
 #line 46 "my_lang.l"
-{printf("the id is %s with len %d\n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
+{printf("the id is %s \n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
@@ -998,7 +998,7 @@ return UNIVERSAL_START;
 case 22:
 YY_RULE_SETUP
 #line 55 "my_lang.l"
-{ printf("matched univ_end\n"); return UNIVERSAL_END;}
+{  return UNIVERSAL_END;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
@@ -1043,7 +1043,7 @@ return FUNCTIONS_END;
 case 31:
 YY_RULE_SETUP
 #line 68 "my_lang.l"
-{printf("assign matched\n");return ASSIGN;}
+{return ASSIGN;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
