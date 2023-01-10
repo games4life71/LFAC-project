@@ -298,7 +298,12 @@ functions : function
 |
 ;
 
-function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
+function : '('  ')' ID '(' ')' '{' '}'
+{
+  printf("The function is correct \n");
+}|
+
+'(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
   //add new function to the table
   //add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
@@ -313,6 +318,15 @@ function : '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}'
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
+| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
+{
+  //add new function to the table
+  //add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  current_function_arguments = 0;
+  printf("The function is correct \n"); 
+}
+
+
 ; //sintaxa: (returnVal) name (args){...}
 
 arguments : variable_argument { /*$$[current_function_arguments].type = $1.type; $$[current_function_arguments].name = $1.name; current_function_arguments++; */} //tb de pus ca posibili param si expresii
