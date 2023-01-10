@@ -1,11 +1,16 @@
 universal_code_start
 
 
-
 universal_code_end
 
 
 function_start
+
+(int) functie (int a)
+{
+ int a =3; a=2;
+}
+
 
 function_end
 
@@ -13,14 +18,19 @@ function_end
 
 user_code_start
 
+struct_start
+int a; 
+int b;
+struct_end
+
 user_code_end
 
 
 important_code_start
 
-int a=3;
-int b =3;
-a=b;
-a=1;
+if (a==2)
+{
+a=3;
+}
 
 important_code_end

@@ -31,6 +31,7 @@ struct param_info
     char id[BITS_5];   // holds the id of the parameter (name)
     char type[BITS_5]; // holds the type of the parameter
 };
+
 struct func_info
 {
     char id[BITS_5];               // holds the id of the function (name)
@@ -265,7 +266,7 @@ struct lvalue* getIDType(char *idName)
             return lval;
         }
     }
-    printf("[DEBUG] the id %s not found \n",idName);
+    printf("[DEBUG] the id `%s not found \n",idName);
     return NULL;
 }
 
@@ -281,3 +282,4 @@ void update_val(char *id, char *scope, char *value)
         }
     }
 }
+
