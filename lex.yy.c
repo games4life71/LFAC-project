@@ -363,23 +363,23 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[207] =
     {   0,
-        0,    0,   38,   36,   36,   35,   34,   36,   36,   18,
-       36,   17,   17,   36,    1,    7,   32,    7,   16,   16,
-       16,   16,   16,   16,   16,   16,   16,   16,   16,   16,
+        0,    0,   38,   36,   36,   35,   34,   36,   36,   19,
+       36,   18,   18,   36,    1,    7,   32,    7,   17,   17,
+       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
        36,   33,   34,    7,    0,    4,    0,    1,    0,    3,
-        1,    0,   16,    0,   16,   16,   16,   16,   16,   16,
-       16,   16,   16,   16,    8,   16,   16,   16,   16,   16,
-       16,   16,   16,   16,   16,    3,    3,   16,    0,    0,
-       16,   16,   16,   16,   16,   16,   16,   16,   10,   16,
-       16,    2,   16,   16,   16,   16,   16,   16,   16,   16,
-        3,   16,    0,    6,   16,   13,   16,    9,   16,   16,
+        1,    0,   17,    0,   17,   17,   17,   17,   17,   17,
+       17,   17,   17,   17,    8,   17,   17,   17,   17,   17,
+       17,   17,   17,   17,   17,    3,    3,   17,    0,    0,
+       17,   17,   17,   17,   17,   17,   17,   17,   10,   17,
+       17,    2,   17,   17,   17,   17,   17,   17,   17,   17,
+        3,   17,    0,    6,   17,   13,   17,    9,   17,   17,
 
-       16,   16,   16,   16,   16,   16,   16,    5,   16,   16,
-       16,   14,   16,   16,   16,   15,   16,   16,   16,   16,
-       16,    0,   11,    0,   16,   16,   16,   16,   12,   16,
-        0,    0,    0,   16,   16,    0,   16,    0,    0,    0,
-       16,   16,    0,    0,   16,    0,   27,    0,    0,   16,
-        0,    0,   16,    0,    0,    0,    0,    0,   25,    0,
+       17,   17,   17,   17,   17,   17,   17,    5,   17,   17,
+       17,   14,   17,   17,   17,   15,   17,   17,   17,   17,
+       17,    0,   11,    0,   17,   17,   16,   17,   12,   17,
+        0,    0,    0,   17,   17,    0,   17,    0,    0,    0,
+       17,   17,    0,    0,   17,    0,   27,    0,    0,   17,
+        0,    0,   17,    0,    0,    0,    0,    0,   25,    0,
         0,    0,   26,    0,    0,    0,    0,    0,    0,    0,
        31,    0,    0,   24,    0,    0,    0,    0,    0,    0,
        29,    0,   30,    0,    0,    0,    0,    0,   28,    0,
@@ -837,7 +837,7 @@ YY_DECL
 		}
 
 	{
-#line 29 "my_lang.l"
+#line 31 "my_lang.l"
 
 
 #line 844 "lex.yy.c"
@@ -899,188 +899,188 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "my_lang.l"
+#line 33 "my_lang.l"
 {/*printf("matched  '%s' with len %d\n",yytext,strlen(yytext));*/yylval.strval = strdup(yytext); return INTEGER;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "my_lang.l"
+#line 34 "my_lang.l"
 {printf("the type is %s\n",yytext); yylval.strval = strdup(yytext); return TYPE;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 33 "my_lang.l"
+#line 35 "my_lang.l"
 {return FLOAT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 34 "my_lang.l"
+#line 36 "my_lang.l"
 {return STRING;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 35 "my_lang.l"
+#line 37 "my_lang.l"
 {return BOOL;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 36 "my_lang.l"
+#line 38 "my_lang.l"
 { /*printf("matched array token is %s\n",yytext);*/yylval.strval = strdup(yytext); return ARRAY;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 37 "my_lang.l"
+#line 39 "my_lang.l"
 {return OP_LOGIC;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 38 "my_lang.l"
+#line 40 "my_lang.l"
 {return IF;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 39 "my_lang.l"
+#line 41 "my_lang.l"
 {return ELSE;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 40 "my_lang.l"
+#line 42 "my_lang.l"
 {return FOR;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 41 "my_lang.l"
+#line 43 "my_lang.l"
 {return WHILE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 42 "my_lang.l"
+#line 44 "my_lang.l"
 {return SWITCH;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 43 "my_lang.l"
+#line 45 "my_lang.l"
 {return CASE;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 44 "my_lang.l"
+#line 46 "my_lang.l"
 {return BREAK;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 45 "my_lang.l"
+#line 47 "my_lang.l"
 {return PRINT;} 
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 46 "my_lang.l"
-{printf("the id is %s \n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
+#line 48 "my_lang.l"
+{return RETURN;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 47 "my_lang.l"
-{return OP_MATH1;}
+#line 49 "my_lang.l"
+{printf("the id is %s \n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 48 "my_lang.l"
-{return OP_MATH2;}
+#line 50 "my_lang.l"
+{return OP_MATH1;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 51 "my_lang.l"
-return RETURN;
+{return OP_MATH2;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 52 "my_lang.l"
+#line 53 "my_lang.l"
 return MAIN_START;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "my_lang.l"
+#line 54 "my_lang.l"
 return MAIN_END;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 54 "my_lang.l"
+#line 55 "my_lang.l"
 return UNIVERSAL_START;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 55 "my_lang.l"
+#line 56 "my_lang.l"
 {  return UNIVERSAL_END;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 56 "my_lang.l"
+#line 57 "my_lang.l"
 return STRUCT_START;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 57 "my_lang.l"
+#line 58 "my_lang.l"
 return STRUCT_END;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 58 "my_lang.l"
+#line 59 "my_lang.l"
 return CLASS_START;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 59 "my_lang.l"
+#line 60 "my_lang.l"
 return CLASS_END;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 60 "my_lang.l"
+#line 61 "my_lang.l"
 return USERDEF_START;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 61 "my_lang.l"
+#line 62 "my_lang.l"
 return USERDEF_END;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 62 "my_lang.l"
+#line 63 "my_lang.l"
 return FUNCTIONS_START;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 63 "my_lang.l"
+#line 64 "my_lang.l"
 return FUNCTIONS_END;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 68 "my_lang.l"
+#line 69 "my_lang.l"
 {return ASSIGN;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 69 "my_lang.l"
+#line 70 "my_lang.l"
 
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 70 "my_lang.l"
+#line 71 "my_lang.l"
 {}
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 72 "my_lang.l"
+#line 73 "my_lang.l"
 {  yylineno++;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 73 "my_lang.l"
+#line 74 "my_lang.l"
 {  /*printf("nothing matched..returning %s with len %d\n",yytext, strlen(yytext));*/ return yytext[0]; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 79 "my_lang.l"
+#line 80 "my_lang.l"
 ECHO;
 	YY_BREAK
 #line 1087 "lex.yy.c"
@@ -2088,4 +2088,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 79 "my_lang.l"
+#line 80 "my_lang.l"

@@ -298,15 +298,18 @@ functions : function
 |
 ;
 
-function : '('  ')' ID '(' ')' '{' '}'
+function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
 {
   printf("The function is correct \n");
-}|
-
-'(' TYPE ')' ID '(' arguments ')' '{' instructions '}' 
+}
+| '('  ')' ID '(' ')' '{'  '}'
 {
-  //add new function to the table
-  //add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  printf("The function is correct \n");
+}
+| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
+{
+  // add new function to the table
+  // add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
@@ -314,14 +317,14 @@ function : '('  ')' ID '(' ')' '{' '}'
 {
   //add new function to the table
   // void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
-  add_func($4, $2, NULL, "function", 0);
+  // add_func($4, $2, NULL, "function", 0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
 | '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
 {
-  //add new function to the table
-  //add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  // add new function to the table
+  // add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }

@@ -13,6 +13,7 @@ CASE "case"
 BREAK "break"
 DEFAULT "default"
 PRINT "print"
+RETURN "return"
 ID [a-zA-Z][a-zA-Z0-9]*
 INTEGER [-]?[1-9][0-9]*
 FLOAT [-]?([0][.][0-9][1-9]*)|[-]?([1-9][0-9]*[.][0-9]*)
@@ -23,6 +24,7 @@ SPACE (" ")+
 OP_LOGIC "&&"|"||"|"<="|">="|"=="|"!="|"<"|">"
 OP_MATH1 "+"|"-"
 OP_MATH2 "*"|"/"|"%"
+
 
 %option noyywrap
 
@@ -43,12 +45,11 @@ OP_MATH2 "*"|"/"|"%"
 {CASE} {return CASE;}
 {BREAK} {return BREAK;}
 {PRINT} {return PRINT;} 
+{RETURN} {return RETURN;}
 {ID}([.]{ID})* {printf("the id is %s \n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
 {OP_MATH1} {return OP_MATH1;}
 {OP_MATH2} {return OP_MATH2;}
 
-
-"return" return RETURN;
 "important_code_start" return MAIN_START;
 "important_code_end" return MAIN_END;
 "universal_code_start" return UNIVERSAL_START;
