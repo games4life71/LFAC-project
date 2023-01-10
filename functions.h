@@ -8,6 +8,14 @@
 #define BITS_6 64
 extern int yylineno;
 
+  struct lvalue
+  {
+    char name[50];
+    char type[50];
+    char value[50];
+    char scope[50];
+  };
+
 struct var_info
 {
     char id[BITS_5];    // holds the id of the variable (name)
@@ -46,6 +54,11 @@ struct array_info
     int array_size;               // holds the size of the array
     struct element elements[100]; // holds the elements of the array
 };
+
+void say_hello()
+{
+    printf("hello\n");
+}
 
 struct var_info var_table[1000]; // holds the variable table
 struct func_info func_table[1000];
@@ -91,6 +104,7 @@ void add_var(char *id, char *type, char *value, char *scope, bool is_array, int 
      return ;
     }
     strcpy(var_table[var_table_index].id, id);
+    
     strcpy(var_table[var_table_index].type, type);
     strcpy(var_table[var_table_index].value, value);
     strcpy(var_table[var_table_index].scope, scope);
@@ -229,5 +243,36 @@ void print_var_table()
     {
         printf("%s %s %s %s %d %d \n", var_table[i].id, var_table[i].type, var_table[i].value, var_table[i].scope, var_table[i].is_array, var_table[i].array_size);
 
+    }
+}
+
+struct lvalue* getIDType(char *idName)
+{
+    //loop through var table
+    for(int i = 0; i < var_table_index; i++)
+    {
+        if(strcmp(var_table[i].id, idName) == 0)
+        {
+            struct lvalue* lval;
+           
+            strcpy(lval->type, var_table[i].type);
+            strcpy(lval->value, var_table[i].value);
+            strcpy(lval->scope, var_table[i].scope);
+            strcpy(lval->name, var_table[i].id);
+            return lval;
+        }
+    }
+}
+
+
+void update_val(char *id, char *scope, char *value)
+{
+    int i;
+    for (i = 0; i < var_table_index; i++)
+    {
+        if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
+        {
+            strcpy(var_table[i].value, value);
+        }
     }
 }

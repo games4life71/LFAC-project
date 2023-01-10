@@ -21,14 +21,6 @@ extern int yylineno;
   };
 
 
-  struct lvalue
-  {
-    char name[50];
-    char type[50];
-    char value[50];
-    char scope[50];
-  };
-
 int current_function_arguments = 0;
 %}
 
@@ -153,41 +145,90 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
 
 variable : TYPE ID ';' 
         {
-        //add_var($2, $1, "","global",false,0);
-        //print_var_table();
-         printf("The var is correct \n");
+          
+        add_var($2, $1, "default","global",false,0);
+         print_var_table();
+         //printf("The var is correct \n");
+         
 
         }|
        TYPE ID ASSIGN rvalue ';'
         { 
           
           printf("The variable is correct \n");
-          //add_var($2, $1, $4,"global",false,0);  
+          //check if the rvalue type is the same as TYPE 
+          //if not error
+          if(strcmp($4->type,$1)!= 0)
+          {
+            printf("the rvalue type is %s\n",$4->type);
+            printf("The rvalue type is not the same as the variable type \n");
+            exit(1);
+          }
+
+          add_var($2, $1, $4,"global",false,0);  
+          print_var_table();
         } |
         TYPE ARRAY ';'
        {
-        // char *name = strtok($2, "[");
-        // char *size = strtok(NULL, "]");
-        // int size_int = atoi(size);
-        // add_var(name, $1, "","global",true,size_int);
+          char *name = strtok($2, "[");
+          char *size = strtok(NULL, "]");
+          int size_int = atoi(size);
+          add_var(name, $1, "","global",true,size_int);
+          print_var_table();
         } ;
         
        
 
 
-rvalue : ID {printf("The rvalue is correct \n");}|
-        INTEGER {printf("The rvalue is %s correct \n",$1);}|
-        FLOAT {printf("The rvalue is correct \n");}|
-        BOOL {printf("The rvalue is correct \n");}|
-        STRING {printf("The rvalue is correct \n");}|
+rvalue : ID {printf("The rvalue is correct \n"); $$ = (struct lvalue*)getIDType($1);}|
+        INTEGER 
+        {
+          printf("The rvalue is %s correct \n",$1);
+          //set type and name for integer
+
+          $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy($$->type , "int");
+          strcpy($$->name , $1);
+          strcpy($$->value, $1);
+        }|
+        FLOAT 
+        {
+          printf("The rvalue is correct \n")
+          
+          $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy($$->type , "float");
+          strcpy($$->name , $1);
+          strcpy($$->value, $1);
+          
+          ;}|
+        BOOL {
+          printf("The rvalue is correct \n");
+          
+          $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy($$->type , "bool");
+          strcpy($$->name , $1);
+          strcpy($$->value, $1);
+          }|
+        STRING 
+        {
+          printf("The rvalue is correct \n");
+          
+       
+          $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy($$->type , "string");
+          strcpy($$->name , $1);
+          strcpy($$->value, $1);   
+        }|
+        
         math_statem {printf("The rvalue is correct \n");} ;
 
-lvalue: ID 
-  {
-  printf("The lvalue is correct \n");
-  
-  }
-        | ARRAY   
+lvalue:  ID 
+          {
+          printf("The lvalue is correct \n");
+          $$ = (struct lvalue*)getIDType($1); //assign lvalue the value and id of the ID
+          
+          }|
+          | ARRAY   
           {
            printf("The lvalue is correct \n");
            //check if the variable is declared
@@ -224,7 +265,11 @@ lvalue: ID
               struct array_info *curr_array = get_array(name);
               struct element  curr_elem = curr_array->elements[index_int];
               //return the value of the element
-              $$ = curr_elem.value;
+              $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+              strcpy($$->type , curr_elem.type);
+              strcpy($$->name , curr_elem.name);
+              strcpy($$->value, curr_elem.value);
+              
             }
            }
           } ; 
@@ -292,8 +337,8 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
            lvalue ASSIGN rvalue 
            {
             //call a function to update val in the symbol table 
-
-            //printf("The statement is correct \n");
+            update_val($1, $3);
+            printf("The statement is correct \n");
             //if the var is declared as a global var
             // if(is_declared_global($1))
             // {
@@ -320,15 +365,16 @@ statement: ID ASSIGN math_statem{printf("The statement is correct \n");}|  //a =
 
 declaration: TYPE ID 
             {
-              printf("The declaration is correct \n");
-              //add_var($2, $1,"","main",false,0);
+              //printf("The declaration is correct \n");
+              add_var($2, $1,"default","main",false,0);
+              print_var_table();
 
             } |
              TYPE ID ASSIGN rvalue  //int a = 3;
              {
               printf("The declaration is correct \n");
               add_var($2, $1,$4,"main",false,0); //incompatible type for $4
-              
+              print_var_table();
              } |
              TYPE ARRAY 
              {
@@ -343,6 +389,7 @@ declaration: TYPE ID
              {
               printf("The declaration is correct \n");
               //compute the math statement first ?  
+              
                
             } ;
 

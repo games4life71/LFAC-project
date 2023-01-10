@@ -29,11 +29,11 @@ OP_MATH2 "*"|"/"|"%"
 %%
 
 {INTEGER} {/*printf("matched  '%s' with len %d\n",yytext,strlen(yytext));*/yylval.strval = strdup(yytext); return INTEGER;}
-{TYPE} {printf("the type is %s\n",yytext); return TYPE;}
+{TYPE} {printf("the type is %s\n",yytext); yylval.strval = strdup(yytext); return TYPE;}
 {FLOAT} {return FLOAT;}
 {STRING} {return STRING;}
 {BOOL} {return BOOL;}
-{ARRAY} { /*printf("matched array token is %s\n",yytext);*/ return ARRAY;}
+{ARRAY} { /*printf("matched array token is %s\n",yytext);*/yylval.strval = strdup(yytext); return ARRAY;}
 {OP_LOGIC} {return OP_LOGIC;}
 {IF} {return IF;}
 {ELSE} {return ELSE;}
@@ -43,7 +43,7 @@ OP_MATH2 "*"|"/"|"%"
 {CASE} {return CASE;}
 {BREAK} {return BREAK;}
 {PRINT} {return PRINT;}
-{ID}([.]{ID})* {printf("the id is %s with len %d\n",yytext,strlen(yytext)); return ID;}
+{ID}([.]{ID})* {printf("the id is %s with len %d\n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
 {OP_MATH1} {return OP_MATH1;}
 {OP_MATH2} {return OP_MATH2;}
 

@@ -80,22 +80,23 @@ extern int yydebug;
     CASE = 281,                    /* CASE  */
     BREAK = 282,                   /* BREAK  */
     NUM = 283,                     /* NUM  */
-    PLUS = 284,                    /* PLUS  */
-    SPACE = 285,                   /* SPACE  */
-    MINUS = 286,                   /* MINUS  */
-    MAIN_START = 287,              /* MAIN_START  */
-    MAIN_END = 288,                /* MAIN_END  */
-    UNIVERSAL_START = 289,         /* UNIVERSAL_START  */
-    UNIVERSAL_END = 290,           /* UNIVERSAL_END  */
-    FUNCTIONS_START = 291,         /* FUNCTIONS_START  */
-    FUNCTIONS_END = 292,           /* FUNCTIONS_END  */
-    USERDEF_START = 293,           /* USERDEF_START  */
-    USERDEF_END = 294,             /* USERDEF_END  */
-    RETURN = 295,                  /* RETURN  */
-    STRUCT_START = 296,            /* STRUCT_START  */
-    STRUCT_END = 297,              /* STRUCT_END  */
-    CLASS_START = 298,             /* CLASS_START  */
-    CLASS_END = 299                /* CLASS_END  */
+    SPACE = 284,                   /* SPACE  */
+    MINUS = 285,                   /* MINUS  */
+    MAIN_START = 286,              /* MAIN_START  */
+    MAIN_END = 287,                /* MAIN_END  */
+    UNIVERSAL_START = 288,         /* UNIVERSAL_START  */
+    UNIVERSAL_END = 289,           /* UNIVERSAL_END  */
+    FUNCTIONS_START = 290,         /* FUNCTIONS_START  */
+    FUNCTIONS_END = 291,           /* FUNCTIONS_END  */
+    USERDEF_START = 292,           /* USERDEF_START  */
+    USERDEF_END = 293,             /* USERDEF_END  */
+    RETURN = 294,                  /* RETURN  */
+    STRUCT_START = 295,            /* STRUCT_START  */
+    STRUCT_END = 296,              /* STRUCT_END  */
+    CLASS_START = 297,             /* CLASS_START  */
+    CLASS_END = 298,               /* CLASS_END  */
+    DEFAULT = 299,                 /* DEFAULT  */
+    PLUS = 300                     /* PLUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -130,37 +131,37 @@ extern int yydebug;
 #define CASE 281
 #define BREAK 282
 #define NUM 283
-#define PLUS 284
-#define SPACE 285
-#define MINUS 286
-#define MAIN_START 287
-#define MAIN_END 288
-#define UNIVERSAL_START 289
-#define UNIVERSAL_END 290
-#define FUNCTIONS_START 291
-#define FUNCTIONS_END 292
-#define USERDEF_START 293
-#define USERDEF_END 294
-#define RETURN 295
-#define STRUCT_START 296
-#define STRUCT_END 297
-#define CLASS_START 298
-#define CLASS_END 299
+#define SPACE 284
+#define MINUS 285
+#define MAIN_START 286
+#define MAIN_END 287
+#define UNIVERSAL_START 288
+#define UNIVERSAL_END 289
+#define FUNCTIONS_START 290
+#define FUNCTIONS_END 291
+#define USERDEF_START 292
+#define USERDEF_END 293
+#define RETURN 294
+#define STRUCT_START 295
+#define STRUCT_END 296
+#define CLASS_START 297
+#define CLASS_END 298
+#define DEFAULT 299
+#define PLUS 300
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 34 "my_lang.y"
+#line 29 "my_lang.y"
   
-    
     int intval;
-    char * strval;
-    struct funct_param funct_param;
-    struct funct_param funct_param_list[10];
-    struct lvalue lval;
+    char * strval;  
+    struct lvalue*  lval;
+    struct funct_param* arg;
+    struct funct_param* arg_list[30];
 
-#line 164 "y.tab.h"
+#line 165 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

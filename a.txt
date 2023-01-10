@@ -1,6 +1,9 @@
 universal_code_start
 
-int a[100];
+
+int b;
+int c =3;
+
 universal_code_end
 
 function_start
@@ -15,5 +18,6 @@ user_code_end
 
 
 important_code_start
-int a =3;
+
+b=c;
 important_code_end
