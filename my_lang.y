@@ -8,6 +8,9 @@
 #include "functions.h" //header file with the functions used in the parser
 
 extern FILE* yyin;
+extern FILE* funct_table_file;
+extern FILE* var_table_file;
+
 extern char* yytext;
 extern int yylineno;
 
@@ -22,6 +25,8 @@ extern int yylineno;
 
 
 int current_function_arguments = 0;
+//current scope 
+char curr_scope[10] = "global";
 %}
 
 
@@ -77,6 +82,8 @@ int current_function_arguments = 0;
 %token <strval>CLASS_START
 %token <strval>CLASS_END
 %token<strval> DEFAULT
+%token <strval> TYPEOF
+%token <strval> CONST
 %left <strval>PLUS
 
 
@@ -116,7 +123,14 @@ userdef : userdef_vars {printf("The userdef is correct \n");}
  | userdef class_def
  |;
 
-struct_def : STRUCT_START struct_vars STRUCT_END {printf("The struct is correct \n");} ;
+struct_def : STRUCT_START ID {strcpy(curr_scope,$2);}struct_vars STRUCT_END 
+{
+  
+printf("The struct is correct with the name %s \n",$2);
+//add it to the var table
+add_var($2, "struct", "default","global",false,0);
+//print_var_table();
+} ;
 
 
 struct_vars : variable  {printf("The struct variable is correct \n");} 
@@ -124,7 +138,15 @@ struct_vars : variable  {printf("The struct variable is correct \n");}
  ;
 
 
-class_def : CLASS_START class_info CLASS_END {printf("The class is correct \n");} ;
+class_def : CLASS_START ID {strcpy(curr_scope,$2);} class_info CLASS_END 
+{
+  printf("The class is correct \n");
+  //add it to the var table
+  add_var($2, "class", "default","global",false,0);  
+  //print_var_table();
+};
+
+
 
 class_info: variable  {printf("The class variable is correct \n");} 
  | class_info variable //for multiple variables in a class
@@ -146,8 +168,8 @@ univ_vars : variable  {printf("The universal variable is correct \n");}
 variable : TYPE ID ';' 
         {
           
-        add_var($2, $1, "default","global",false,0);
-         print_var_table();
+        add_var($2, $1, "default",curr_scope,false,0);
+         //print_var_table();
          //printf("The var is correct \n");
          
 
@@ -165,16 +187,16 @@ variable : TYPE ID ';'
             exit(1);
           }
 
-          add_var($2, $1, $4,"global",false,0);  
-          print_var_table();
+          add_var($2, $1, $4,curr_scope,false,0);  
+          //print_var_table();
         } |
         TYPE ARRAY ';'
        {
           char *name = strtok($2, "[");
           char *size = strtok(NULL, "]");
           int size_int = atoi(size);
-          add_var(name, $1, "","global",true,size_int);
-          print_var_table();
+          add_var(name, $1, "",curr_scope,true,size_int);
+          //print_var_table();
         } ;
         
        
@@ -184,47 +206,52 @@ rvalue : lvalue
         {
         
         //printf("The rvalue is correct found rvalue %s \n",$1); 
-        $$ = (struct lvalue*)getIDType($1);
-        
+        $$ = (struct lvalue*)getIDType($1,curr_scope);
+        //printf("the current scope is %s\n",curr_scope);
         
         }|
         INTEGER 
         {
-          printf("The rvalue is %s correct \n",$1);
+          //printf("The rvalue of int  is %s correct \n",yytext);
           //set type and name for integer
 
           $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
           strcpy($$->type , "int");
           strcpy($$->name , $1);
           strcpy($$->value, $1);
+          printf("the current scope is %s\n",curr_scope);
+          strcpy($$->scope, curr_scope);
         }|
         FLOAT 
         {
-          printf("The rvalue is correct \n");
+          //printf("The rvalue of float is %s correct \n",yytext);
           
           $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
           strcpy($$->type , "float");
           strcpy($$->name , $1);
           strcpy($$->value, $1);
+          strcpy($$->scope, curr_scope);
           
           }|
         BOOL {
-          printf("The rvalue is correct \n");
+          //printf("The rvalue of bool  is %s correct \n",yytext);
           
           $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
           strcpy($$->type , "bool");
           strcpy($$->name , $1);
           strcpy($$->value, $1);
+          strcpy($$->scope, curr_scope);
           }|
         STRING 
         {
-          printf("The rvalue is correct \n");
+          //printf("The rvalue of string is %s is correct \n",yytext);
           
        
           $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
           strcpy($$->type , "string");
           strcpy($$->name , $1);
           strcpy($$->value, $1);   
+          strcpy($$->scope, curr_scope);
         }|
         
         math_statem {printf("The rvalue is correct \n");} ;
@@ -234,8 +261,10 @@ lvalue:  ID
           //printf("The lvalue is correct found id %s \n",$1);
           //print_var_table();
           //printf("tthe type of $1 is %s\n",$1.type);
-
-          $$ = getIDType($1); //assign lvalue the value and id of the ID
+          
+          //print_var_table();
+          $$ = getIDType($1,curr_scope); //assign lvalue the value and id of the ID
+          //printf("the lvalue value is %s\n",$$->value);
           if($$ == NULL)
           {
             printf("The variable %s is not declared..\n",$1);
@@ -302,6 +331,7 @@ function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
 {
   printf("The function is correct \n");
 }
+
 | '('  ')' ID '(' ')' '{'  '}'
 {
   printf("The function is correct \n");
@@ -309,15 +339,21 @@ function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
 | '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
   // add new function to the table
-  // add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  // add_func($4, $2, (struct param_info*)$6, curr_scope, current_function_arguments);
+  //copy the scope to match the function name 
+  strcpy(curr_scope, $4); 
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
+
 | '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'
 {
   //add new function to the table
   // void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
-  // add_func($4, $2, NULL, "function", 0);
+  // add_func($4, $2, NULL, curr_scope , 0);
+
+  //copy the scope to match the function name 
+  strcpy(curr_scope, $4); 
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
@@ -325,12 +361,16 @@ function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
 {
   // add new function to the table
   // add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
+  //copy the scope to match the function name 
+  strcpy(curr_scope, $4); 
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
 
 
 ; //sintaxa: (returnVal) name (args){...}
+
+
 
 arguments : variable_argument 
 { /*$$[current_function_arguments].type = $1.type;
@@ -356,7 +396,7 @@ function_argument_params : TYPE
 | function_argument_params ',' function_argument
 ;
 
-main_sec : MAIN_START instructions MAIN_END {printf("The main section is correct \n");} ;
+main_sec : MAIN_START {strcpy(curr_scope,"main");} instructions MAIN_END {printf("The main section is correct \n");} ;
 
 instructions : instruction {printf("The instruction is correct \n");} 
  | instructions instruction 
@@ -364,19 +404,73 @@ instructions : instruction {printf("The instruction is correct \n");}
  ;
 
 instruction: statement ';' | // e.g. s = 5; s = 6;
+             typeof ';'| // e.g. typeof(s);
              instruction statement ';' | //for multiple statements
              declaration ';' | //e.g. string s; 
              instruction declaration ';' | //for multiple declarations
              control_instruction  | // if, for, while, switch
+             print|
              instruction control_instruction  | //for multiple instructions
-          
+
+
+
+print : PRINT '(' STRING ')' ';' 
+{ 
+  printf("the strinf is %s \n",$3);
+  printf("[OUTPUT]: %s \n",$3);
+}|
+  PRINT '(' rvalue ')' ';'
+  {
+    printf("[OUTPUT]: %s \n",$3->value);
+  };
+
+
+
+typeof : TYPEOF '(' ID ')'
+{
+  //check if the variable is declared
+  if(!is_declared_global($3) && !is_declared($3,"main") )
+  {
+    printf("[OUTPUT]: The variable %s is not declared \n",$3);
+    exit(1);
+  }
+  
+  else
+  {
+    print_var_table();
+    //get the type of the variable
+    char *type = get_type($3,"global");
+    if (type == NULL)
+    {
+      printf("global\n");
+      type = get_type($3,"main");
+    }
+    printf("[OUTPUT]: The type of %s is %s \n",$3, type);
+  }
+
+}  
 
 statement: 
            lvalue ASSIGN rvalue 
            {
+            
+            if(is_const($1->name,$1->scope))
+            {
+              printf("[ERROR] line: %d the variable %s is const...\n",yylineno,$1->name);
+              exit(1);
+            }
+
+            if(!same_type($1->type,$3->type))
+            {
+              printf("[ERROR] line: %d not the same type...\n",yylineno);
+              exit(1);
+            }
+
             //call a function to update val in the symbol table 
-            //update_val($1,"lala" $3);
+            //printf("the name is %s\n",$1->name);
+            update_val($1->name,$1->scope ,$3->value);
             printf("The statement is correct \n");
+            print_var_table();
             //if the var is declared as a global var
             // if(is_declared_global($1))
             // {
@@ -392,8 +486,61 @@ statement:
             // }
 
            } |
+
+           lvalue INC 
+           {
+
+            if(is_const($1->name,$1->scope))
+            {
+              printf("[ERROR] line: %d the variable %s is const...\n",yylineno,$1->name);
+              exit(1);
+            }
+
+            if(!same_type($1->type,"int")) 
+            {
+              printf("[ERROR] not the same type...\n");
+              exit(1);
+            }
            
-           lvalue ASSIGN math_statem {printf("The statement is correct \n");}|
+            //call a function to update val in the symbol table
+            int int_val = atoi($1->value);
+           // printf("the new val is %d\n",int_val);
+            int_val++;
+            char *new_val = (char*)malloc(sizeof(char)*10);
+            sprintf(new_val,"%d",int_val);
+            update_val($1->name,$1->scope ,new_val); 
+            //update_val($1->name,$1->scope ,$1->value+1);
+            //printf("The statement is correct \n");
+            print_var_table();
+           } |
+
+           lvalue DEC
+           {
+            if(is_const($1->name,$1->scope))
+            {
+              printf("[ERROR] line: %d the variable %s is const...\n",yylineno,$1->name);
+              exit(1);
+            }
+
+           if(!same_type($1->type,"int")) 
+            {
+              printf("[ERROR] not the same type...\n");
+              exit(1);
+            }
+           
+            //call a function to update val in the symbol table
+            int int_val = atoi($1->value);
+           // printf("the new val is %d\n",int_val);
+            int_val--;
+            char *new_val = (char*)malloc(sizeof(char)*10);
+            sprintf(new_val,"%d",int_val);
+            update_val($1->name,$1->scope ,new_val); 
+            //update_val($1->name,$1->scope ,$1->value+1);
+            //printf("The statement is correct \n");
+            print_var_table();
+
+           }|
+           
            ID '(' ')' 
            {
             printf("The statement is correct \n"); //call a function with no arguments
@@ -404,17 +551,41 @@ statement:
            }; //call a function with arguments
 
 declaration: TYPE ID 
-            {
+            {  
+              //if it's not declared 
+              
+              if(!is_declared_global($2) && !is_declared($2,"main"))
+              {
+                //add it to the symbol table
+                add_var($2, $1,"default",curr_scope,false,0);
+                //print_var_table();
+                //save_var_table();
+              }
+              else
+              {
+                printf("[ERROR] line: %d The variable %s is already declared \n",yylineno,$2);
+                exit(1);
+              } 
               //printf("The declaration is correct \n");
-              add_var($2, $1,"default","main",false,0);
-              print_var_table();
-              save_var_table();
+             
+             
             } |
+            CONST TYPE ID ASSIGN rvalue
+            {
+              printf("The declaration is correct \n");
+                char type[10] = "const ";
+                strcat(type,$2);
+
+              add_var($3, type,$4,curr_scope,false,0); //incompatible type for $4
+              printf("value added\n");
+            }|
              TYPE ID ASSIGN rvalue  //int a = 3;
              {
               printf("The declaration is correct \n");
-              add_var($2, $1,$4,"main",false,0); //incompatible type for $4
-              print_var_table();
+
+              add_var($2, $1,$4,curr_scope,false,0); //incompatible type for $4
+              printf("value added\n");
+              //print_var_table();
              } |
              TYPE ARRAY 
              {
@@ -423,29 +594,78 @@ declaration: TYPE ID
               char *size = strtok(NULL, "]");
               int arr_size = atoi(size);
               //printf("the size is %s \n", size);
-              add_var(id, $1,"","main",true,arr_size);
-             } |
-             TYPE ID ASSIGN math_statem 
-             {
-              printf("The declaration is correct \n");
-              //compute the math statement first ?  
-              
-               
-            } ;
-
+              add_var(id, $1,"",curr_scope,true,arr_size);
+             };
+            
 
 //implemented just the IF and ELSE instruction 
-control_instruction: IF '(' condition ')' '{' instruction '}' {printf("The if instruction is correct \n");} 
-| IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}' {printf("The if-else instruction is correct \n");}|
-FOR '(' ID ASSIGN math_statem ';' condition ';' ID ASSIGN math_statem ')' '{' instruction '}' {printf("The for instruction is correct \n");}|
-WHILE '(' condition ')' '{' instruction '}' {printf("The while instruction is correct \n");}; 
+control_instruction: IF '(' condition ')' '{' instruction '}' 
+{
+  printf("The if instruction is correct \n");
+}|
+ IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}' 
+ {
+  printf("The if-else instruction is correct \n");
+ }|
 
+FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}' 
+{
+  printf("The for instruction is correct \n");
+  //check if the value in condition is the same as ID 
+
+}|
+FOR '(' ID ASSIGN rvalue ';' condition  ';'  for_increment')' '{' instruction '}' 
+{
+  printf("The for instruction is correct \n");
+}|
+WHILE '(' condition ')' '{' instruction '}' 
+{
+  printf("The while instruction is correct \n");
+}; 
+
+
+for_increment: ID ASSIGN rvalue 
+{
+  printf("The for increment is correct \n");
+}| ID INC 
+{
+  printf("The for increment is correct \n");
+}| ID DEC 
+{
+  printf("The for increment is correct \n");
+};
 
 //all possible combinations of conditions
-condition : lvalue OP_LOGIC rvalue {printf("The condition is correct \n");} 
-| condition OP_LOGIC condition {printf("The condition is correct \n");};
-| condition OP_LOGIC rvalue {printf("The condition is correct \n");}
-| lvalue OP_LOGIC condition {printf("The condition is correct \n");};
+condition : lvalue OP_LOGIC rvalue 
+{
+  printf("The condition is correct here  \n");
+  //check if the types are the same and if they are declared
+  if(strcmp(get_type($1,"global"),get_type($3,"global")) != 0)
+  {
+    printf("[ERROR] : The types are not the same \n");
+    exit(1);
+  }
+  else if(strcmp(get_type($1,"main"),get_type($3,"main")) != 0)
+  {
+    printf("[ERROR] : The types are not the same \n");
+    exit(1);
+  }
+  
+  
+
+;}|
+ condition OP_LOGIC condition 
+ {
+  printf("The condition is correct \n");
+ }|
+  condition OP_LOGIC rvalue 
+ {
+    printf("The condition is correct \n");
+ }|
+  lvalue OP_LOGIC condition 
+  {
+    printf("The condition is correct \n");
+  };
 
 
 //assign the right value to the left and right  value
@@ -519,7 +739,11 @@ printf("eroare: %s la linia:%d\n",s,yylineno);
 
 int main(int argc, char** argv){
 yyin=fopen(argv[1],"r"); // if we want to parse a file instead of the standard input 
-var_table_file = fopen("var_table.txt","w");
+var_table_file = fopen("symbol_table.txt","w");
+//save the function table as well
+
 yyparse();
+save_var_table();
+fclose(var_table_file);
 } 
 

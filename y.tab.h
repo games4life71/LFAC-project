@@ -96,7 +96,9 @@ extern int yydebug;
     CLASS_START = 297,             /* CLASS_START  */
     CLASS_END = 298,               /* CLASS_END  */
     DEFAULT = 299,                 /* DEFAULT  */
-    PLUS = 300                     /* PLUS  */
+    TYPEOF = 300,                  /* TYPEOF  */
+    CONST = 301,                   /* CONST  */
+    PLUS = 302                     /* PLUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -147,13 +149,15 @@ extern int yydebug;
 #define CLASS_START 297
 #define CLASS_END 298
 #define DEFAULT 299
-#define PLUS 300
+#define TYPEOF 300
+#define CONST 301
+#define PLUS 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "my_lang.y"
+#line 34 "my_lang.y"
   
     int intval;
     char * strval;  
@@ -161,7 +165,7 @@ union YYSTYPE
     struct funct_param* arg;
     struct funct_param* arg_list[30];
 
-#line 165 "y.tab.h"
+#line 169 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

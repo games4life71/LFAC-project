@@ -12,7 +12,7 @@ SWITCH "switch"
 CASE "case"
 BREAK "break"
 DEFAULT "default"
-PRINT "print"
+PRINT "show"
 RETURN "return"
 ID [a-zA-Z][a-zA-Z0-9]*
 INTEGER [-]?[1-9][0-9]*
@@ -46,10 +46,14 @@ OP_MATH2 "*"|"/"|"%"
 {BREAK} {return BREAK;}
 {PRINT} {return PRINT;} 
 {RETURN} {return RETURN;}
-{ID}([.]{ID})* {printf("the id is %s \n",yytext,strlen(yytext));  yylval.strval = strdup(yytext); return ID;}
+"typeof" {return TYPEOF;}
+"immutable" {return CONST;}
+
+{ID}([.]{ID})* {  yylval.strval = strdup(yytext); return ID;}
 {OP_MATH1} {return OP_MATH1;}
 {OP_MATH2} {return OP_MATH2;}
-
+"++" {yylval.strval = strdup(yytext); return INC;}
+"--" {yylval.strval = strdup(yytext);return DEC;}
 "important_code_start" return MAIN_START;
 "important_code_end" return MAIN_END;
 "universal_code_start" return UNIVERSAL_START;

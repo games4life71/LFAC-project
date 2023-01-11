@@ -72,11 +72,14 @@ int array_table_index = 0;
 //declare here and open in main 
 FILE *func_table_file;
 FILE *var_table_file; 
+
 int save_var_table()
 {    
     int i;
+   
     for (i = 0; i < var_table_index; i++)
     {
+        //fwrite("hello", 1, 5, var_table_file);
         fprintf(var_table_file, "%s %s %s %s %d %d \n", var_table[i].id, var_table[i].type, var_table[i].value, var_table[i].scope, var_table[i].is_array, var_table[i].array_size);
     }
 }
@@ -100,8 +103,8 @@ void add_var(char *id, char *type, char *value, char *scope, bool is_array, int 
 { 
 
     if(is_declared(id, scope)) {
-        printf("Error: Variable %s is already declared in the scope %s\n");
-     //   exit(1);
+        printf("Error: Variable %s is already declared in the scope %s\n",id,scope);
+       exit(1);
      return ;
     }
     strcpy(var_table[var_table_index].id, id);
@@ -144,6 +147,7 @@ int is_declared(char *id, char *scope)
             return true;
         }
     }
+    
     return false;
 }
 
@@ -247,26 +251,29 @@ void print_var_table()
     }
 }
 
-struct lvalue* getIDType(char *idName)
+struct lvalue* getIDType(char *idName,char * scope)
 {
 
    //printf("the id is %s\n",idName);
     //loop through var table
     for(int i = 0; i < var_table_index; i++)
     {
-        if(strcmp(var_table[i].id, idName) == 0)
+        
+        if(strcmp(var_table[i].id, idName)  == 0 && strcmp(var_table[i].scope, scope) == 0)
         {
+            
             struct lvalue* lval;
             lval = (struct lvalue*)malloc(sizeof(struct lvalue));
             strcpy(lval->type, var_table[i].type);
             strcpy(lval->value, var_table[i].value);
+            
             strcpy(lval->scope, var_table[i].scope);
             strcpy(lval->name, var_table[i].id);
            // printf("returning lval with type %s and value %s", lval->type, lval->value);
             return lval;
         }
     }
-    printf("[DEBUG] the id `%s not found \n",idName);
+    printf("[DEBUG] the id %s not found \n",idName);
     return NULL;
 }
 
@@ -278,8 +285,44 @@ void update_val(char *id, char *scope, char *value)
     {
         if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
         {
+          // printf("the value is %s\n",value);
             strcpy(var_table[i].value, value);
         }
     }
 }
 
+char* get_type(char *id, char *scope)
+{
+    int i;
+    for (i = 0; i < var_table_index; i++)
+    {
+        if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
+        {
+            return var_table[i].type;
+        }
+    }
+    printf("[DEBUG] the id %s not found \n",id);
+    return NULL;
+}
+
+bool same_type(char *type1, char *type2)
+{
+    if (strcmp(type1, type2) == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool is_const(char* id, char* scope)
+{
+    int i;
+    for (i = 0; i < var_table_index; i++)
+    {
+        if (strcmp(var_table[i].id, id) == 0 && strcmp(var_table[i].scope, scope) == 0)
+        {
+            if(strstr(var_table[i].type, "const") != NULL) return true;
+        }
+    }
+    return false;
+}
