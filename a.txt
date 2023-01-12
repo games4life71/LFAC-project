@@ -1,28 +1,57 @@
+universal_code_start
+int myvar;
+int myvar2;
+
+bool ok = false;
+
+
+universal_code_end
 
 function_start
 
-(int) a (int b,int c)
+(int) funct1 (int a, int b, int c)
 {
-    return 2;
+
+   
+   return a;
+   
 }
-(bool) b(int c)
+(bool) funct2 (float a,bool b)
 {
-    int a=2+2;
-    
-   return true; 
+
+   return a;
+   
 }
-
-
 function_end
 
 user_code_start
 
 struct_start s1
 
-int a;
-int b;
-
+int b=2;
+int c=3;
 struct_end
+
+
+class_start myClass
+int classvar1 =31;
+
+(bool) funct2 (int a, int b, int c)
+{
+
+   return 2;
+   
+}
+
+
+class_end
+
+class_start myClass2
+
+int classvar2 =31;
+
+
+class_end
 
 user_code_end
 
@@ -30,15 +59,18 @@ user_code_end
 important_code_start
 
 
-int b[3];
-int a =2 +2;
-typeof(a);
-typeof(b);
-typeof(s2);
-show(a);
-show("hello world");
+int myvar3;
+int myvar4;
+
+if(myvar3 == myvar4)
+{
+    show(myvar3);
+}
 
 
+
+myvar3 = 1+2- 2*2/1*100+1000/20;
+myvar4 = myvar3;
 
 
 important_code_end
