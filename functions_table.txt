@@ -1,0 +1,5 @@
+                  ID    Return         Scope   Nr. Args.  Args.
+------------------------------------------------------------------------------
+              funct1       int      function          3   a b c 
+              funct2      bool      function          2   a b 
+              funct2      bool      function          3   a b c 

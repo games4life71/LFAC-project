@@ -19,6 +19,7 @@ extern int yylineno;
         //c code structs to be used in the parser
 
 int current_function_arguments = 0;
+int curr_function_arguments_list_index = 0;
 //current scope 
 char curr_scope[10] = "global";
 %}
@@ -29,7 +30,7 @@ char curr_scope[10] = "global";
     int intval;
     char * strval;  
     struct lvalue*  lval;
-    struct param_info* arg;
+    struct param_info* arg[30];
     struct param_info* arg_list[30];
     struct node* node_ptr;
 }
@@ -341,47 +342,50 @@ functions : function
 |
 ;
 
-function : '('  ')' ID {strcpy(curr_scope,$3);}'(' ')' '{' RETURN ';' '}'
+function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
 {
   printf("Current function arguments : %d\n", current_function_arguments);
-  add_func($3, "", "", "function", 0);
+  add_func($3, "", NULL, "function", 0);
   current_function_arguments = 0;
- // printf("The function is correct \n");
+  curr_function_arguments_list_index = 0;
+  printf("The function is correct \n");
 }
 
-| '('  ')'ID {strcpy(curr_scope,$3);}  '(' ')' '{'  '}'
+| '('  ')' ID '(' ')' '{'  '}'
 {
   printf("Current function arguments : %d\n", current_function_arguments);
-  add_func($3, "", "", "function", 0);
+  add_func($3, "", NULL, "function", 0);
   current_function_arguments = 0;
-  //printf("The function is NOT correct \n");
+  curr_function_arguments_list_index = 0;
+  printf("The function is NOT correct \n");
 }
 | '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
-  strcpy(curr_scope,$4);
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
-  //printf("The function is correct \n"); 
+  curr_function_arguments_list_index = 0;
+  printf("The function is correct \n"); 
 }
 
-| '(' TYPE ')' ID {strcpy(curr_scope,$4);} '(' ')' '{' instructions RETURN ID ';' '}'
+| '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'
 {
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
-  add_func($4, $2, "", "function", 0);
+  add_func($4, $2, NULL, "function", 0);
   current_function_arguments = 0;
-  //printf("The function is correct \n"); 
+  curr_function_arguments_list_index = 0;
+  printf("The function is correct \n"); 
 }
-| '(' TYPE ')' ID  '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
+| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
 {
   // add new function to the table
-  strcpy(curr_scope,$4);
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
-  //printf("The function is correct \n"); 
+  curr_function_arguments_list_index = 0;
+  printf("The function is correct \n"); 
 }
 
 
@@ -391,32 +395,32 @@ function : '('  ')' ID {strcpy(curr_scope,$3);}'(' ')' '{' RETURN ';' '}'
 
 arguments : variable_argument 
 { 
-  $$[current_function_arguments] = (struct param_info*)malloc(sizeof(struct param_info));
-  // strcpy($$[current_function_arguments]->type,$1->type);
-  // strcpy($$[current_function_arguments]->id, $1->id);
+  $$[curr_function_arguments_list_index] = (struct param_info*)malloc(sizeof(struct param_info));
+  strcpy($$[curr_function_arguments_list_index]->type,$1[curr_function_arguments_list_index]->type);
+  strcpy($$[curr_function_arguments_list_index]->id, $1[curr_function_arguments_list_index]->id);
   // char temp[32];
   // strcpy(temp, $1->id);
-  $$[current_function_arguments] = $1;
+  // $$[curr_function_arguments_list_index] = $1;
   // printf("----------------------------temp = %s\n", temp); 
-  current_function_arguments++;
+  curr_function_arguments_list_index++;
 
-  printf("----------------------------Acum afisam a\n");
-  printf("----------------------------ID IN $1 IS: %s\n", $1->id);
-  printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", $$[current_function_arguments]->id);
+  // printf("----------------------------Acum afisam a\n");
+  // printf("----------------------------ID IN $1 IS: %s\n", $1[curr_function_arguments_list_index-1]->id);
+  // printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", $$[curr_function_arguments_list_index-1]->id);
 } //--------------------------------------tb de pus ca posibili param si expresii
 | arguments ',' variable_argument 
 {
-  $$[current_function_arguments] = (struct param_info*)malloc(sizeof(struct param_info));
-  // strcpy($$[current_function_arguments]->type, $3->type);
-  // strcpy($$[current_function_arguments]->id, $3->id);
+  $$[curr_function_arguments_list_index] = (struct param_info*)malloc(sizeof(struct param_info));
+  strcpy($$[curr_function_arguments_list_index]->type, $3[curr_function_arguments_list_index]->type);
+  strcpy($$[curr_function_arguments_list_index]->id, $3[curr_function_arguments_list_index]->id);
   // char temp[32];
   // strcpy(temp, $3->id);
-  $$[current_function_arguments] = $3;
+  // $$[curr_function_arguments_list_index] = $3;
   // printf("----------------------------temp = %s\n", temp); 
-  current_function_arguments++; 
-  printf("----------------------------Acum afisam b\n");
-  printf("----------------------------ID IN $3 IS: %s\n", $3->id);
-  printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", $$[current_function_arguments]->id);
+  curr_function_arguments_list_index++; 
+  // printf("----------------------------Acum afisam b\n");
+  // printf("----------------------------ID IN $3 IS: %s\n", $3[curr_function_arguments_list_index-1]->id);
+  // printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", $$[curr_function_arguments_list_index-1]->id);
 }
 | function_argument
 | | arguments ',' function_argument
@@ -424,10 +428,12 @@ arguments : variable_argument
 
 variable_argument : TYPE ID 
 {
-  $$ = (struct param_info*)malloc(sizeof(struct param_info));
-  strcpy($$->type, $1); 
-  strcpy($$->id, $2); 
-  
+  $$[current_function_arguments] = (struct param_info*)malloc(sizeof(struct param_info));
+  strcpy($$[current_function_arguments]->type, $1); 
+  strcpy($$[current_function_arguments]->id, $2); 
+  current_function_arguments++;
+  // printf("---------------variable_argument ->id: %s\n", $$[current_function_arguments-1]->id);
+  // printf("---------------variable_argument ->type: %s\n", $$[current_function_arguments-1]->type);
 }; 
 
 function_argument : '(' TYPE ')' ID '(' function_argument_params ')'
@@ -974,10 +980,14 @@ printf("eroare: %s la linia:%d\n",s,yylineno);
 int main(int argc, char** argv){
 yyin=fopen(argv[1],"r"); // if we want to parse a file instead of the standard input 
 var_table_file = fopen("symbol_table.txt","w");
-//save the function table as well
+funct_table_file = fopen("functions_table.txt", "w");
 
 yyparse();
 save_var_table();
+save_funct_table();
 fclose(var_table_file);
+fclose(funct_table_file);
+
+return 0;
 } 
 

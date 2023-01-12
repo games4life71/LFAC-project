@@ -9,4 +9,9 @@ myClass class default global 0 0
 classvar2 int 31 myClass2 0 0 
 myClass2 class default global 0 0 
 myvar3 int -347 main 0 0 
-myvar4 int -347 main 0 0 
+myvar4 int -348 main 0 0 
+a int 2 main 0 0 
+b int 3 main 0 0 
+i int 2 main 0 0 
+newval int -348 main 0 0 
+ok bool ok main 0 0 
