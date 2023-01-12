@@ -20,6 +20,7 @@ extern int yylineno;
 
 int current_function_arguments = 0;
 int curr_function_arguments_list_index = 0;
+int func_args_main_index = 0;
 //current scope 
 char curr_scope[10] = "global";
 %}
@@ -30,6 +31,7 @@ char curr_scope[10] = "global";
     int intval;
     char * strval;  
     struct lvalue*  lval;
+    struct lvalue*  list_arg_main[30];
     struct param_info* arg[30];
     struct param_info* arg_list[30];
     struct node* node_ptr;
@@ -82,6 +84,7 @@ char curr_scope[10] = "global";
 %left '+' MINUS
 %left '*' '/'
 
+%type <list_arg_main> func_args_main
 %type <lval> lvalue
 %type <lval> rvalue
 %type <arg_list> arguments
@@ -466,21 +469,45 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
 
 function_main_use : ID '(' ')' 
 { 
-  printf("The function ussage is correct.\n");
+  if(find_func($1, 0, NULL) == 1){
+    func_args_main_index = 0;
+    printf("The function ussage is correct.\n");
+  }
+  else{
+    printf("[DEBUG]The function %s is not declared.\n", $1);
+    exit(1);
+  }
 }
 | ID '(' func_args_main ')' 
 {
-  printf("The function ussage is correct.\n");
+  if(find_func($1, func_args_main_index, (struct lvalue*)$3) == 1){
+    func_args_main_index = 0;
+    printf("The function ussage is correct.\n");
+  }
+  else{
+    printf("[DEBUG]The function %s is not declared.\n", $1);
+    exit(1);
+  }
 };
 
 
 
 func_args_main : rvalue 
 {
+  $$[func_args_main_index] = (struct lvalue*) malloc(sizeof(struct lvalue));
+  strcpy($$[func_args_main_index]->type, $1->type);
+  // printf("-------------------rvalue type: %s\n", $1->type);
+  // printf("-------------------$$ type: %s\n", $$[func_args_main_index]->type);
+  func_args_main_index++;
   printf("Arguments of the function are correct.\n");
 }
 | func_args_main ',' rvalue 
 {
+  $$[func_args_main_index] = (struct lvalue*) malloc(sizeof(struct lvalue));
+  strcpy($$[func_args_main_index]->type, $3->type);
+  // printf("-------------------rvalue type: %s\n", $3->type);
+  // printf("-------------------$$ type: %s\n", $$[func_args_main_index]->type);
+  func_args_main_index++;
   printf("Arguments of the function are correct.\n");
 }
 ;

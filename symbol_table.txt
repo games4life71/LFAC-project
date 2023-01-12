@@ -8,6 +8,7 @@ classvar1 int 31 myClass 0 0
 myClass class default global 0 0 
 classvar2 int 31 myClass2 0 0 
 myClass2 class default global 0 0 
+myvar5 float myvar5 main 0 0 
 myvar3 int -347 main 0 0 
 myvar4 int -348 main 0 0 
 a int 2 main 0 0 

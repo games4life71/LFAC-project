@@ -155,16 +155,17 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "my_lang.y"
+#line 30 "my_lang.y"
   
     int intval;
     char * strval;  
     struct lvalue*  lval;
+    struct lvalue*  list_arg_main[30];
     struct param_info* arg[30];
     struct param_info* arg_list[30];
     struct node* node_ptr;
 
-#line 168 "y.tab.h"
+#line 169 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

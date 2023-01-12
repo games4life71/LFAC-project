@@ -219,10 +219,10 @@ bool is_array(char *id, char *scope)
 }
 
 //function to check if the function is declared and used accordingly
-int find_func(char* id, int param_count, struct lvalue* var_list){
+int find_func(char* id, int param_count, struct lvalue* var_list[30]){
     if(var_list == NULL){
         for (int i = 0; i < func_table_index; i++){
-            // printf("[%d] Checking same id\n", i);
+            //printf("[%d] Checking same id\n", i);
             if (strcmp(func_table[i].id, id) == 0){
                 // acelasi nume
                     return 1;
@@ -243,7 +243,7 @@ int find_func(char* id, int param_count, struct lvalue* var_list){
                 {
                     if (strcmp(func_table[i].params[k].type, var_list[k]->type) != 0){
                         // printf("Param [%d] type in func table[%d]: %s\n", k, i, func_table[i].params[k].type);
-                        // printf("Param [%d] type in params[%d]: %s\n", k, k, params[k]->type);
+                        // printf("Param [%d] type in var_list[%d]: %s\n", k, k, var_list[k]->type);
                         sameType = 0;
                     }
                 }

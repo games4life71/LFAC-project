@@ -57,7 +57,8 @@ user_code_end
 
 important_code_start
 
-
+    float myvar5;
+    myvar5=3.2;
     int myvar3;
     int myvar4;
 
@@ -99,6 +100,8 @@ important_code_start
     show("hello world");
     show(newval);
 
-    laba (myvar4, i);
+    funct1(myvar3, myvar4, i);
+    funct2(myvar5,ok);
+    funct2(myvar3, myvar4, i);
 
 important_code_end
