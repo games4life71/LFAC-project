@@ -119,7 +119,7 @@ userdef : userdef_vars {printf("The userdef is correct \n");}
  | userdef class_def
  |;
 
-struct_def : STRUCT_START ID {strcpy(curr_scope,$2);}struct_vars STRUCT_END 
+struct_def : STRUCT_START ID {strcpy(curr_scope,$2);} struct_vars STRUCT_END 
 {
   
 printf("The struct is correct with the name %s \n",$2);
@@ -283,11 +283,12 @@ lvalue:  ID
           }|
           ARRAY   
           {
-           printf("The lvalue is correct \n");
+             printf("got here!!!!\n");
+           //printf("The lvalue is correct \n");
            //check if the variable is declared
            char *name = strtok($1, "[");
 
-           if(!is_declared(name,"global"))
+           if(!is_declared(name,curr_scope))
           {
             printf("The variable %s is not declared \n",name);
             exit(1);
@@ -296,13 +297,14 @@ lvalue:  ID
            else
            {
             //check if the variable is an array
-            if(!is_array(name,"global"))
+            if(!is_array(name,curr_scope))
             {
               printf("The variable %s is not an array \n",name);
               exit(1);
             }
             else
-            {
+            { 
+             
               //check if the index is valid
               char * id = strtok($1, "["); 
               char *index = strtok(NULL, "]");
@@ -316,64 +318,64 @@ lvalue:  ID
               }
               //get the array from the table 
               struct array_info *curr_array = get_array(name);
-              // struct element  curr_elem = curr_array->elements[index_int];
-              // //return the value of the element
-              // $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
-              // strcpy($$->type , curr_elem->type);
-              // strcpy($$->name , curr_elem->name);
-              // strcpy($$->value, curr_elem->value);
+              struct element  curr_elem = curr_array->elements[index_int];
+              //return the value of the element
+              $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+              strcpy($$->type , curr_elem->type);
+              strcpy($$->name , curr_elem->name);
+              strcpy($$->value, curr_elem->value);
               
             }
            }
           } ; 
          
 
-func_sec : FUNCTIONS_START functions FUNCTIONS_END {printf("The functions section is correct \n");} | ;
+func_sec : FUNCTIONS_START  functions FUNCTIONS_END {printf("The functions section is correct \n");} | ;
 
 functions : function 
 | functions function
 |
 ;
 
-function : '('  ')' ID '(' ')' '{' RETURN ';' '}'
+function : '('  ')' ID {strcpy(curr_scope,$3);}'(' ')' '{' RETURN ';' '}'
 {
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($3, "", "", "function", 0);
   current_function_arguments = 0;
-  printf("The function is correct \n");
+ // printf("The function is correct \n");
 }
 
-| '('  ')' ID '(' ')' '{'  '}'
+| '('  ')'ID {strcpy(curr_scope,$3);}  '(' ')' '{'  '}'
 {
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($3, "", "", "function", 0);
   current_function_arguments = 0;
-  printf("The function is NOT correct \n");
+  //printf("The function is NOT correct \n");
 }
-| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
+| '(' TYPE ')' ID {strcpy(curr_scope,$4);}'(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
-  printf("The function is correct \n"); 
+  //printf("The function is correct \n"); 
 }
 
-| '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'
+| '(' TYPE ')' ID {strcpy(curr_scope,$4);} '(' ')' '{' instructions RETURN ID ';' '}'
 {
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, "", "function", 0);
   current_function_arguments = 0;
-  printf("The function is correct \n"); 
+  //printf("The function is correct \n"); 
 }
-| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
+| '(' TYPE ')' ID {strcpy(curr_scope,$4);} '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
 {
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
-  printf("The function is correct \n"); 
+  //printf("The function is correct \n"); 
 }
 
 
@@ -481,6 +483,7 @@ typeof : TYPEOF '(' ID ')'
       printf("global\n");
       type = get_type($3,"main");
     }
+    
     printf("[OUTPUT]: The type of %s is %s \n",$3, type);
   }
 
@@ -682,21 +685,18 @@ for_increment: ID ASSIGN rvalue
 //all possible combinations of conditions
 condition : lvalue OP_LOGIC rvalue 
 {
-  printf("The condition is correct here  \n");
+  //printf("The condition is correct here  \n");
   //check if the types are the same and if they are declared
-  if(strcmp(get_type($1,"global"),get_type($3,"global")) != 0)
+ 
+  //printf("The operator  is %s \n",OP_LOGIC);
+  //check if the types are the same and if they are declared
+ // printf("The condition is correct \n");
+  
+  if( !same_type($1->type,$3->type)) 
   {
-    printf("[ERROR] : The types are not the same \n");
+    printf("[ERROR] line: %d not the same type...\n",yylineno);
     exit(1);
   }
-  else if(strcmp(get_type($1,"main"),get_type($3,"main")) != 0)
-  {
-    printf("[ERROR] : The types are not the same \n");
-    exit(1);
-  }
-  
-  
-
 ;}|
  condition OP_LOGIC condition 
  {

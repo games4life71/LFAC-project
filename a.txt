@@ -1,16 +1,42 @@
+
+function_start
+
+(int) a (int b,int c)
+{
+    return 2;
+}
+(bool) b(int c)
+{
+    int a=2+2;
+    
+   return true; 
+}
+
+
+function_end
+
 user_code_start
 
+struct_start s1
+
+int a;
+int b;
+
+struct_end
 
 user_code_end
 
 
-
 important_code_start
 
-int a = 5+2;
-immutable int b = 3+2;
-int a = 2;
 
+int b[3];
+int a =2 +2;
+typeof(a);
+typeof(b);
+typeof(s2);
+show(a);
+show("hello world");
 
 
 

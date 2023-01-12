@@ -1017,103 +1017,103 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 55 "my_lang.l"
+#line 56 "my_lang.l"
 {yylval.strval = strdup(yytext); return INC;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 56 "my_lang.l"
+#line 57 "my_lang.l"
 {yylval.strval = strdup(yytext);return DEC;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 57 "my_lang.l"
+#line 58 "my_lang.l"
 return MAIN_START;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 58 "my_lang.l"
+#line 59 "my_lang.l"
 return MAIN_END;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 59 "my_lang.l"
+#line 60 "my_lang.l"
 return UNIVERSAL_START;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 60 "my_lang.l"
+#line 61 "my_lang.l"
 {  return UNIVERSAL_END;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 61 "my_lang.l"
+#line 62 "my_lang.l"
 return STRUCT_START;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 62 "my_lang.l"
+#line 63 "my_lang.l"
 return STRUCT_END;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 63 "my_lang.l"
+#line 64 "my_lang.l"
 return CLASS_START;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 64 "my_lang.l"
+#line 65 "my_lang.l"
 return CLASS_END;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 65 "my_lang.l"
+#line 66 "my_lang.l"
 return USERDEF_START;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 66 "my_lang.l"
+#line 67 "my_lang.l"
 return USERDEF_END;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 67 "my_lang.l"
+#line 68 "my_lang.l"
 return FUNCTIONS_START;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 68 "my_lang.l"
+#line 69 "my_lang.l"
 return FUNCTIONS_END;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 73 "my_lang.l"
+#line 74 "my_lang.l"
 {return ASSIGN;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 74 "my_lang.l"
+#line 75 "my_lang.l"
 
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 75 "my_lang.l"
+#line 76 "my_lang.l"
 {}
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 77 "my_lang.l"
+#line 78 "my_lang.l"
 {  yylineno++;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 78 "my_lang.l"
+#line 79 "my_lang.l"
 {  /*printf("nothing matched..returning %s with len %d\n",yytext, strlen(yytext));*/ return yytext[0]; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 84 "my_lang.l"
+#line 85 "my_lang.l"
 ECHO;
 	YY_BREAK
 #line 1120 "lex.yy.c"
@@ -2121,4 +2121,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 84 "my_lang.l"
+#line 85 "my_lang.l"

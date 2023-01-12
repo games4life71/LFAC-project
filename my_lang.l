@@ -52,6 +52,7 @@ OP_MATH2 "*"|"/"|"%"
 {ID}([.]{ID})* {  yylval.strval = strdup(yytext); return ID;}
 {OP_MATH1} {return OP_MATH1;}
 {OP_MATH2} {return OP_MATH2;}
+
 "++" {yylval.strval = strdup(yytext); return INC;}
 "--" {yylval.strval = strdup(yytext);return DEC;}
 "important_code_start" return MAIN_START;
