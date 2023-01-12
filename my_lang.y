@@ -481,7 +481,7 @@ typeof : TYPEOF '(' ID ')'
   
   else
   {
-    print_var_table();
+    //print_var_table();
     //get the type of the variable
     char *type = get_type($3,"global");
     if (type == NULL)
@@ -516,7 +516,7 @@ statement:
             
             update_val($1->name,$1->scope ,$3->value);
             printf("The statement is correct \n");
-            print_var_table();
+            //print_var_table();
             //if the var is declared as a global var
             // if(is_declared_global($1))
             // {
@@ -559,7 +559,7 @@ statement:
             update_val($1->name,$1->scope ,new_val); 
             //update_val($1->name,$1->scope ,$1->value+1);
             //printf("The statement is correct \n");
-            print_var_table();
+            //print_var_table();
            } |
 
            lvalue DEC
@@ -585,7 +585,7 @@ statement:
             update_val($1->name,$1->scope ,new_val); 
             //update_val($1->name,$1->scope ,$1->value+1);
             //printf("The statement is correct \n");
-            print_var_table();
+            //print_var_table();
 
            }|
            
@@ -601,7 +601,7 @@ statement:
 declaration: TYPE ID 
             {  
               //if it's not declared 
-              printf("im here!\n");
+              //printf("im here!\n");
               if(!is_declared_global($2) && !is_declared($2,"main"))
               {
                 //add it to the symbol table
@@ -654,22 +654,24 @@ declaration: TYPE ID
             
 
 //implemented just the IF and ELSE instruction 
-control_instruction: IF '(' condition ')' '{' instruction '}' 
+control_instruction: IF '(' condition ')' '{' instructions '}' 
 {
   printf("The if instruction is correct \n");
 }|
- IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}' 
+ IF '(' condition ')' '{' instructions '}' ELSE '{' instructions'}' 
  {
   printf("The if-else instruction is correct \n");
  }|
 
-FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}' 
+FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instructions '}' 
 {
+
+    
   printf("The for instruction is correct \n");
   //check if the value in condition is the same as ID 
 
 }|
-FOR '(' ID ASSIGN rvalue ';' condition  ';'  for_increment')' '{' instruction '}' 
+FOR '(' ID ASSIGN rvalue ';' condition  ';'  for_increment')' '{' instructions '}' 
 {
   printf("The for instruction is correct \n");
 }|
@@ -782,7 +784,7 @@ math_statem : math_statem '+' math_val
              //printf("The math statement is correct \n");
              struct node* root = malloc(sizeof(struct node));
              strcpy(root->value,"+");
-             printf("The value of $2 is %s \n",'+');
+             //printf("The value of $2 is %s \n",'+');
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
@@ -830,7 +832,7 @@ math_statem : math_statem '+' math_val
               struct node* root = malloc(sizeof(struct node));
              strcpy(root->value,"+");
              
-             printf("The value of $1 is %s and type is %d \n",$1->value,$1->type);
+             //printf("The value of $1 is %s and type is %d \n",$1->value,$1->type);
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
@@ -838,7 +840,7 @@ math_statem : math_statem '+' math_val
 
              math_val MINUS  math_val 
             {
-               printf("HERE \n");
+               //printf("HERE \n");
                struct node* root = malloc(sizeof(struct node));
                strcpy(root->value,"-");
              
@@ -935,7 +937,7 @@ math_statem : math_statem '+' math_val
           } |  // a + 5 where a is lvalue 
             INTEGER 
           {
-            printf("The math value is %s INT  \n",$1);
+            //printf("The math value is %s INT  \n",$1);
             struct node* root = malloc(sizeof(struct node));
             strcpy(root->value,$1);
             $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);

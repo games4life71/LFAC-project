@@ -62,15 +62,38 @@ important_code_start
 int myvar3;
 int myvar4;
 
-if(myvar3 == myvar4)
+while(myvar3 == myvar4)
 {
-    show(myvar3);
+   int a=2;
+   a++;
+   a--;
+
+   if(a==3)
+   {
+   if (a==4 || a ==12 && a<22)
+   {
+    int b =3;
+    }
+
+   }
 }
 
-
+int i =2;
 
 myvar3 = 1+2- 2*2/1*100+1000/20;
 myvar4 = myvar3;
+myvar4--;
 
+int newval = myvar4;
+
+bool ok = false;
+
+if(ok == true)
+{
+    ok = true;
+}
+
+show("hello world");
+show(newval);
 
 important_code_end
