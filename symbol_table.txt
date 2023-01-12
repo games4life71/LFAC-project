@@ -1,0 +1,12 @@
+myvar int default global 0 0 
+myvar2 int default global 0 0 
+ok bool ok global 0 0 
+b int 2 s1 0 0 
+c int 3 s1 0 0 
+s1 struct default global 0 0 
+classvar1 int 31 myClass 0 0 
+myClass class default global 0 0 
+classvar2 int 31 myClass2 0 0 
+myClass2 class default global 0 0 
+myvar3 int -347 main 0 0 
+myvar4 int -347 main 0 0 

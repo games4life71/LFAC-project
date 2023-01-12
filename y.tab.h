@@ -54,34 +54,34 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    CLASS = 258,                   /* CLASS  */
-    ASSIGN = 259,                  /* ASSIGN  */
-    ID = 260,                      /* ID  */
-    TYPE = 261,                    /* TYPE  */
-    COMPOSITE = 262,               /* COMPOSITE  */
-    ARRAY = 263,                   /* ARRAY  */
-    CONSTANT = 264,                /* CONSTANT  */
-    COMPOSITE_ARRAY = 265,         /* COMPOSITE_ARRAY  */
-    INTEGER = 266,                 /* INTEGER  */
-    FLOAT = 267,                   /* FLOAT  */
-    BOOL = 268,                    /* BOOL  */
-    STRING = 269,                  /* STRING  */
-    OP_MATH1 = 270,                /* OP_MATH1  */
-    OP_MATH2 = 271,                /* OP_MATH2  */
-    OP_LOGIC = 272,                /* OP_LOGIC  */
-    INC = 273,                     /* INC  */
-    DEC = 274,                     /* DEC  */
-    PRINT = 275,                   /* PRINT  */
-    IF = 276,                      /* IF  */
-    ELSE = 277,                    /* ELSE  */
-    FOR = 278,                     /* FOR  */
-    WHILE = 279,                   /* WHILE  */
-    SWITCH = 280,                  /* SWITCH  */
-    CASE = 281,                    /* CASE  */
-    BREAK = 282,                   /* BREAK  */
-    NUM = 283,                     /* NUM  */
-    SPACE = 284,                   /* SPACE  */
-    MINUS = 285,                   /* MINUS  */
+    MINUS = 258,                   /* MINUS  */
+    CLASS = 259,                   /* CLASS  */
+    ASSIGN = 260,                  /* ASSIGN  */
+    ID = 261,                      /* ID  */
+    TYPE = 262,                    /* TYPE  */
+    COMPOSITE = 263,               /* COMPOSITE  */
+    ARRAY = 264,                   /* ARRAY  */
+    CONSTANT = 265,                /* CONSTANT  */
+    COMPOSITE_ARRAY = 266,         /* COMPOSITE_ARRAY  */
+    INTEGER = 267,                 /* INTEGER  */
+    FLOAT = 268,                   /* FLOAT  */
+    BOOL = 269,                    /* BOOL  */
+    STRING = 270,                  /* STRING  */
+    OP_MATH1 = 271,                /* OP_MATH1  */
+    OP_MATH2 = 272,                /* OP_MATH2  */
+    OP_LOGIC = 273,                /* OP_LOGIC  */
+    INC = 274,                     /* INC  */
+    DEC = 275,                     /* DEC  */
+    PRINT = 276,                   /* PRINT  */
+    IF = 277,                      /* IF  */
+    ELSE = 278,                    /* ELSE  */
+    FOR = 279,                     /* FOR  */
+    WHILE = 280,                   /* WHILE  */
+    SWITCH = 281,                  /* SWITCH  */
+    CASE = 282,                    /* CASE  */
+    BREAK = 283,                   /* BREAK  */
+    NUM = 284,                     /* NUM  */
+    SPACE = 285,                   /* SPACE  */
     MAIN_START = 286,              /* MAIN_START  */
     MAIN_END = 287,                /* MAIN_END  */
     UNIVERSAL_START = 288,         /* UNIVERSAL_START  */
@@ -97,8 +97,7 @@ extern int yydebug;
     CLASS_END = 298,               /* CLASS_END  */
     DEFAULT = 299,                 /* DEFAULT  */
     TYPEOF = 300,                  /* TYPEOF  */
-    CONST = 301,                   /* CONST  */
-    PLUS = 302                     /* PLUS  */
+    CONST = 301                    /* CONST  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -107,34 +106,34 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define CLASS 258
-#define ASSIGN 259
-#define ID 260
-#define TYPE 261
-#define COMPOSITE 262
-#define ARRAY 263
-#define CONSTANT 264
-#define COMPOSITE_ARRAY 265
-#define INTEGER 266
-#define FLOAT 267
-#define BOOL 268
-#define STRING 269
-#define OP_MATH1 270
-#define OP_MATH2 271
-#define OP_LOGIC 272
-#define INC 273
-#define DEC 274
-#define PRINT 275
-#define IF 276
-#define ELSE 277
-#define FOR 278
-#define WHILE 279
-#define SWITCH 280
-#define CASE 281
-#define BREAK 282
-#define NUM 283
-#define SPACE 284
-#define MINUS 285
+#define MINUS 258
+#define CLASS 259
+#define ASSIGN 260
+#define ID 261
+#define TYPE 262
+#define COMPOSITE 263
+#define ARRAY 264
+#define CONSTANT 265
+#define COMPOSITE_ARRAY 266
+#define INTEGER 267
+#define FLOAT 268
+#define BOOL 269
+#define STRING 270
+#define OP_MATH1 271
+#define OP_MATH2 272
+#define OP_LOGIC 273
+#define INC 274
+#define DEC 275
+#define PRINT 276
+#define IF 277
+#define ELSE 278
+#define FOR 279
+#define WHILE 280
+#define SWITCH 281
+#define CASE 282
+#define BREAK 283
+#define NUM 284
+#define SPACE 285
 #define MAIN_START 286
 #define MAIN_END 287
 #define UNIVERSAL_START 288
@@ -151,7 +150,6 @@ extern int yydebug;
 #define DEFAULT 299
 #define TYPEOF 300
 #define CONST 301
-#define PLUS 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -166,7 +164,7 @@ union YYSTYPE
     struct param_info* arg_list[30];
     struct node* node_ptr;
 
-#line 170 "y.tab.h"
+#line 168 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

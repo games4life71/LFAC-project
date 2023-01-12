@@ -3,6 +3,7 @@
 #include "y.tab.h"
 %}
 
+MINUS "-"
 TYPE "int"|"float"|"char"|"string"|"bool"
 IF "if"
 ELSE "else"
@@ -22,14 +23,14 @@ STRING (["].*["])
 BOOL "true"|"false"
 SPACE (" ")+
 OP_LOGIC "&&"|"||"|"<="|">="|"=="|"!="|"<"|">"
-OP_MATH1 "+"
-OP_MATH2 "*"|"/"|"%"
+
+
 
 
 %option noyywrap
 
 %%
-
+{MINUS} { printf("minus matched\n");return MINUS;}
 {INTEGER} {/*printf("matched  '%s' with len %d\n",yytext,strlen(yytext));*/yylval.strval = strdup(yytext); return INTEGER;}
 {TYPE} {printf("the type is %s\n",yytext); yylval.strval = strdup(yytext); return TYPE;}
 {FLOAT} {return FLOAT;}
@@ -50,8 +51,6 @@ OP_MATH2 "*"|"/"|"%"
 "immutable" {return CONST;}
 
 {ID}([.]{ID})* {  yylval.strval = strdup(yytext); return ID;}
-{OP_MATH1} {return OP_MATH1;}
-{OP_MATH2} {return OP_MATH2;}
 
 "++" {yylval.strval = strdup(yytext); return INC;}
 "--" {yylval.strval = strdup(yytext);return DEC;}
@@ -76,7 +75,7 @@ OP_MATH2 "*"|"/"|"%"
 {SPACE} {}
 
 \n {  yylineno++;}
-. {  /*printf("nothing matched..returning %s with len %d\n",yytext, strlen(yytext));*/ return yytext[0]; }
+. { /*printf("nothing matched..returning %s with len %d\n",yytext, strlen(yytext)); */return yytext[0]; }
 
 
 

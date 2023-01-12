@@ -34,7 +34,7 @@ char curr_scope[10] = "global";
     struct node* node_ptr;
 }
 
-
+%token <strval> MINUS
 %token <strval> CLASS
 %token<strval> ASSIGN 
 %token<strval> ID
@@ -62,7 +62,6 @@ char curr_scope[10] = "global";
 %token <strval>BREAK 
 %token <strval>NUM
 %token <strval>SPACE
-%token <strval>MINUS
 %token <strval>MAIN_START
 %token <strval>MAIN_END
 %token <strval>UNIVERSAL_START
@@ -79,8 +78,8 @@ char curr_scope[10] = "global";
 %token<strval> DEFAULT
 %token <strval> TYPEOF
 %token <strval> CONST
-%left <strval>PLUS
-
+%left '+' MINUS
+%left '*' '/'
 
 %type <lval> lvalue
 %type <lval> rvalue
@@ -283,11 +282,11 @@ lvalue:  ID
           }|
           ARRAY   
           {
-             printf("got here!!!!\n");
+            
            //printf("The lvalue is correct \n");
            //check if the variable is declared
            char *name = strtok($1, "[");
-
+           
            if(!is_declared(name,curr_scope))
           {
             printf("The variable %s is not declared \n",name);
@@ -306,24 +305,29 @@ lvalue:  ID
             { 
              
               //check if the index is valid
-              char * id = strtok($1, "["); 
-              char *index = strtok(NULL, "]");
-              int index_int = atoi(index);
+            //   char *copy ;
+            //  // strcpy(copy,$1);
+            //   printf("the $1 is %s\n",copy);
 
-              int size = get_size(name,"global");
+              
+              char *indx;
+              indx = strtok(NULL, "]");
+              printf("the index is %s\n",indx);
+              int index_int = atoi(indx);
+              int size = get_size(name,curr_scope);
               if(index_int >= size)
               {
-                printf("The index %d is out of bounds \n",index_int);
+                printf("[ERROR] line : %d The index %d is out of bounds \n",yylineno,index_int);
                 exit(1);
               }
               //get the array from the table 
               struct array_info *curr_array = get_array(name);
-              struct element  curr_elem = curr_array->elements[index_int];
+              struct element * curr_elem = &curr_array->elements[index_int];
               //return the value of the element
-              $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
-              strcpy($$->type , curr_elem->type);
-              strcpy($$->name , curr_elem->name);
-              strcpy($$->value, curr_elem->value);
+               $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+               strcpy($$->type , curr_array->type);
+               strcpy($$->name , curr_array->id);
+               strcpy($$->value, curr_elem->value);
               
             }
            }
@@ -352,8 +356,9 @@ function : '('  ')' ID {strcpy(curr_scope,$3);}'(' ')' '{' RETURN ';' '}'
   current_function_arguments = 0;
   //printf("The function is NOT correct \n");
 }
-| '(' TYPE ')' ID {strcpy(curr_scope,$4);}'(' arguments ')' '{' instructions RETURN ID ';' '}' 
+| '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}' 
 {
+  strcpy(curr_scope,$4);
   // add new function to the table
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
@@ -369,9 +374,10 @@ function : '('  ')' ID {strcpy(curr_scope,$3);}'(' ')' '{' RETURN ';' '}'
   current_function_arguments = 0;
   //printf("The function is correct \n"); 
 }
-| '(' TYPE ')' ID {strcpy(curr_scope,$4);} '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
+| '(' TYPE ')' ID  '(' arguments ')' '{' instructions RETURN rvalue ';' '}' 
 {
   // add new function to the table
+  strcpy(curr_scope,$4);
   printf("Current function arguments : %d\n", current_function_arguments);
   add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
   current_function_arguments = 0;
@@ -527,6 +533,8 @@ statement:
 
            } |
 
+           
+
            lvalue INC 
            {
 
@@ -593,7 +601,7 @@ statement:
 declaration: TYPE ID 
             {  
               //if it's not declared 
-              
+              printf("im here!\n");
               if(!is_declared_global($2) && !is_declared($2,"main"))
               {
                 //add it to the symbol table
@@ -709,6 +717,10 @@ condition : lvalue OP_LOGIC rvalue
   lvalue OP_LOGIC condition 
   {
     //printf("The condition is correct \n");
+  }
+  | rvalue OP_LOGIC condition 
+  {
+    //printf("The condition is correct \n");
   };
 
 
@@ -716,50 +728,105 @@ condition : lvalue OP_LOGIC rvalue
 
 
 
-math_statem : math_statem OP_MATH1 math_val 
+math_statem : math_statem '+' math_val 
             {
 
              
              //add a node into AST 
              struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"+");
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
 
-            } |  // e.g. (5-6)+7 
-             math_statem OP_MATH2 math_val 
+            } |  // e.g. (5-6)+7
+
+             math_statem MINUS math_val 
+            {
+             
+             //add a node into AST 
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"-");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+
+            } |  // e.g. (5-6)+7
+
+
+             math_statem '*' math_val 
             {
            // printf("The math statement is correct \n");
             struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"*");
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  // e.g. (5-6)*7
-             math_val OP_MATH1 math_statem 
+
+             math_statem '/' math_val 
+            {
+           // printf("The math statement is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"/");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } |  // e.g. (5-6)*7
+
+
+
+             math_val '+' math_statem 
             {
                //printf("math state here \n");
              //printf("The math statement is correct \n");
              struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"+");
              printf("The value of $2 is %s \n",'+');
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. 5+(6-7)
-             math_val OP_MATH2 math_statem 
+
+             math_val MINUS math_statem 
+            {  
+               //printf("math state here \n");
+             //printf("The math statement is correct \n");
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"-");
+            // printf("The value of $2 is %s \n",'+');
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } |  //eg. 5+(6-7)
+
+
+
+             math_val '*' math_statem 
             {
              //printf("The math statement is correct \n");
               struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"*");
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } | //eg. 5*(6-7)
-             math_val OP_MATH1 math_val 
+
+
+             math_val '/' math_statem 
             {
-              printf("the op is %s\n",$1);
+             //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"/");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } | //eg. 5*(6-7)
+
+
+             math_val '+' math_val 
+            { 
+             
               struct node* root = malloc(sizeof(struct node));
              strcpy(root->value,"+");
              
@@ -768,26 +835,63 @@ math_statem : math_statem OP_MATH1 math_val
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. 5+6
-             math_statem OP_MATH1 math_statem 
+
+             math_val MINUS  math_val 
+            {
+               printf("HERE \n");
+               struct node* root = malloc(sizeof(struct node));
+               strcpy(root->value,"-");
+             
+            // printf("The value of $1 is %s and type is %d \n",$1->value,$1->type);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } |
+
+             math_statem '+' math_statem 
             {
               //printf("The math statement is correct \n");
               struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"+");
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. (5-6)+(6-7)
-             math_statem OP_MATH2 math_statem 
+
+             math_statem MINUS math_statem 
+            { 
+             
+              //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"-");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } |
+
+            
+             math_statem '*' math_statem 
             { 
               
              // printf("The math statement is correct \n");
               struct node* root = malloc(sizeof(struct node));
-             strcpy(root->value,$2);
+             strcpy(root->value,"*");
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. (5-6)*(6-7)
-             math_val OP_MATH2 math_val 
+
+            math_statem '/' math_statem 
+            { 
+              
+             // printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"/");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            } | 
+             math_val '*' math_val 
             {
 
               //printf("the op is %s\n",$2);
@@ -797,10 +901,21 @@ math_statem : math_statem OP_MATH1 math_val
              //type 1 for operator e.g + , -
 
              $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
-            };   //eg. 5*6   
+            }|   //eg. 5*6   
 
+            math_val '/' math_val 
+            {
 
-math_val : lvalue 
+              //printf("the op is %s\n",$2);
+             // printf("The ma  th statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"/");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+            };
+
+        math_val : lvalue 
           {
             
             struct node* root = malloc(sizeof(struct node));
@@ -820,7 +935,7 @@ math_val : lvalue
           } |  // a + 5 where a is lvalue 
             INTEGER 
           {
-            printf("The math value is INT  \n");
+            printf("The math value is %s INT  \n",$1);
             struct node* root = malloc(sizeof(struct node));
             strcpy(root->value,$1);
             $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
