@@ -232,23 +232,36 @@ int is_func_declared(char *id, char *return_type, struct param_info *params, int
 }
 
 // add function to the table
-void add_func(char *id, char *return_type, struct param_info *params, char *scope, int param_count)
+void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
 {
-    //     if(is_func_declared(id, return_type, params, param_count)){
-    //         printf("Error: Function %s is already declared.\n");
-    //         return ;
-    //     }
+//     if(is_func_declared(id, return_type, params, param_count)){
+//         printf("Error: Function %s is already declared.\n", id);
+//         return ;
+//     }
     strcpy(func_table[func_table_index].id, id);
     strcpy(func_table[func_table_index].return_type, return_type);
     strcpy(func_table[func_table_index].scope, scope);
     func_table[func_table_index].param_count = param_count;
-    for (int i = 0; i < param_count; i++)
-    {
+    for(int i = 0; i < param_count; i++){
         strcpy(func_table[func_table_index].params[i].id, params[i].id);
         strcpy(func_table[func_table_index].params[i].type, params[i].type);
+        printf("!!!!!!!!!!!!!!!!!!!!!THE ID IN FUNCTION IS: %s\n", func_table[func_table_index].params[i].id);
     }
 
     func_table_index++;
+}
+
+void print_func_table()
+{
+    printf("%20s  %8s  %12s  %10s  %s\n", "ID", "Return", "Scope", "Nr. Args.", "Args.");
+    printf("------------------------------------------------------------------------------\n");
+    for (int i = 0; i < func_table_index; i++){
+        printf("%20s  %8s  %12s  %9d   ", func_table[i].id, func_table[i].return_type, func_table[i].scope, func_table[i].param_count);
+        for(int j = 0; j < func_table[i].param_count; j++){
+            printf("%s, ", func_table[i].params[j].id);
+        }
+        printf("\n");
+    }
 }
 
 void print_var_table()
