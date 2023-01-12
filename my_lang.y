@@ -460,9 +460,30 @@ instruction: statement ';' | // e.g. s = 5; s = 6;
              instruction declaration ';' | //for multiple declarations
              control_instruction  | // if, for, while, switch
              print|
-             instruction control_instruction  | //for multiple instructions
+             instruction control_instruction  |
+             function_main_use ';' |
+             instruction function_main_use ';' | ; //for multiple instructions
+
+function_main_use : ID '(' ')' 
+{ 
+  printf("The function ussage is correct.\n");
+}
+| ID '(' func_args_main ')' 
+{
+  printf("The function ussage is correct.\n");
+};
 
 
+
+func_args_main : rvalue 
+{
+  printf("Arguments of the function are correct.\n");
+}
+| func_args_main ',' rvalue 
+{
+  printf("Arguments of the function are correct.\n");
+}
+;
 
 print : PRINT '(' STRING ')' ';' 
 { 

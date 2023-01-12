@@ -217,6 +217,47 @@ bool is_array(char *id, char *scope)
     }
     return 0;
 }
+
+//function to check if the function is declared and used accordingly
+int find_func(char* id, int param_count, struct lvalue* var_list){
+    if(var_list == NULL){
+        for (int i = 0; i < func_table_index; i++){
+            // printf("[%d] Checking same id\n", i);
+            if (strcmp(func_table[i].id, id) == 0){
+                // acelasi nume
+                    return 1;
+            }
+        }
+    }
+    for (int i = 0; i < func_table_index; i++)
+    {
+        // printf("[%d] Checking same id\n", i);
+        if (strcmp(func_table[i].id, id) == 0)
+        { // acelasi nume
+            // printf("[%d] Checking same param_count\n", i);
+            if (func_table[i].param_count == param_count)
+            { // acelasi nr param
+                int sameType = 1;
+                // printf("[%d] Checking same all params\n", i);
+                for (int k = 0; k < param_count; k++)
+                {
+                    if (strcmp(func_table[i].params[k].type, var_list[k]->type) != 0){
+                        // printf("Param [%d] type in func table[%d]: %s\n", k, i, func_table[i].params[k].type);
+                        // printf("Param [%d] type in params[%d]: %s\n", k, k, params[k]->type);
+                        sameType = 0;
+                    }
+                }
+                if (sameType == 1){
+                    // printf("The function is already declared.\n");
+                    return 1;
+                } // functia e deja in tabel
+            }
+        }
+    }
+
+    return 0;
+}
+
 // function to check if the function is already declared
 int is_func_declared(char *id, char *return_type, struct param_info *params[30], int param_count)
 {

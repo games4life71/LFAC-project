@@ -99,4 +99,6 @@ important_code_start
     show("hello world");
     show(newval);
 
+    laba (myvar4, i);
+
 important_code_end
