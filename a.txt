@@ -1,9 +1,5 @@
 user_code_start
 
-struct_start s1
-int a;
-int b;
-struct_end
 
 user_code_end
 
@@ -11,7 +7,9 @@ user_code_end
 
 important_code_start
 
-
+int a = 5+2;
+immutable int b = 3+2;
+int a = 2;
 
 
 

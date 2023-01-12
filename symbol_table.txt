@@ -1,3 +1,0 @@
-a int default s1 0 0 
-b int default s1 0 0 
-s1 struct default global 0 0 

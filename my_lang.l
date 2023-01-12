@@ -22,7 +22,7 @@ STRING (["].*["])
 BOOL "true"|"false"
 SPACE (" ")+
 OP_LOGIC "&&"|"||"|"<="|">="|"=="|"!="|"<"|">"
-OP_MATH1 "+"|"-"
+OP_MATH1 "+"
 OP_MATH2 "*"|"/"|"%"
 
 

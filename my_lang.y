@@ -23,7 +23,6 @@ extern int yylineno;
     char name[50];
   };
 
-
 int current_function_arguments = 0;
 //current scope 
 char curr_scope[10] = "global";
@@ -37,6 +36,7 @@ char curr_scope[10] = "global";
     struct lvalue*  lval;
     struct funct_param* arg;
     struct funct_param* arg_list[30];
+    struct node* node_ptr;
 }
 
 
@@ -91,7 +91,8 @@ char curr_scope[10] = "global";
 %type <lval> rvalue
 %type <arg_list> variables
 %type <arg> variable_argument
-
+%type <node_ptr> math_statem
+%type <node_ptr> math_val
 %start program
 %%
 
@@ -254,7 +255,19 @@ rvalue : lvalue
           strcpy($$->scope, curr_scope);
         }|
         
-        math_statem {printf("The rvalue is correct \n");} ;
+        math_statem
+         {
+          printf("The rvalue is correct \n");
+          //eval the ast here and return the value
+          int value = evalAst((struct node*)$1);
+          $$ = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy($$->type , "int");
+          strcpy($$->name , "math");
+          sprintf($$->value, "%d", value);
+          strcpy($$->scope, curr_scope);
+          printf("the scope is %s\n",$$->scope);
+        
+        } ;
 
 lvalue:  ID 
           {
@@ -468,6 +481,7 @@ statement:
 
             //call a function to update val in the symbol table 
             //printf("the name is %s\n",$1->name);
+            
             update_val($1->name,$1->scope ,$3->value);
             printf("The statement is correct \n");
             print_var_table();
@@ -576,14 +590,21 @@ declaration: TYPE ID
                 char type[10] = "const ";
                 strcat(type,$2);
 
-              add_var($3, type,$4,curr_scope,false,0); //incompatible type for $4
+              add_var($3, type,$5->value,curr_scope,false,0); //incompatible type for $4
               printf("value added\n");
             }|
              TYPE ID ASSIGN rvalue  //int a = 3;
              {
-              printf("The declaration is correct \n");
+              //if rvalue type is not the same as type 
+              if(!same_type($1,$4->type))
+              {
+                printf("[ERROR] line: %d not the same type...\n",yylineno);
+                exit(1);
+              }
 
-              add_var($2, $1,$4,curr_scope,false,0); //incompatible type for $4
+              printf("The declaration is correct \n");
+            
+              add_var($2, $1,$4->value,curr_scope,false,0); //incompatible type for $4
               printf("value added\n");
               //print_var_table();
              } |
@@ -656,15 +677,15 @@ condition : lvalue OP_LOGIC rvalue
 ;}|
  condition OP_LOGIC condition 
  {
-  printf("The condition is correct \n");
+  //printf("The condition is correct \n");
  }|
   condition OP_LOGIC rvalue 
  {
-    printf("The condition is correct \n");
+    //printf("The condition is correct \n");
  }|
   lvalue OP_LOGIC condition 
   {
-    printf("The condition is correct \n");
+    //printf("The condition is correct \n");
   };
 
 
@@ -674,54 +695,127 @@ condition : lvalue OP_LOGIC rvalue
 
 math_statem : math_statem OP_MATH1 math_val 
             {
-             printf("The math statement is correct \n");
+
+             
+             //add a node into AST 
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
+
             } |  // e.g. (5-6)+7 
              math_statem OP_MATH2 math_val 
             {
-            printf("The math statement is correct \n");
+           // printf("The math statement is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  // e.g. (5-6)*7
              math_val OP_MATH1 math_statem 
             {
-             printf("The math statement is correct \n");
+               //printf("math state here \n");
+             //printf("The math statement is correct \n");
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             printf("The value of $2 is %s \n",'+');
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. 5+(6-7)
              math_val OP_MATH2 math_statem 
             {
-              printf("The math statement is correct \n");
+             //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } | //eg. 5*(6-7)
              math_val OP_MATH1 math_val 
             {
-              printf("The math statement is correct \n");
+              printf("the op is %s\n",$1);
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"+");
+             
+             printf("The value of $1 is %s and type is %d \n",$1->value,$1->type);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. 5+6
              math_statem OP_MATH1 math_statem 
             {
-              printf("The math statement is correct \n");
+              //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. (5-6)+(6-7)
              math_statem OP_MATH2 math_statem 
-            {
-              printf("The math statement is correct \n");
+            { 
+              
+             // printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,$2);
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             } |  //eg. (5-6)*(6-7)
              math_val OP_MATH2 math_val 
             {
-              printf("The math statement is correct \n");
+
+              //printf("the op is %s\n",$2);
+             // printf("The ma  th statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"*");
+             //type 1 for operator e.g + , -
+
+             $$ =(struct node*)buildTree((struct node*) root,(struct node*)$1,(struct node*)$3,1);
             };   //eg. 5*6   
 
 
 math_val : lvalue 
           {
-            printf("The math value is correct \n");
+            
+            struct node* root = malloc(sizeof(struct node));
+            if(strcmp($1->type,"int")==0)
+            { 
+              
+              strcpy(root->value,$1->value);
+            }
+
+            else 
+            {
+              strcpy(root->value,$1->value);
+            }
+            
+            $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+          
           } |  // a + 5 where a is lvalue 
             INTEGER 
           {
-            printf("The math value is correct here! \n");
+            printf("The math value is INT  \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,$1);
+            $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
             
           } | //3+4 
             FLOAT 
           {
-            printf("The math value is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
           } | //3.4+5.6
           BOOL 
           {
-            printf("The math value is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            $$ =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
           }; //true+false
 
 

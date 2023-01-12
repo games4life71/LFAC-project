@@ -93,12 +93,11 @@ extern int yylineno;
     char name[50];
   };
 
-
 int current_function_arguments = 0;
 //current scope 
 char curr_scope[10] = "global";
 
-#line 102 "y.tab.c"
+#line 101 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -245,13 +244,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 34 "my_lang.y"
+#line 33 "my_lang.y"
   
     int intval;
     char * strval;  
     struct lvalue*  lval;
     struct funct_param* arg;
     struct funct_param* arg_list[30];
+    struct node* node_ptr;
 
 #line 257 "y.tab.c"
 
@@ -753,18 +753,18 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   113,   113,   115,   115,   118,   119,   120,   121,   122,
-     123,   124,   126,   126,   136,   137,   141,   141,   151,   152,
-     153,   154,   156,   157,   158,   161,   161,   163,   164,   165,
-     168,   177,   193,   205,   213,   225,   236,   245,   257,   259,
-     276,   323,   323,   325,   326,   327,   330,   335,   339,   349,
-     360,   375,   383,   384,   384,   387,   389,   390,   393,   394,
-     395,   396,   399,   399,   401,   402,   403,   406,   407,   408,
-     409,   410,   411,   412,   413,   413,   417,   422,   429,   454,
-     490,   517,   544,   548,   553,   573,   582,   590,   602,   606,
-     611,   617,   621,   627,   630,   633,   639,   657,   661,   665,
-     675,   679,   683,   687,   691,   695,   699,   703,   709,   713,
-     718,   722
+       0,   114,   114,   116,   116,   119,   120,   121,   122,   123,
+     124,   125,   127,   127,   137,   138,   142,   142,   152,   153,
+     154,   155,   157,   158,   159,   162,   162,   164,   165,   166,
+     169,   178,   194,   206,   214,   226,   237,   246,   258,   272,
+     289,   336,   336,   338,   339,   340,   343,   348,   352,   362,
+     373,   388,   396,   397,   397,   400,   402,   403,   406,   407,
+     408,   409,   412,   412,   414,   415,   416,   419,   420,   421,
+     422,   423,   424,   425,   426,   426,   430,   435,   442,   467,
+     504,   531,   558,   562,   567,   587,   596,   611,   623,   627,
+     632,   638,   642,   648,   651,   654,   660,   678,   682,   686,
+     696,   708,   717,   728,   737,   748,   757,   767,   780,   798,
+     806,   813
 };
 #endif
 
@@ -1502,43 +1502,43 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: univ_sec func_sec userdef_sec main_sec  */
-#line 113 "my_lang.y"
+#line 114 "my_lang.y"
                                                  {printf("The program is correct \n");}
 #line 1508 "y.tab.c"
     break;
 
   case 3: /* userdef_sec: USERDEF_START userdef USERDEF_END  */
-#line 115 "my_lang.y"
+#line 116 "my_lang.y"
                                                 {printf("The userdef section is correct \n");}
 #line 1514 "y.tab.c"
     break;
 
   case 5: /* userdef: userdef_vars  */
-#line 118 "my_lang.y"
+#line 119 "my_lang.y"
                        {printf("The userdef is correct \n");}
 #line 1520 "y.tab.c"
     break;
 
   case 7: /* userdef: struct_def  */
-#line 120 "my_lang.y"
+#line 121 "my_lang.y"
               {printf("The userdef is correct \n");}
 #line 1526 "y.tab.c"
     break;
 
   case 9: /* userdef: class_def  */
-#line 122 "my_lang.y"
+#line 123 "my_lang.y"
              {printf("The userdef is correct \n");}
 #line 1532 "y.tab.c"
     break;
 
   case 12: /* $@1: %empty  */
-#line 126 "my_lang.y"
+#line 127 "my_lang.y"
                              {strcpy(curr_scope,(yyvsp[0].strval));}
 #line 1538 "y.tab.c"
     break;
 
   case 13: /* struct_def: STRUCT_START ID $@1 struct_vars STRUCT_END  */
-#line 127 "my_lang.y"
+#line 128 "my_lang.y"
 {
   
 printf("The struct is correct with the name %s \n",(yyvsp[-3].strval));
@@ -1550,19 +1550,19 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 14: /* struct_vars: variable  */
-#line 136 "my_lang.y"
+#line 137 "my_lang.y"
                         {printf("The struct variable is correct \n");}
 #line 1556 "y.tab.c"
     break;
 
   case 16: /* $@2: %empty  */
-#line 141 "my_lang.y"
+#line 142 "my_lang.y"
                            {strcpy(curr_scope,(yyvsp[0].strval));}
 #line 1562 "y.tab.c"
     break;
 
   case 17: /* class_def: CLASS_START ID $@2 class_info CLASS_END  */
-#line 142 "my_lang.y"
+#line 143 "my_lang.y"
 {
   printf("The class is correct \n");
   //add it to the var table
@@ -1573,37 +1573,37 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 18: /* class_info: variable  */
-#line 151 "my_lang.y"
+#line 152 "my_lang.y"
                       {printf("The class variable is correct \n");}
 #line 1579 "y.tab.c"
     break;
 
   case 20: /* class_info: function  */
-#line 153 "my_lang.y"
+#line 154 "my_lang.y"
              {printf("The class function is correct \n");}
 #line 1585 "y.tab.c"
     break;
 
   case 22: /* userdef_vars: variable  */
-#line 156 "my_lang.y"
+#line 157 "my_lang.y"
                          {printf("The userdef variable is correct \n");}
 #line 1591 "y.tab.c"
     break;
 
   case 25: /* univ_sec: UNIVERSAL_START univ_vars UNIVERSAL_END  */
-#line 161 "my_lang.y"
+#line 162 "my_lang.y"
                                                   {printf("The universal section is correct \n");}
 #line 1597 "y.tab.c"
     break;
 
   case 27: /* univ_vars: variable  */
-#line 163 "my_lang.y"
+#line 164 "my_lang.y"
                       {printf("The universal variable is correct \n");}
 #line 1603 "y.tab.c"
     break;
 
   case 30: /* variable: TYPE ID ';'  */
-#line 169 "my_lang.y"
+#line 170 "my_lang.y"
         {
           
         add_var((yyvsp[-1].strval), (yyvsp[-2].strval), "default",curr_scope,false,0);
@@ -1616,7 +1616,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 31: /* variable: TYPE ID ASSIGN rvalue ';'  */
-#line 178 "my_lang.y"
+#line 179 "my_lang.y"
         { 
           
           printf("The variable is correct \n");
@@ -1636,7 +1636,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 32: /* variable: TYPE ARRAY ';'  */
-#line 194 "my_lang.y"
+#line 195 "my_lang.y"
        {
           char *name = strtok((yyvsp[-1].strval), "[");
           char *size = strtok(NULL, "]");
@@ -1648,7 +1648,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 33: /* rvalue: lvalue  */
-#line 206 "my_lang.y"
+#line 207 "my_lang.y"
         {
         
         //printf("The rvalue is correct found rvalue %s \n",$1); 
@@ -1660,7 +1660,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 34: /* rvalue: INTEGER  */
-#line 214 "my_lang.y"
+#line 215 "my_lang.y"
         {
           //printf("The rvalue of int  is %s correct \n",yytext);
           //set type and name for integer
@@ -1676,7 +1676,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 35: /* rvalue: FLOAT  */
-#line 226 "my_lang.y"
+#line 227 "my_lang.y"
         {
           //printf("The rvalue of float is %s correct \n",yytext);
           
@@ -1691,7 +1691,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 36: /* rvalue: BOOL  */
-#line 236 "my_lang.y"
+#line 237 "my_lang.y"
              {
           //printf("The rvalue of bool  is %s correct \n",yytext);
           
@@ -1705,7 +1705,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 37: /* rvalue: STRING  */
-#line 246 "my_lang.y"
+#line 247 "my_lang.y"
         {
           //printf("The rvalue of string is %s is correct \n",yytext);
           
@@ -1720,13 +1720,24 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
     break;
 
   case 38: /* rvalue: math_statem  */
-#line 257 "my_lang.y"
-                    {printf("The rvalue is correct \n");}
-#line 1726 "y.tab.c"
+#line 259 "my_lang.y"
+         {
+          printf("The rvalue is correct \n");
+          //eval the ast here and return the value
+          int value = evalAst((struct node*)(yyvsp[0].node_ptr));
+          (yyval.lval) = (struct lvalue*)malloc(sizeof(struct lvalue));
+          strcpy((yyval.lval)->type , "int");
+          strcpy((yyval.lval)->name , "math");
+          sprintf((yyval.lval)->value, "%d", value);
+          strcpy((yyval.lval)->scope, curr_scope);
+          printf("the scope is %s\n",(yyval.lval)->scope);
+        
+        }
+#line 1737 "y.tab.c"
     break;
 
   case 39: /* lvalue: ID  */
-#line 260 "my_lang.y"
+#line 273 "my_lang.y"
           {
           //printf("The lvalue is correct found id %s \n",$1);
           //print_var_table();
@@ -1743,11 +1754,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
           
           }
-#line 1747 "y.tab.c"
+#line 1758 "y.tab.c"
     break;
 
   case 40: /* lvalue: ARRAY  */
-#line 277 "my_lang.y"
+#line 290 "my_lang.y"
           {
            printf("The lvalue is correct \n");
            //check if the variable is declared
@@ -1792,33 +1803,33 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             }
            }
           }
-#line 1796 "y.tab.c"
+#line 1807 "y.tab.c"
     break;
 
   case 41: /* func_sec: FUNCTIONS_START functions FUNCTIONS_END  */
-#line 323 "my_lang.y"
+#line 336 "my_lang.y"
                                                    {printf("The functions section is correct \n");}
-#line 1802 "y.tab.c"
+#line 1813 "y.tab.c"
     break;
 
   case 46: /* function: '(' ')' ID '(' ')' '{' RETURN ';' '}'  */
-#line 331 "my_lang.y"
+#line 344 "my_lang.y"
 {
   printf("The function is correct \n");
 }
-#line 1810 "y.tab.c"
+#line 1821 "y.tab.c"
     break;
 
   case 47: /* function: '(' ')' ID '(' ')' '{' '}'  */
-#line 336 "my_lang.y"
+#line 349 "my_lang.y"
 {
   printf("The function is correct \n");
 }
-#line 1818 "y.tab.c"
+#line 1829 "y.tab.c"
     break;
 
   case 48: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}'  */
-#line 340 "my_lang.y"
+#line 353 "my_lang.y"
 {
   // add new function to the table
   // add_func($4, $2, (struct param_info*)$6, curr_scope, current_function_arguments);
@@ -1827,11 +1838,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1831 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 49: /* function: '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'  */
-#line 350 "my_lang.y"
+#line 363 "my_lang.y"
 {
   //add new function to the table
   // void add_func(char *id, char *return_type, struct param_info* params, char *scope, int param_count)
@@ -1842,11 +1853,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1846 "y.tab.c"
+#line 1857 "y.tab.c"
     break;
 
   case 50: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}'  */
-#line 361 "my_lang.y"
+#line 374 "my_lang.y"
 {
   // add new function to the table
   // add_func($4, $2, (struct param_info*)$6, "function", current_function_arguments);
@@ -1855,11 +1866,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1859 "y.tab.c"
+#line 1870 "y.tab.c"
     break;
 
   case 51: /* arguments: variable_argument  */
-#line 376 "my_lang.y"
+#line 389 "my_lang.y"
 { /*$$[current_function_arguments].type = $1.type;
  $$[current_function_arguments].name = $1.name;
   current_function_arguments++; } //tb de pus ca posibili param si expresii
@@ -1867,52 +1878,52 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 {/* $$[current_function_arguments].type = $3.type;
  $$[current_function_arguments].name = $3.name;
   current_function_arguments++;*/ }
-#line 1871 "y.tab.c"
+#line 1882 "y.tab.c"
     break;
 
   case 55: /* variable_argument: TYPE ID  */
-#line 387 "my_lang.y"
+#line 400 "my_lang.y"
                             { strcpy((yyval.arg)->type, (yyvsp[-1].strval)); strcpy((yyval.arg)->name, (yyvsp[0].strval)); }
-#line 1877 "y.tab.c"
+#line 1888 "y.tab.c"
     break;
 
   case 62: /* $@3: %empty  */
-#line 399 "my_lang.y"
+#line 412 "my_lang.y"
                       {strcpy(curr_scope,"main");}
-#line 1883 "y.tab.c"
+#line 1894 "y.tab.c"
     break;
 
   case 63: /* main_sec: MAIN_START $@3 instructions MAIN_END  */
-#line 399 "my_lang.y"
+#line 412 "my_lang.y"
                                                                          {printf("The main section is correct \n");}
-#line 1889 "y.tab.c"
+#line 1900 "y.tab.c"
     break;
 
   case 64: /* instructions: instruction  */
-#line 401 "my_lang.y"
+#line 414 "my_lang.y"
                            {printf("The instruction is correct \n");}
-#line 1895 "y.tab.c"
+#line 1906 "y.tab.c"
     break;
 
   case 76: /* print: PRINT '(' STRING ')' ';'  */
-#line 418 "my_lang.y"
+#line 431 "my_lang.y"
 { 
   printf("the strinf is %s \n",(yyvsp[-2].strval));
   printf("[OUTPUT]: %s \n",(yyvsp[-2].strval));
 }
-#line 1904 "y.tab.c"
+#line 1915 "y.tab.c"
     break;
 
   case 77: /* print: PRINT '(' rvalue ')' ';'  */
-#line 423 "my_lang.y"
+#line 436 "my_lang.y"
   {
     printf("[OUTPUT]: %s \n",(yyvsp[-2].lval)->value);
   }
-#line 1912 "y.tab.c"
+#line 1923 "y.tab.c"
     break;
 
   case 78: /* typeof: TYPEOF '(' ID ')'  */
-#line 430 "my_lang.y"
+#line 443 "my_lang.y"
 {
   //check if the variable is declared
   if(!is_declared_global((yyvsp[-1].strval)) && !is_declared((yyvsp[-1].strval),"main") )
@@ -1935,11 +1946,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   }
 
 }
-#line 1939 "y.tab.c"
+#line 1950 "y.tab.c"
     break;
 
   case 79: /* statement: lvalue ASSIGN rvalue  */
-#line 455 "my_lang.y"
+#line 468 "my_lang.y"
            {
             
             if(is_const((yyvsp[-2].lval)->name,(yyvsp[-2].lval)->scope))
@@ -1956,6 +1967,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
             //call a function to update val in the symbol table 
             //printf("the name is %s\n",$1->name);
+            
             update_val((yyvsp[-2].lval)->name,(yyvsp[-2].lval)->scope ,(yyvsp[0].lval)->value);
             printf("The statement is correct \n");
             print_var_table();
@@ -1974,11 +1986,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             // }
 
            }
-#line 1978 "y.tab.c"
+#line 1990 "y.tab.c"
     break;
 
   case 80: /* statement: lvalue INC  */
-#line 491 "my_lang.y"
+#line 505 "my_lang.y"
            {
 
             if(is_const((yyvsp[-1].lval)->name,(yyvsp[-1].lval)->scope))
@@ -2004,11 +2016,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             //printf("The statement is correct \n");
             print_var_table();
            }
-#line 2008 "y.tab.c"
+#line 2020 "y.tab.c"
     break;
 
   case 81: /* statement: lvalue DEC  */
-#line 518 "my_lang.y"
+#line 532 "my_lang.y"
            {
             if(is_const((yyvsp[-1].lval)->name,(yyvsp[-1].lval)->scope))
             {
@@ -2034,27 +2046,27 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             print_var_table();
 
            }
-#line 2038 "y.tab.c"
+#line 2050 "y.tab.c"
     break;
 
   case 82: /* statement: ID '(' ')'  */
-#line 545 "my_lang.y"
+#line 559 "my_lang.y"
            {
             printf("The statement is correct \n"); //call a function with no arguments
            }
-#line 2046 "y.tab.c"
+#line 2058 "y.tab.c"
     break;
 
   case 83: /* statement: ID '(' arguments ')'  */
-#line 549 "my_lang.y"
+#line 563 "my_lang.y"
            {
             printf("The statement is correct \n");
            }
-#line 2054 "y.tab.c"
+#line 2066 "y.tab.c"
     break;
 
   case 84: /* declaration: TYPE ID  */
-#line 554 "my_lang.y"
+#line 568 "my_lang.y"
             {  
               //if it's not declared 
               
@@ -2074,36 +2086,43 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
              
              
             }
-#line 2078 "y.tab.c"
+#line 2090 "y.tab.c"
     break;
 
   case 85: /* declaration: CONST TYPE ID ASSIGN rvalue  */
-#line 574 "my_lang.y"
+#line 588 "my_lang.y"
             {
               printf("The declaration is correct \n");
                 char type[10] = "const ";
                 strcat(type,(yyvsp[-3].strval));
 
-              add_var((yyvsp[-2].strval), type,(yyvsp[-1].strval),curr_scope,false,0); //incompatible type for $4
+              add_var((yyvsp[-2].strval), type,(yyvsp[0].lval)->value,curr_scope,false,0); //incompatible type for $4
               printf("value added\n");
             }
-#line 2091 "y.tab.c"
-    break;
-
-  case 86: /* declaration: TYPE ID ASSIGN rvalue  */
-#line 583 "my_lang.y"
-             {
-              printf("The declaration is correct \n");
-
-              add_var((yyvsp[-2].strval), (yyvsp[-3].strval),(yyvsp[0].lval),curr_scope,false,0); //incompatible type for $4
-              printf("value added\n");
-              //print_var_table();
-             }
 #line 2103 "y.tab.c"
     break;
 
+  case 86: /* declaration: TYPE ID ASSIGN rvalue  */
+#line 597 "my_lang.y"
+             {
+              //if rvalue type is not the same as type 
+              if(!same_type((yyvsp[-3].strval),(yyvsp[0].lval)->type))
+              {
+                printf("[ERROR] line: %d not the same type...\n",yylineno);
+                exit(1);
+              }
+
+              printf("The declaration is correct \n");
+            
+              add_var((yyvsp[-2].strval), (yyvsp[-3].strval),(yyvsp[0].lval)->value,curr_scope,false,0); //incompatible type for $4
+              printf("value added\n");
+              //print_var_table();
+             }
+#line 2122 "y.tab.c"
+    break;
+
   case 87: /* declaration: TYPE ARRAY  */
-#line 591 "my_lang.y"
+#line 612 "my_lang.y"
              {
               printf("The declaration is correct \n");
               char *id = strtok((yyvsp[0].strval), "["); //int a[10]
@@ -2112,77 +2131,77 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
               //printf("the size is %s \n", size);
               add_var(id, (yyvsp[-1].strval),"",curr_scope,true,arr_size);
              }
-#line 2116 "y.tab.c"
+#line 2135 "y.tab.c"
     break;
 
   case 88: /* control_instruction: IF '(' condition ')' '{' instruction '}'  */
-#line 603 "my_lang.y"
+#line 624 "my_lang.y"
 {
   printf("The if instruction is correct \n");
 }
-#line 2124 "y.tab.c"
+#line 2143 "y.tab.c"
     break;
 
   case 89: /* control_instruction: IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}'  */
-#line 607 "my_lang.y"
+#line 628 "my_lang.y"
  {
   printf("The if-else instruction is correct \n");
  }
-#line 2132 "y.tab.c"
+#line 2151 "y.tab.c"
     break;
 
   case 90: /* control_instruction: FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
-#line 612 "my_lang.y"
+#line 633 "my_lang.y"
 {
   printf("The for instruction is correct \n");
   //check if the value in condition is the same as ID 
 
 }
-#line 2142 "y.tab.c"
+#line 2161 "y.tab.c"
     break;
 
   case 91: /* control_instruction: FOR '(' ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
-#line 618 "my_lang.y"
+#line 639 "my_lang.y"
 {
   printf("The for instruction is correct \n");
 }
-#line 2150 "y.tab.c"
+#line 2169 "y.tab.c"
     break;
 
   case 92: /* control_instruction: WHILE '(' condition ')' '{' instruction '}'  */
-#line 622 "my_lang.y"
+#line 643 "my_lang.y"
 {
   printf("The while instruction is correct \n");
 }
-#line 2158 "y.tab.c"
+#line 2177 "y.tab.c"
     break;
 
   case 93: /* for_increment: ID ASSIGN rvalue  */
-#line 628 "my_lang.y"
+#line 649 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2166 "y.tab.c"
+#line 2185 "y.tab.c"
     break;
 
   case 94: /* for_increment: ID INC  */
-#line 631 "my_lang.y"
+#line 652 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2174 "y.tab.c"
+#line 2193 "y.tab.c"
     break;
 
   case 95: /* for_increment: ID DEC  */
-#line 634 "my_lang.y"
+#line 655 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2182 "y.tab.c"
+#line 2201 "y.tab.c"
     break;
 
   case 96: /* condition: lvalue OP_LOGIC rvalue  */
-#line 640 "my_lang.y"
+#line 661 "my_lang.y"
 {
   printf("The condition is correct here  \n");
   //check if the types are the same and if they are declared
@@ -2200,132 +2219,205 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   
 
 ;}
-#line 2204 "y.tab.c"
+#line 2223 "y.tab.c"
     break;
 
   case 97: /* condition: condition OP_LOGIC condition  */
-#line 658 "my_lang.y"
+#line 679 "my_lang.y"
  {
-  printf("The condition is correct \n");
+  //printf("The condition is correct \n");
  }
-#line 2212 "y.tab.c"
+#line 2231 "y.tab.c"
     break;
 
   case 98: /* condition: condition OP_LOGIC rvalue  */
-#line 662 "my_lang.y"
+#line 683 "my_lang.y"
  {
-    printf("The condition is correct \n");
+    //printf("The condition is correct \n");
  }
-#line 2220 "y.tab.c"
+#line 2239 "y.tab.c"
     break;
 
   case 99: /* condition: lvalue OP_LOGIC condition  */
-#line 666 "my_lang.y"
+#line 687 "my_lang.y"
   {
-    printf("The condition is correct \n");
+    //printf("The condition is correct \n");
   }
-#line 2228 "y.tab.c"
+#line 2247 "y.tab.c"
     break;
 
   case 100: /* math_statem: math_statem OP_MATH1 math_val  */
-#line 676 "my_lang.y"
+#line 697 "my_lang.y"
             {
-             printf("The math statement is correct \n");
+
+             
+             //add a node into AST 
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
+
             }
-#line 2236 "y.tab.c"
+#line 2263 "y.tab.c"
     break;
 
   case 101: /* math_statem: math_statem OP_MATH2 math_val  */
-#line 680 "my_lang.y"
+#line 709 "my_lang.y"
             {
-            printf("The math statement is correct \n");
-            }
-#line 2244 "y.tab.c"
-    break;
+           // printf("The math statement is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             //type 1 for operator e.g + , -
 
-  case 102: /* math_statem: math_val OP_MATH1 math_statem  */
-#line 684 "my_lang.y"
-            {
-             printf("The math statement is correct \n");
-            }
-#line 2252 "y.tab.c"
-    break;
-
-  case 103: /* math_statem: math_val OP_MATH2 math_statem  */
-#line 688 "my_lang.y"
-            {
-              printf("The math statement is correct \n");
-            }
-#line 2260 "y.tab.c"
-    break;
-
-  case 104: /* math_statem: math_val OP_MATH1 math_val  */
-#line 692 "my_lang.y"
-            {
-              printf("The math statement is correct \n");
-            }
-#line 2268 "y.tab.c"
-    break;
-
-  case 105: /* math_statem: math_statem OP_MATH1 math_statem  */
-#line 696 "my_lang.y"
-            {
-              printf("The math statement is correct \n");
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
 #line 2276 "y.tab.c"
     break;
 
-  case 106: /* math_statem: math_statem OP_MATH2 math_statem  */
-#line 700 "my_lang.y"
+  case 102: /* math_statem: math_val OP_MATH1 math_statem  */
+#line 718 "my_lang.y"
             {
-              printf("The math statement is correct \n");
+               //printf("math state here \n");
+             //printf("The math statement is correct \n");
+             struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             printf("The value of $2 is %s \n",'+');
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2284 "y.tab.c"
+#line 2291 "y.tab.c"
+    break;
+
+  case 103: /* math_statem: math_val OP_MATH2 math_statem  */
+#line 729 "my_lang.y"
+            {
+             //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
+            }
+#line 2304 "y.tab.c"
+    break;
+
+  case 104: /* math_statem: math_val OP_MATH1 math_val  */
+#line 738 "my_lang.y"
+            {
+              printf("the op is %s\n",(yyvsp[-2].node_ptr));
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"+");
+             
+             printf("The value of $1 is %s and type is %d \n",(yyvsp[-2].node_ptr)->value,(yyvsp[-2].node_ptr)->type);
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
+            }
+#line 2319 "y.tab.c"
+    break;
+
+  case 105: /* math_statem: math_statem OP_MATH1 math_statem  */
+#line 749 "my_lang.y"
+            {
+              //printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
+            }
+#line 2332 "y.tab.c"
+    break;
+
+  case 106: /* math_statem: math_statem OP_MATH2 math_statem  */
+#line 758 "my_lang.y"
+            { 
+              
+             // printf("The math statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,(yyvsp[-1].strval));
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
+            }
+#line 2346 "y.tab.c"
     break;
 
   case 107: /* math_statem: math_val OP_MATH2 math_val  */
-#line 704 "my_lang.y"
+#line 768 "my_lang.y"
             {
-              printf("The math statement is correct \n");
+
+              //printf("the op is %s\n",$2);
+             // printf("The ma  th statement is correct \n");
+              struct node* root = malloc(sizeof(struct node));
+             strcpy(root->value,"*");
+             //type 1 for operator e.g + , -
+
+             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2292 "y.tab.c"
+#line 2361 "y.tab.c"
     break;
 
   case 108: /* math_val: lvalue  */
-#line 710 "my_lang.y"
+#line 781 "my_lang.y"
           {
-            printf("The math value is correct \n");
+            
+            struct node* root = malloc(sizeof(struct node));
+            if(strcmp((yyvsp[0].lval)->type,"int")==0)
+            { 
+              
+              strcpy(root->value,(yyvsp[0].lval)->value);
+            }
+
+            else 
+            {
+              strcpy(root->value,(yyvsp[0].lval)->value);
+            }
+            
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+          
           }
-#line 2300 "y.tab.c"
+#line 2383 "y.tab.c"
     break;
 
   case 109: /* math_val: INTEGER  */
-#line 714 "my_lang.y"
+#line 799 "my_lang.y"
           {
-            printf("The math value is correct here! \n");
+            printf("The math value is INT  \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,(yyvsp[0].strval));
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
             
           }
-#line 2309 "y.tab.c"
+#line 2395 "y.tab.c"
     break;
 
   case 110: /* math_val: FLOAT  */
-#line 719 "my_lang.y"
+#line 807 "my_lang.y"
           {
-            printf("The math value is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
           }
-#line 2317 "y.tab.c"
+#line 2406 "y.tab.c"
     break;
 
   case 111: /* math_val: BOOL  */
-#line 723 "my_lang.y"
+#line 814 "my_lang.y"
           {
-            printf("The math value is correct \n");
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
           }
-#line 2325 "y.tab.c"
+#line 2417 "y.tab.c"
     break;
 
 
-#line 2329 "y.tab.c"
+#line 2421 "y.tab.c"
 
       default: break;
     }
@@ -2518,7 +2610,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 732 "my_lang.y"
+#line 826 "my_lang.y"
 
 // c code part 
 int yyerror(char * s){
