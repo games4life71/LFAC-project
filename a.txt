@@ -1,57 +1,56 @@
 universal_code_start
-int myvar;
-int myvar2;
 
-bool ok = false;
+    int myvar;
+    int myvar2;
+
+    bool ok = false;
 
 
 universal_code_end
 
 function_start
 
-(int) funct1 (int a, int b, int c)
-{
+    (int) funct1 (int a, int b, int c)
+    {
+    return a;   
+    }
 
-   
-   return a;
-   
-}
-(bool) funct2 (float a,bool b)
-{
+    (bool) funct2 (float a,bool b)
+    {
 
-   return a;
-   
-}
+    return a;
+    
+    }
 function_end
 
 user_code_start
 
-struct_start s1
+    struct_start s1
 
-int b=2;
-int c=3;
-struct_end
-
-
-class_start myClass
-int classvar1 =31;
-
-(bool) funct2 (int a, int b, int c)
-{
-
-   return 2;
-   
-}
+    int b=2;
+    int c=3;
+    struct_end
 
 
-class_end
+    class_start myClass
+    int classvar1 =31;
 
-class_start myClass2
+    (bool) funct2 (int a, int b, int c)
+    {
 
-int classvar2 =31;
+    return 2;
+    
+    }
 
 
-class_end
+    class_end
+
+    class_start myClass2
+
+    int classvar2 =31;
+
+
+    class_end
 
 user_code_end
 
@@ -59,41 +58,45 @@ user_code_end
 important_code_start
 
 
-int myvar3;
-int myvar4;
+    int myvar3;
+    int myvar4;
 
-while(myvar3 == myvar4)
-{
-   int a=2;
-   a++;
-   a--;
+    while(myvar3 == myvar4)
+    {
+    int a=2;
+    a++;
+    a--;
 
-   if(a==3)
-   {
-   if (a==4 || a ==12 && a<22)
-   {
-    int b =3;
+    if(a==3)
+    {
+    if (a==4 || a ==12 && a<22)
+    {
+        int b =3;
+        }
+
+    }
     }
 
-   }
-}
+    int i =2;
 
-int i =2;
+    myvar3 = 1+2- 2*2/1*100+1000/20;
+    myvar4 = myvar3;
+    myvar4--;
 
-myvar3 = 1+2- 2*2/1*100+1000/20;
-myvar4 = myvar3;
-myvar4--;
+    int newval = myvar4;
 
-int newval = myvar4;
+    bool ok = false;
 
-bool ok = false;
+    if(ok == true)
+    {
+        ok = true;
+    }
 
-if(ok == true)
-{
-    ok = true;
-}
-
-show("hello world");
-show(newval);
+    typeof(s1);
+    typeof(myClass);
+    typeof(myvar3);
+    
+    show("hello world");
+    show(newval);
 
 important_code_end
