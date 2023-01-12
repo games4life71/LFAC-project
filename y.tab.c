@@ -341,23 +341,25 @@ enum yysymbol_kind_t
   YYSYMBOL_func_sec = 70,                  /* func_sec  */
   YYSYMBOL_functions = 71,                 /* functions  */
   YYSYMBOL_function = 72,                  /* function  */
-  YYSYMBOL_arguments = 73,                 /* arguments  */
-  YYSYMBOL_variable_argument = 74,         /* variable_argument  */
-  YYSYMBOL_function_argument = 75,         /* function_argument  */
-  YYSYMBOL_function_argument_params = 76,  /* function_argument_params  */
-  YYSYMBOL_main_sec = 77,                  /* main_sec  */
-  YYSYMBOL_78_3 = 78,                      /* $@3  */
-  YYSYMBOL_instructions = 79,              /* instructions  */
-  YYSYMBOL_instruction = 80,               /* instruction  */
-  YYSYMBOL_print = 81,                     /* print  */
-  YYSYMBOL_typeof = 82,                    /* typeof  */
-  YYSYMBOL_statement = 83,                 /* statement  */
-  YYSYMBOL_declaration = 84,               /* declaration  */
-  YYSYMBOL_control_instruction = 85,       /* control_instruction  */
-  YYSYMBOL_for_increment = 86,             /* for_increment  */
-  YYSYMBOL_condition = 87,                 /* condition  */
-  YYSYMBOL_math_statem = 88,               /* math_statem  */
-  YYSYMBOL_math_val = 89                   /* math_val  */
+  YYSYMBOL_73_3 = 73,                      /* $@3  */
+  YYSYMBOL_74_4 = 74,                      /* $@4  */
+  YYSYMBOL_arguments = 75,                 /* arguments  */
+  YYSYMBOL_variable_argument = 76,         /* variable_argument  */
+  YYSYMBOL_function_argument = 77,         /* function_argument  */
+  YYSYMBOL_function_argument_params = 78,  /* function_argument_params  */
+  YYSYMBOL_main_sec = 79,                  /* main_sec  */
+  YYSYMBOL_80_5 = 80,                      /* $@5  */
+  YYSYMBOL_instructions = 81,              /* instructions  */
+  YYSYMBOL_instruction = 82,               /* instruction  */
+  YYSYMBOL_print = 83,                     /* print  */
+  YYSYMBOL_typeof = 84,                    /* typeof  */
+  YYSYMBOL_statement = 85,                 /* statement  */
+  YYSYMBOL_declaration = 86,               /* declaration  */
+  YYSYMBOL_control_instruction = 87,       /* control_instruction  */
+  YYSYMBOL_for_increment = 88,             /* for_increment  */
+  YYSYMBOL_condition = 89,                 /* condition  */
+  YYSYMBOL_math_statem = 90,               /* math_statem  */
+  YYSYMBOL_math_val = 91                   /* math_val  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -685,16 +687,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   352
+#define YYLAST   355
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  54
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  36
+#define YYNNTS  38
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  112
+#define YYNRULES  114
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  236
+#define YYNSTATES  241
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   302
@@ -752,14 +754,14 @@ static const yytype_int16 yyrline[] =
      119,   120,   122,   122,   132,   133,   137,   137,   147,   148,
      149,   150,   152,   153,   154,   157,   157,   159,   160,   161,
      164,   173,   189,   201,   209,   221,   232,   241,   253,   267,
-     284,   331,   331,   333,   334,   335,   338,   346,   353,   362,
-     370,   384,   399,   413,   414,   414,   417,   425,   426,   429,
-     430,   431,   432,   435,   435,   437,   438,   439,   442,   443,
-     444,   445,   446,   447,   448,   449,   449,   453,   458,   465,
-     490,   527,   554,   581,   585,   590,   610,   619,   634,   646,
-     650,   655,   661,   665,   671,   674,   677,   683,   701,   705,
-     709,   719,   731,   740,   751,   760,   771,   780,   790,   803,
-     821,   829,   836
+     284,   331,   331,   333,   334,   335,   338,   338,   346,   346,
+     353,   362,   370,   384,   399,   413,   414,   414,   417,   425,
+     426,   429,   430,   431,   432,   435,   435,   437,   438,   439,
+     442,   443,   444,   445,   446,   447,   448,   449,   449,   453,
+     458,   465,   490,   527,   554,   581,   585,   590,   610,   619,
+     634,   646,   650,   655,   661,   665,   671,   674,   677,   683,
+     705,   709,   713,   723,   735,   744,   755,   764,   775,   784,
+     794,   807,   825,   833,   840
 };
 #endif
 
@@ -786,11 +788,12 @@ static const char *const yytname[] =
   "'('", "')'", "'{'", "'}'", "','", "$accept", "program", "userdef_sec",
   "userdef", "struct_def", "$@1", "struct_vars", "class_def", "$@2",
   "class_info", "userdef_vars", "univ_sec", "univ_vars", "variable",
-  "rvalue", "lvalue", "func_sec", "functions", "function", "arguments",
-  "variable_argument", "function_argument", "function_argument_params",
-  "main_sec", "$@3", "instructions", "instruction", "print", "typeof",
-  "statement", "declaration", "control_instruction", "for_increment",
-  "condition", "math_statem", "math_val", YY_NULLPTR
+  "rvalue", "lvalue", "func_sec", "functions", "function", "$@3", "$@4",
+  "arguments", "variable_argument", "function_argument",
+  "function_argument_params", "main_sec", "$@5", "instructions",
+  "instruction", "print", "typeof", "statement", "declaration",
+  "control_instruction", "for_increment", "condition", "math_statem",
+  "math_val", YY_NULLPTR
 };
 
 static const char *
@@ -800,12 +803,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-145)
+#define YYPACT_NINF (-148)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-113)
+#define YYTABLE_NINF (-115)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -814,30 +817,31 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -22,    15,    27,    -7,    17,    70,  -145,  -145,    38,    64,
-      10,    55,  -145,  -145,    14,   -17,  -145,    69,    95,   203,
-    -145,  -145,    58,   128,  -145,  -145,   137,   146,    94,  -145,
-    -145,    15,  -145,  -145,  -145,  -145,  -145,    76,   175,   194,
-    -145,   118,   197,   248,   258,   163,   131,  -145,  -145,  -145,
-    -145,  -145,    15,  -145,   246,  -145,   309,   309,   309,   309,
-     144,   134,    15,    -5,   150,   135,   169,   171,   179,   186,
-     189,   182,   152,   216,   272,  -145,   147,   178,   195,  -145,
-    -145,  -145,  -145,  -145,   248,   258,   248,   258,   248,   258,
-     248,   258,     2,   202,    47,  -145,     7,  -145,  -145,    18,
-     241,  -145,   289,   139,   281,   139,   225,   250,   203,  -145,
-    -145,  -145,   272,   210,   220,  -145,  -145,  -145,  -145,   271,
-     273,   237,    96,  -145,  -145,   -16,  -145,  -145,  -145,  -145,
-    -145,  -145,   105,   203,   239,   240,   282,    77,   294,   300,
-      85,   256,   304,  -145,  -145,  -145,  -145,   259,   246,   264,
-      12,   275,  -145,  -145,  -145,   276,   277,   203,   203,   265,
-     203,   315,   278,  -145,   203,   321,   226,   246,  -145,  -145,
-     279,  -145,  -145,  -145,   268,   310,  -145,   310,   246,   280,
-     203,   246,  -145,   283,   325,   236,  -145,    25,   139,   285,
-     107,    20,   286,   299,   313,    89,   139,  -145,  -145,  -145,
-    -145,   122,   284,   290,   291,   292,   332,   100,  -145,    23,
-    -145,   288,   293,   246,   188,   296,   332,  -145,  -145,  -145,
-    -145,   173,   203,  -145,  -145,   297,   301,  -145,  -145,   246,
-     298,   177,   246,  -145,   181,  -145
+     -13,    19,    82,    49,    89,    13,  -148,  -148,    52,    70,
+      28,    55,  -148,  -148,    27,   -15,  -148,     3,    99,   276,
+    -148,  -148,    95,   115,  -148,  -148,   154,   170,    66,  -148,
+    -148,    19,  -148,  -148,  -148,  -148,  -148,    74,   146,   182,
+    -148,   129,   198,   202,   210,   176,  -148,  -148,  -148,  -148,
+    -148,  -148,    19,  -148,   254,  -148,   310,   310,   310,   310,
+     151,   157,   166,    19,    21,   172,   108,   180,   187,   193,
+     194,   197,   189,    91,   199,   233,  -148,   155,   201,   213,
+    -148,  -148,  -148,  -148,  -148,   202,   210,   202,   210,   202,
+     210,   202,   210,     9,   208,   214,     8,  -148,    11,  -148,
+    -148,    16,   259,  -148,   290,   120,   222,   120,   232,   260,
+     276,  -148,  -148,  -148,   233,   221,   228,  -148,  -148,  -148,
+    -148,   275,   277,   231,    79,  -148,  -148,   234,   240,  -148,
+    -148,  -148,  -148,  -148,  -148,    93,   276,   244,   246,   280,
+       6,   302,   304,    33,   257,   306,  -148,  -148,  -148,  -148,
+     266,   254,   268,    29,   278,   272,  -148,  -148,   279,   281,
+     276,   276,   269,   276,   321,   282,  -148,   276,   323,   227,
+     254,  -148,  -148,   283,  -148,  -148,  -148,  -148,   140,   309,
+    -148,   309,   254,   284,   276,   254,  -148,   285,   325,   247,
+     286,     5,   120,   287,   128,    24,   288,   300,  -148,   315,
+       7,   120,  -148,  -148,  -148,  -148,    97,   289,   291,   292,
+     293,   337,    64,  -148,    30,  -148,   294,   295,   254,    96,
+     298,   337,  -148,  -148,  -148,  -148,   164,   276,  -148,  -148,
+     299,   301,  -148,  -148,   254,   303,   178,   254,  -148,   188,
+    -148
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -848,45 +852,46 @@ static const yytype_int8 yydefact[] =
       26,    29,     0,    42,     0,     0,    27,     1,    45,     4,
        0,     0,    25,    28,     0,     0,    43,    11,     0,     0,
       30,    32,     0,     0,    41,    44,     0,     0,     0,     7,
-       9,     5,    22,    63,     2,    39,    40,    34,    35,    36,
-      37,     0,    33,    38,     0,     0,     0,    12,    16,     3,
-       8,    10,     6,    23,    67,    31,     0,     0,     0,     0,
-       0,     0,     0,     0,    39,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    65,    74,     0,     0,     0,    73,
-     110,   111,   112,   109,   106,   101,   107,   102,   103,   105,
-     104,   108,    54,     0,     0,    14,     0,    18,    20,    54,
-      85,    88,     0,     0,     0,     0,     0,     0,     0,    81,
-      82,    64,    66,     0,     0,    75,    69,    68,    71,     0,
-       0,     0,     0,    51,    53,     0,    13,    15,    17,    19,
-      21,    83,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    80,    70,    72,    56,     0,    67,     0,
-       0,     0,    47,    84,    87,     0,     0,     0,     0,     0,
-       0,     0,     0,    79,     0,     0,     0,    67,    52,    55,
-       0,    77,    78,    97,    33,   100,    99,    98,    76,     0,
-       0,    76,    86,     0,     0,     0,    46,     0,     0,     0,
-       0,     0,     0,     0,    89,     0,     0,    93,    59,    58,
-      61,     0,     0,    39,     0,     0,     0,     0,    57,     0,
-      49,     0,     0,    76,     0,     0,     0,    60,    62,    48,
-      50,     0,     0,    95,    96,     0,     0,    90,    94,    76,
-       0,     0,    76,    92,     0,    91
+       9,     5,    22,    65,     2,    39,    40,    34,    35,    36,
+      37,     0,    33,    38,     0,     0,    46,    12,    16,     3,
+       8,    10,     6,    23,    69,    31,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    39,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    67,    76,     0,     0,     0,
+      75,   112,   113,   114,   111,   108,   103,   109,   104,   105,
+     107,   106,   110,    56,     0,     0,     0,    14,     0,    18,
+      20,    56,    87,    90,     0,     0,     0,     0,     0,     0,
+       0,    83,    84,    66,    68,     0,     0,    77,    71,    70,
+      73,     0,     0,     0,     0,    53,    55,     0,     0,    13,
+      15,    17,    19,    21,    85,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,    82,    72,    74,    58,
+       0,    69,     0,     0,     0,     0,    86,    89,     0,     0,
+       0,     0,     0,     0,     0,     0,    81,     0,     0,     0,
+      69,    54,    57,     0,    49,    79,    80,    99,    33,   102,
+     101,   100,    78,     0,     0,    78,    88,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    47,    91,
+       0,     0,    95,    61,    60,    63,     0,     0,    39,     0,
+       0,     0,     0,    59,     0,    51,     0,     0,    78,     0,
+       0,     0,    62,    64,    50,    52,     0,     0,    97,    98,
+       0,     0,    92,    96,    78,     0,     0,    78,    94,     0,
+      93
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -145,  -145,  -145,  -145,   314,  -145,  -145,   316,  -145,  -145,
-     319,  -145,  -145,    11,   -98,   -19,  -145,  -145,    -6,   242,
-     200,  -144,  -145,  -145,  -145,  -133,   -56,  -145,  -145,   -71,
-     -69,   -67,   136,  -103,    22,    40
+    -148,  -148,  -148,  -148,   317,  -148,  -148,   324,  -148,  -148,
+     327,  -148,  -148,     0,   -92,   -19,  -148,  -148,   -11,  -148,
+    -148,   242,   196,  -147,  -148,  -148,  -148,   -71,   -58,  -148,
+    -148,   -73,   -72,   -68,   132,   -99,    81,   133
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     2,    18,    28,    29,    62,    94,    30,    63,    96,
-      31,     3,     5,    32,    41,    72,     9,    15,    16,   122,
-     123,   124,   201,    34,    54,    73,    74,    75,    76,    77,
-      78,    79,   215,   137,    43,    44
+       0,     2,    18,    28,    29,    63,    96,    30,    64,    98,
+      31,     3,     5,    32,    41,    73,     9,    15,    16,    61,
+      62,   124,   125,   126,   206,    34,    54,    74,    75,    76,
+      77,    78,    79,    80,   220,   140,    43,    44
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -894,82 +899,82 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      42,     4,   140,   113,   135,   114,   169,   115,   119,    25,
-     143,     1,     6,     4,    19,   166,    13,   112,   119,    24,
-      22,     4,    10,   151,   119,    11,   198,     7,     8,   217,
-      64,    65,    14,    36,   185,   154,   152,    83,    83,    83,
-      83,   113,    53,   114,    14,   115,    67,   200,    68,    69,
-     128,   120,   121,     4,   175,   177,    14,    98,    20,   173,
-     176,   120,   179,    53,    23,   218,   182,   120,   131,   120,
-     199,    71,   120,    95,    97,     4,     4,   194,    84,    86,
-      88,    90,   189,    42,   136,   195,   136,    14,   126,    42,
-     130,  -110,  -110,   207,   158,   204,    85,    87,    89,    91,
-       4,    17,   158,    21,    12,   127,   158,   129,    45,    26,
-     112,    27,    64,    65,    42,    36,   113,   158,   114,   113,
-     115,   114,   187,   115,   228,   190,    33,   159,    67,   112,
-      68,    69,    49,    46,    26,   162,    27,   206,   174,   174,
-     100,    42,    47,   101,    35,    42,   149,    36,   216,   150,
-     113,    48,   114,    71,   115,   153,   108,   221,   150,   197,
-     113,    42,   114,   113,   115,   114,    55,   115,    60,   136,
-     109,   110,   208,   231,    42,   209,   234,   136,    64,    65,
-      61,    36,    64,    65,    93,    36,    64,    65,   107,    36,
-    -111,  -111,   222,    92,    67,   116,    68,    69,    67,    99,
-      68,    69,    67,    42,    68,    69,   223,   224,    35,  -112,
-    -112,    36,  -109,  -109,    37,    38,    39,    40,   102,    71,
-     103,    64,    65,    71,    36,   227,   117,    71,   104,   233,
-     141,    64,    65,   235,    36,   105,    66,    67,   106,    68,
-      69,    64,    65,   118,    36,   133,    66,    67,   111,    68,
-      69,    64,    65,   125,    36,   142,    66,    67,   144,    68,
-      69,    70,    71,    56,    57,   184,    66,    67,   145,    68,
-      69,    70,    71,    58,    59,   193,   146,    64,    65,   147,
-      36,    70,    71,  -109,  -109,   157,   138,   139,   148,   155,
-     156,    70,    71,    67,    35,    68,    69,    36,   160,   157,
-      37,    38,    39,   134,   203,   161,   163,    36,   164,   165,
-      37,    38,    39,    40,    35,   167,   178,    36,    71,   180,
-      80,    81,    82,   170,   171,   172,   183,   158,   188,   181,
-     192,   186,   191,   196,   202,   205,   210,   214,   211,   212,
-     219,   132,    50,   213,    51,   220,   225,    52,   229,   232,
-     168,   230,   226
+      42,     6,   115,   116,    25,    13,   172,   117,   143,     4,
+      65,    66,   138,    36,     4,   121,   114,     4,   146,     4,
+       1,    24,   121,   161,   161,     4,    68,     4,    69,    70,
+     203,    53,    19,    22,    14,   121,   222,    84,    84,    84,
+      84,   115,   116,    26,   157,    27,   117,    12,   205,   129,
+     161,    72,    53,   100,   131,   211,   162,   199,   122,   123,
+      14,   179,   181,    97,    99,   122,   134,   223,   177,   180,
+      14,   183,     4,   122,   204,   186,    20,    23,   122,   122,
+     169,   161,     7,   165,     8,    42,   139,   133,   139,  -112,
+    -112,    42,   193,   200,    10,   110,   130,    11,   132,   189,
+     227,    14,   212,    21,    49,   209,    26,    17,    27,   111,
+     112,   114,   221,   102,   228,   229,   103,    42,   115,   116,
+      46,   115,   116,   117,   191,    35,   117,   194,    36,   152,
+      33,   114,   153,    65,    66,   233,    36,    85,    87,    89,
+      91,   178,   178,   156,    42,    45,   153,   213,    42,    68,
+     214,    69,    70,   115,   116,  -111,  -111,   160,   117,    47,
+     226,  -113,  -113,   115,   116,    42,   115,   116,   117,    65,
+      66,   117,    36,   139,    72,    48,   236,    55,    42,   239,
+     202,    60,   139,    65,    66,    68,    36,    69,    70,    86,
+      88,    90,    92,    65,    66,   109,    36,  -114,  -114,    68,
+      93,    69,    70,   118,    65,    66,    94,    36,    42,    68,
+      72,    69,    70,  -111,  -111,    95,   232,    56,    57,    67,
+      68,   101,    69,    70,    72,    58,    59,   141,   142,   104,
+     238,   113,    65,    66,    72,    36,   105,   144,    65,    66,
+     240,    36,   106,   107,    71,    72,   108,    67,    68,   119,
+      69,    70,    65,    66,    68,    36,    69,    70,   127,    65,
+      66,   120,    36,   136,   128,   145,   188,    67,    68,   147,
+      69,    70,    71,    72,    67,    68,   148,    69,    70,    72,
+     149,    35,   151,   150,    36,   154,   197,    37,    38,    39,
+      40,   155,    71,    72,   158,    35,   159,   160,    36,    71,
+      72,    37,    38,    39,   137,   208,   163,   166,    36,   164,
+     167,    37,    38,    39,    40,    35,   168,   173,    36,   170,
+     182,    81,    82,    83,   174,   184,   161,   175,   187,   176,
+     196,   190,   192,   185,   195,   201,   207,   210,   198,   216,
+     217,   215,   219,   135,   218,    50,   224,   225,   230,   171,
+     234,   235,    51,   231,   237,    52
 };
 
 static const yytype_uint8 yycheck[] =
 {
-      19,     6,   105,    74,   102,    74,   150,    74,     6,    15,
-     108,    33,     1,     6,     4,   148,     5,    73,     6,    36,
-       6,     6,     5,    39,     6,     8,     6,     0,    35,     6,
-       5,     6,    49,     8,   167,   133,    52,    56,    57,    58,
-      59,   112,    31,   112,    49,   112,    21,   191,    23,    24,
-      43,    49,    50,     6,   157,   158,    49,    63,    48,   157,
-     158,    49,   160,    52,    50,   209,   164,    49,    50,    49,
-      50,    46,    49,    62,    63,     6,     6,    52,    56,    57,
-      58,    59,   180,   102,   103,   188,   105,    49,    41,   108,
-      96,    15,    16,   196,    17,   193,    56,    57,    58,    59,
-       6,    37,    17,    48,    34,    94,    17,    96,    50,    40,
-     166,    42,     5,     6,   133,     8,   187,    17,   187,   190,
-     187,   190,   178,   190,   222,   181,    31,    50,    21,   185,
-      23,    24,    38,     5,    40,    50,    42,    48,   157,   158,
-       5,   160,     5,     8,     5,   164,    50,     8,    48,    53,
-     221,     5,   221,    46,   221,    50,     4,   213,    53,    52,
-     231,   180,   231,   234,   231,   234,    48,   234,     5,   188,
-      18,    19,    50,   229,   193,    53,   232,   196,     5,     6,
-      49,     8,     5,     6,    50,     8,     5,     6,     6,     8,
-      15,    16,     4,    49,    21,    48,    23,    24,    21,    49,
-      23,    24,    21,   222,    23,    24,    18,    19,     5,    15,
-      16,     8,    15,    16,    11,    12,    13,    14,    49,    46,
-      49,     5,     6,    46,     8,    52,    48,    46,    49,    52,
-       5,     5,     6,    52,     8,    49,    20,    21,    49,    23,
-      24,     5,     6,    48,     8,     4,    20,    21,    32,    23,
-      24,     5,     6,    51,     8,     5,    20,    21,    48,    23,
-      24,    45,    46,    15,    16,    39,    20,    21,    48,    23,
-      24,    45,    46,    15,    16,    39,     5,     5,     6,     6,
-       8,    45,    46,    15,    16,    17,     5,     6,    51,    50,
-      50,    45,    46,    21,     5,    23,    24,     8,     4,    17,
-      11,    12,    13,    14,     5,     5,    50,     8,     4,    50,
-      11,    12,    13,    14,     5,    51,    51,     8,    46,     4,
-      11,    12,    13,    48,    48,    48,     5,    17,    48,    51,
-       5,    52,    49,    48,    48,    22,    52,     5,    48,    48,
-      52,    99,    28,    51,    28,    52,    50,    28,    51,    51,
-     150,    50,   216
+      19,     1,    75,    75,    15,     5,   153,    75,   107,     6,
+       5,     6,   104,     8,     6,     6,    74,     6,   110,     6,
+      33,    36,     6,    17,    17,     6,    21,     6,    23,    24,
+       6,    31,     4,     6,    49,     6,     6,    56,    57,    58,
+      59,   114,   114,    40,   136,    42,   114,    34,   195,    41,
+      17,    46,    52,    64,    43,    48,    50,    52,    49,    50,
+      49,   160,   161,    63,    64,    49,    50,   214,   160,   161,
+      49,   163,     6,    49,    50,   167,    48,    50,    49,    49,
+     151,    17,     0,    50,    35,   104,   105,    98,   107,    15,
+      16,   110,   184,   192,     5,     4,    96,     8,    98,   170,
+       4,    49,   201,    48,    38,   197,    40,    37,    42,    18,
+      19,   169,    48,     5,    18,    19,     8,   136,   191,   191,
+       5,   194,   194,   191,   182,     5,   194,   185,     8,    50,
+      31,   189,    53,     5,     6,   227,     8,    56,    57,    58,
+      59,   160,   161,    50,   163,    50,    53,    50,   167,    21,
+      53,    23,    24,   226,   226,    15,    16,    17,   226,     5,
+     218,    15,    16,   236,   236,   184,   239,   239,   236,     5,
+       6,   239,     8,   192,    46,     5,   234,    48,   197,   237,
+      52,     5,   201,     5,     6,    21,     8,    23,    24,    56,
+      57,    58,    59,     5,     6,     6,     8,    15,    16,    21,
+      49,    23,    24,    48,     5,     6,    49,     8,   227,    21,
+      46,    23,    24,    15,    16,    49,    52,    15,    16,    20,
+      21,    49,    23,    24,    46,    15,    16,     5,     6,    49,
+      52,    32,     5,     6,    46,     8,    49,     5,     5,     6,
+      52,     8,    49,    49,    45,    46,    49,    20,    21,    48,
+      23,    24,     5,     6,    21,     8,    23,    24,    50,     5,
+       6,    48,     8,     4,    50,     5,    39,    20,    21,    48,
+      23,    24,    45,    46,    20,    21,    48,    23,    24,    46,
+       5,     5,    51,     6,     8,    51,    39,    11,    12,    13,
+      14,    51,    45,    46,    50,     5,    50,    17,     8,    45,
+      46,    11,    12,    13,    14,     5,     4,    50,     8,     5,
+       4,    11,    12,    13,    14,     5,    50,    39,     8,    51,
+      51,    11,    12,    13,    52,     4,    17,    48,     5,    48,
+       5,    48,    48,    51,    49,    48,    48,    22,    52,    48,
+      48,    52,     5,   101,    51,    28,    52,    52,    50,   153,
+      51,    50,    28,   221,    51,    28
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -979,27 +984,28 @@ static const yytype_int8 yystos[] =
        0,    33,    55,    65,     6,    66,    67,     0,    35,    70,
        5,     8,    34,    67,    49,    71,    72,    37,    56,     4,
       48,    48,     6,    50,    36,    72,    40,    42,    57,    58,
-      61,    64,    67,    31,    77,     5,     8,    11,    12,    13,
-      14,    68,    69,    88,    89,    50,     5,     5,     5,    38,
-      58,    61,    64,    67,    78,    48,    15,    16,    15,    16,
-       5,    49,    59,    62,     5,     6,    20,    21,    23,    24,
-      45,    46,    69,    79,    80,    81,    82,    83,    84,    85,
-      11,    12,    13,    69,    88,    89,    88,    89,    88,    89,
-      88,    89,    49,    50,    60,    67,    63,    67,    72,    49,
-       5,     8,    49,    49,    49,    49,    49,     6,     4,    18,
-      19,    32,    80,    83,    84,    85,    48,    48,    48,     6,
-      49,    50,    73,    74,    75,    51,    41,    67,    43,    67,
-      72,    50,    73,     4,    14,    68,    69,    87,     5,     6,
-      87,     5,     5,    68,    48,    48,     5,     6,    51,    50,
-      53,    39,    52,    50,    68,    50,    50,    17,    17,    50,
-       4,     5,    50,    50,     4,    50,    79,    51,    74,    75,
-      48,    48,    48,    68,    69,    87,    68,    87,    51,    68,
-       4,    51,    68,     5,    39,    79,    52,    80,    48,    68,
-      80,    49,     5,    39,    52,    87,    48,    52,     6,    50,
-      75,    76,    48,     5,    68,    22,    48,    87,    50,    53,
-      52,    48,    48,    51,     5,    86,    48,     6,    75,    52,
-      52,    80,     4,    18,    19,    50,    86,    52,    68,    51,
-      50,    80,    51,    52,    80,    52
+      61,    64,    67,    31,    79,     5,     8,    11,    12,    13,
+      14,    68,    69,    90,    91,    50,     5,     5,     5,    38,
+      58,    61,    64,    67,    80,    48,    15,    16,    15,    16,
+       5,    73,    74,    59,    62,     5,     6,    20,    21,    23,
+      24,    45,    46,    69,    81,    82,    83,    84,    85,    86,
+      87,    11,    12,    13,    69,    90,    91,    90,    91,    90,
+      91,    90,    91,    49,    49,    49,    60,    67,    63,    67,
+      72,    49,     5,     8,    49,    49,    49,    49,    49,     6,
+       4,    18,    19,    32,    82,    85,    86,    87,    48,    48,
+      48,     6,    49,    50,    75,    76,    77,    50,    50,    41,
+      67,    43,    67,    72,    50,    75,     4,    14,    68,    69,
+      89,     5,     6,    89,     5,     5,    68,    48,    48,     5,
+       6,    51,    50,    53,    51,    51,    50,    68,    50,    50,
+      17,    17,    50,     4,     5,    50,    50,     4,    50,    81,
+      51,    76,    77,    39,    52,    48,    48,    68,    69,    89,
+      68,    89,    51,    68,     4,    51,    68,     5,    39,    81,
+      48,    82,    48,    68,    82,    49,     5,    39,    52,    52,
+      89,    48,    52,     6,    50,    77,    78,    48,     5,    68,
+      22,    48,    89,    50,    53,    52,    48,    48,    51,     5,
+      88,    48,     6,    77,    52,    52,    82,     4,    18,    19,
+      50,    88,    52,    68,    51,    50,    82,    51,    52,    82,
+      52
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
@@ -1009,14 +1015,14 @@ static const yytype_int8 yyr1[] =
       57,    57,    59,    58,    60,    60,    62,    61,    63,    63,
       63,    63,    64,    64,    64,    65,    65,    66,    66,    66,
       67,    67,    67,    68,    68,    68,    68,    68,    68,    69,
-      69,    70,    70,    71,    71,    71,    72,    72,    72,    72,
-      72,    73,    73,    73,    73,    73,    74,    75,    75,    76,
-      76,    76,    76,    78,    77,    79,    79,    79,    80,    80,
-      80,    80,    80,    80,    80,    80,    80,    81,    81,    82,
-      83,    83,    83,    83,    83,    84,    84,    84,    84,    85,
-      85,    85,    85,    85,    86,    86,    86,    87,    87,    87,
-      87,    88,    88,    88,    88,    88,    88,    88,    88,    89,
-      89,    89,    89
+      69,    70,    70,    71,    71,    71,    73,    72,    74,    72,
+      72,    72,    72,    75,    75,    75,    75,    75,    76,    77,
+      77,    78,    78,    78,    78,    80,    79,    81,    81,    81,
+      82,    82,    82,    82,    82,    82,    82,    82,    82,    83,
+      83,    84,    85,    85,    85,    85,    85,    86,    86,    86,
+      86,    87,    87,    87,    87,    87,    88,    88,    88,    89,
+      89,    89,    89,    90,    90,    90,    90,    90,    90,    90,
+      90,    91,    91,    91,    91
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1026,14 +1032,14 @@ static const yytype_int8 yyr2[] =
        2,     0,     0,     5,     1,     2,     0,     5,     1,     2,
        1,     2,     1,     2,     0,     3,     0,     1,     2,     0,
        3,     5,     3,     1,     1,     1,     1,     1,     1,     1,
-       1,     3,     0,     1,     2,     0,     9,     7,    13,    12,
-      13,     1,     3,     1,     0,     3,     2,     7,     6,     1,
-       3,     1,     3,     0,     4,     1,     2,     0,     2,     2,
-       3,     2,     3,     1,     1,     2,     0,     5,     5,     4,
-       3,     2,     2,     3,     4,     2,     5,     4,     2,     7,
-      11,    14,    13,     7,     3,     2,     2,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     1,
-       1,     1,     1
+       1,     3,     0,     1,     2,     0,     0,    10,     0,     8,
+      13,    12,    13,     1,     3,     1,     0,     3,     2,     7,
+       6,     1,     3,     1,     3,     0,     4,     1,     2,     0,
+       2,     2,     3,     2,     3,     1,     1,     2,     0,     5,
+       5,     4,     3,     2,     2,     3,     4,     2,     5,     4,
+       2,     7,    11,    14,    13,     7,     3,     2,     2,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     1,     1,     1,     1
 };
 
 
@@ -1499,37 +1505,37 @@ yyreduce:
   case 2: /* program: univ_sec func_sec userdef_sec main_sec  */
 #line 109 "my_lang.y"
                                                  {printf("The program is correct \n"); print_func_table();}
-#line 1503 "y.tab.c"
+#line 1509 "y.tab.c"
     break;
 
   case 3: /* userdef_sec: USERDEF_START userdef USERDEF_END  */
 #line 111 "my_lang.y"
                                                 {printf("The userdef section is correct \n");}
-#line 1509 "y.tab.c"
+#line 1515 "y.tab.c"
     break;
 
   case 5: /* userdef: userdef_vars  */
 #line 114 "my_lang.y"
                        {printf("The userdef is correct \n");}
-#line 1515 "y.tab.c"
+#line 1521 "y.tab.c"
     break;
 
   case 7: /* userdef: struct_def  */
 #line 116 "my_lang.y"
               {printf("The userdef is correct \n");}
-#line 1521 "y.tab.c"
+#line 1527 "y.tab.c"
     break;
 
   case 9: /* userdef: class_def  */
 #line 118 "my_lang.y"
              {printf("The userdef is correct \n");}
-#line 1527 "y.tab.c"
+#line 1533 "y.tab.c"
     break;
 
   case 12: /* $@1: %empty  */
 #line 122 "my_lang.y"
                              {strcpy(curr_scope,(yyvsp[0].strval));}
-#line 1533 "y.tab.c"
+#line 1539 "y.tab.c"
     break;
 
   case 13: /* struct_def: STRUCT_START ID $@1 struct_vars STRUCT_END  */
@@ -1541,19 +1547,19 @@ printf("The struct is correct with the name %s \n",(yyvsp[-3].strval));
 add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 //print_var_table();
 }
-#line 1545 "y.tab.c"
+#line 1551 "y.tab.c"
     break;
 
   case 14: /* struct_vars: variable  */
 #line 132 "my_lang.y"
                         {printf("The struct variable is correct \n");}
-#line 1551 "y.tab.c"
+#line 1557 "y.tab.c"
     break;
 
   case 16: /* $@2: %empty  */
 #line 137 "my_lang.y"
                            {strcpy(curr_scope,(yyvsp[0].strval));}
-#line 1557 "y.tab.c"
+#line 1563 "y.tab.c"
     break;
 
   case 17: /* class_def: CLASS_START ID $@2 class_info CLASS_END  */
@@ -1564,37 +1570,37 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   add_var((yyvsp[-3].strval), "class", "default","global",false,0);  
   //print_var_table();
 }
-#line 1568 "y.tab.c"
+#line 1574 "y.tab.c"
     break;
 
   case 18: /* class_info: variable  */
 #line 147 "my_lang.y"
                       {printf("The class variable is correct \n");}
-#line 1574 "y.tab.c"
+#line 1580 "y.tab.c"
     break;
 
   case 20: /* class_info: function  */
 #line 149 "my_lang.y"
              {printf("The class function is correct \n");}
-#line 1580 "y.tab.c"
+#line 1586 "y.tab.c"
     break;
 
   case 22: /* userdef_vars: variable  */
 #line 152 "my_lang.y"
                          {printf("The userdef variable is correct \n");}
-#line 1586 "y.tab.c"
+#line 1592 "y.tab.c"
     break;
 
   case 25: /* univ_sec: UNIVERSAL_START univ_vars UNIVERSAL_END  */
 #line 157 "my_lang.y"
                                                   {printf("The universal section is correct \n");}
-#line 1592 "y.tab.c"
+#line 1598 "y.tab.c"
     break;
 
   case 27: /* univ_vars: variable  */
 #line 159 "my_lang.y"
                       {printf("The universal variable is correct \n");}
-#line 1598 "y.tab.c"
+#line 1604 "y.tab.c"
     break;
 
   case 30: /* variable: TYPE ID ';'  */
@@ -1607,7 +1613,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
          
 
         }
-#line 1611 "y.tab.c"
+#line 1617 "y.tab.c"
     break;
 
   case 31: /* variable: TYPE ID ASSIGN rvalue ';'  */
@@ -1627,7 +1633,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           add_var((yyvsp[-3].strval), (yyvsp[-4].strval), (yyvsp[-1].lval),curr_scope,false,0);  
           //print_var_table();
         }
-#line 1631 "y.tab.c"
+#line 1637 "y.tab.c"
     break;
 
   case 32: /* variable: TYPE ARRAY ';'  */
@@ -1639,7 +1645,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           add_var(name, (yyvsp[-2].strval), "",curr_scope,true,size_int);
           //print_var_table();
         }
-#line 1643 "y.tab.c"
+#line 1649 "y.tab.c"
     break;
 
   case 33: /* rvalue: lvalue  */
@@ -1651,7 +1657,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
         //printf("the current scope is %s\n",curr_scope);
         
         }
-#line 1655 "y.tab.c"
+#line 1661 "y.tab.c"
     break;
 
   case 34: /* rvalue: INTEGER  */
@@ -1667,7 +1673,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           printf("the current scope is %s\n",curr_scope);
           strcpy((yyval.lval)->scope, curr_scope);
         }
-#line 1671 "y.tab.c"
+#line 1677 "y.tab.c"
     break;
 
   case 35: /* rvalue: FLOAT  */
@@ -1682,7 +1688,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           strcpy((yyval.lval)->scope, curr_scope);
           
           }
-#line 1686 "y.tab.c"
+#line 1692 "y.tab.c"
     break;
 
   case 36: /* rvalue: BOOL  */
@@ -1696,7 +1702,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           strcpy((yyval.lval)->value, (yyvsp[0].strval));
           strcpy((yyval.lval)->scope, curr_scope);
           }
-#line 1700 "y.tab.c"
+#line 1706 "y.tab.c"
     break;
 
   case 37: /* rvalue: STRING  */
@@ -1711,7 +1717,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           strcpy((yyval.lval)->value, (yyvsp[0].strval));   
           strcpy((yyval.lval)->scope, curr_scope);
         }
-#line 1715 "y.tab.c"
+#line 1721 "y.tab.c"
     break;
 
   case 38: /* rvalue: math_statem  */
@@ -1728,7 +1734,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
           printf("the scope is %s\n",(yyval.lval)->scope);
         
         }
-#line 1732 "y.tab.c"
+#line 1738 "y.tab.c"
     break;
 
   case 39: /* lvalue: ID  */
@@ -1749,7 +1755,7 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
           
           }
-#line 1753 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 40: /* lvalue: ARRAY  */
@@ -1798,38 +1804,50 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             }
            }
           }
-#line 1802 "y.tab.c"
+#line 1808 "y.tab.c"
     break;
 
   case 41: /* func_sec: FUNCTIONS_START functions FUNCTIONS_END  */
 #line 331 "my_lang.y"
-                                                   {printf("The functions section is correct \n");}
-#line 1808 "y.tab.c"
+                                                    {printf("The functions section is correct \n");}
+#line 1814 "y.tab.c"
     break;
 
-  case 46: /* function: '(' ')' ID '(' ')' '{' RETURN ';' '}'  */
+  case 46: /* $@3: %empty  */
+#line 338 "my_lang.y"
+                       {strcpy(curr_scope,(yyvsp[0].strval));}
+#line 1820 "y.tab.c"
+    break;
+
+  case 47: /* function: '(' ')' ID $@3 '(' ')' '{' RETURN ';' '}'  */
 #line 339 "my_lang.y"
 {
   printf("Current function arguments : %d\n", current_function_arguments);
-  add_func((yyvsp[-6].strval), "", "", "function", 0);
+  add_func((yyvsp[-7].strval), "", "", "function", 0);
   current_function_arguments = 0;
   printf("The function is correct \n");
 }
-#line 1819 "y.tab.c"
+#line 1831 "y.tab.c"
     break;
 
-  case 47: /* function: '(' ')' ID '(' ')' '{' '}'  */
+  case 48: /* $@4: %empty  */
+#line 346 "my_lang.y"
+             {strcpy(curr_scope,(yyvsp[0].strval));}
+#line 1837 "y.tab.c"
+    break;
+
+  case 49: /* function: '(' ')' ID $@4 '(' ')' '{' '}'  */
 #line 347 "my_lang.y"
 {
   printf("Current function arguments : %d\n", current_function_arguments);
-  add_func((yyvsp[-4].strval), "", "", "function", 0);
+  add_func((yyvsp[-5].strval), "", "", "function", 0);
   current_function_arguments = 0;
   printf("The function is NOT correct \n");
 }
-#line 1830 "y.tab.c"
+#line 1848 "y.tab.c"
     break;
 
-  case 48: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}'  */
+  case 50: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN ID ';' '}'  */
 #line 354 "my_lang.y"
 {
   // add new function to the table
@@ -1838,10 +1856,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1842 "y.tab.c"
+#line 1860 "y.tab.c"
     break;
 
-  case 49: /* function: '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'  */
+  case 51: /* function: '(' TYPE ')' ID '(' ')' '{' instructions RETURN ID ';' '}'  */
 #line 363 "my_lang.y"
 {
   // add new function to the table
@@ -1850,10 +1868,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1854 "y.tab.c"
+#line 1872 "y.tab.c"
     break;
 
-  case 50: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}'  */
+  case 52: /* function: '(' TYPE ')' ID '(' arguments ')' '{' instructions RETURN rvalue ';' '}'  */
 #line 371 "my_lang.y"
 {
   // add new function to the table
@@ -1862,10 +1880,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   current_function_arguments = 0;
   printf("The function is correct \n"); 
 }
-#line 1866 "y.tab.c"
+#line 1884 "y.tab.c"
     break;
 
-  case 51: /* arguments: variable_argument  */
+  case 53: /* arguments: variable_argument  */
 #line 385 "my_lang.y"
 { 
   (yyval.arg_list)[current_function_arguments] = (struct param_info*)malloc(sizeof(struct param_info));
@@ -1881,10 +1899,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   printf("----------------------------ID IN $1 IS: %s\n", (yyvsp[0].arg)->id);
   printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", (yyval.arg_list)[current_function_arguments]->id);
 }
-#line 1885 "y.tab.c"
+#line 1903 "y.tab.c"
     break;
 
-  case 52: /* arguments: arguments ',' variable_argument  */
+  case 54: /* arguments: arguments ',' variable_argument  */
 #line 400 "my_lang.y"
 {
   (yyval.arg_list)[current_function_arguments] = (struct param_info*)malloc(sizeof(struct param_info));
@@ -1899,10 +1917,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   printf("----------------------------ID IN $3 IS: %s\n", (yyvsp[0].arg)->id);
   printf("----------------------------ID IN VAR_ARGUMENT IS: %s\n", (yyval.arg_list)[current_function_arguments]->id);
 }
-#line 1903 "y.tab.c"
+#line 1921 "y.tab.c"
     break;
 
-  case 56: /* variable_argument: TYPE ID  */
+  case 58: /* variable_argument: TYPE ID  */
 #line 418 "my_lang.y"
 {
   (yyval.arg) = (struct param_info*)malloc(sizeof(struct param_info));
@@ -1910,45 +1928,45 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   strcpy((yyval.arg)->id, (yyvsp[0].strval)); 
   
 }
-#line 1914 "y.tab.c"
-    break;
-
-  case 63: /* $@3: %empty  */
-#line 435 "my_lang.y"
-                      {strcpy(curr_scope,"main");}
-#line 1920 "y.tab.c"
-    break;
-
-  case 64: /* main_sec: MAIN_START $@3 instructions MAIN_END  */
-#line 435 "my_lang.y"
-                                                                         {printf("The main section is correct \n");}
-#line 1926 "y.tab.c"
-    break;
-
-  case 65: /* instructions: instruction  */
-#line 437 "my_lang.y"
-                           {printf("The instruction is correct \n");}
 #line 1932 "y.tab.c"
     break;
 
-  case 77: /* print: PRINT '(' STRING ')' ';'  */
+  case 65: /* $@5: %empty  */
+#line 435 "my_lang.y"
+                      {strcpy(curr_scope,"main");}
+#line 1938 "y.tab.c"
+    break;
+
+  case 66: /* main_sec: MAIN_START $@5 instructions MAIN_END  */
+#line 435 "my_lang.y"
+                                                                         {printf("The main section is correct \n");}
+#line 1944 "y.tab.c"
+    break;
+
+  case 67: /* instructions: instruction  */
+#line 437 "my_lang.y"
+                           {printf("The instruction is correct \n");}
+#line 1950 "y.tab.c"
+    break;
+
+  case 79: /* print: PRINT '(' STRING ')' ';'  */
 #line 454 "my_lang.y"
 { 
   printf("the strinf is %s \n",(yyvsp[-2].strval));
   printf("[OUTPUT]: %s \n",(yyvsp[-2].strval));
 }
-#line 1941 "y.tab.c"
+#line 1959 "y.tab.c"
     break;
 
-  case 78: /* print: PRINT '(' rvalue ')' ';'  */
+  case 80: /* print: PRINT '(' rvalue ')' ';'  */
 #line 459 "my_lang.y"
   {
     printf("[OUTPUT]: %s \n",(yyvsp[-2].lval)->value);
   }
-#line 1949 "y.tab.c"
+#line 1967 "y.tab.c"
     break;
 
-  case 79: /* typeof: TYPEOF '(' ID ')'  */
+  case 81: /* typeof: TYPEOF '(' ID ')'  */
 #line 466 "my_lang.y"
 {
   //check if the variable is declared
@@ -1972,10 +1990,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
   }
 
 }
-#line 1976 "y.tab.c"
+#line 1994 "y.tab.c"
     break;
 
-  case 80: /* statement: lvalue ASSIGN rvalue  */
+  case 82: /* statement: lvalue ASSIGN rvalue  */
 #line 491 "my_lang.y"
            {
             
@@ -2012,10 +2030,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             // }
 
            }
-#line 2016 "y.tab.c"
+#line 2034 "y.tab.c"
     break;
 
-  case 81: /* statement: lvalue INC  */
+  case 83: /* statement: lvalue INC  */
 #line 528 "my_lang.y"
            {
 
@@ -2042,10 +2060,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             //printf("The statement is correct \n");
             print_var_table();
            }
-#line 2046 "y.tab.c"
+#line 2064 "y.tab.c"
     break;
 
-  case 82: /* statement: lvalue DEC  */
+  case 84: /* statement: lvalue DEC  */
 #line 555 "my_lang.y"
            {
             if(is_const((yyvsp[-1].lval)->name,(yyvsp[-1].lval)->scope))
@@ -2072,26 +2090,26 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             print_var_table();
 
            }
-#line 2076 "y.tab.c"
+#line 2094 "y.tab.c"
     break;
 
-  case 83: /* statement: ID '(' ')'  */
+  case 85: /* statement: ID '(' ')'  */
 #line 582 "my_lang.y"
            {
             printf("The statement is correct \n"); //call a function with no arguments
            }
-#line 2084 "y.tab.c"
+#line 2102 "y.tab.c"
     break;
 
-  case 84: /* statement: ID '(' arguments ')'  */
+  case 86: /* statement: ID '(' arguments ')'  */
 #line 586 "my_lang.y"
            {
             printf("The statement is correct \n");
            }
-#line 2092 "y.tab.c"
+#line 2110 "y.tab.c"
     break;
 
-  case 85: /* declaration: TYPE ID  */
+  case 87: /* declaration: TYPE ID  */
 #line 591 "my_lang.y"
             {  
               //if it's not declared 
@@ -2112,10 +2130,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
              
              
             }
-#line 2116 "y.tab.c"
+#line 2134 "y.tab.c"
     break;
 
-  case 86: /* declaration: CONST TYPE ID ASSIGN rvalue  */
+  case 88: /* declaration: CONST TYPE ID ASSIGN rvalue  */
 #line 611 "my_lang.y"
             {
               printf("The declaration is correct \n");
@@ -2125,10 +2143,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
               add_var((yyvsp[-2].strval), type,(yyvsp[0].lval)->value,curr_scope,false,0); //incompatible type for $4
               printf("value added\n");
             }
-#line 2129 "y.tab.c"
+#line 2147 "y.tab.c"
     break;
 
-  case 87: /* declaration: TYPE ID ASSIGN rvalue  */
+  case 89: /* declaration: TYPE ID ASSIGN rvalue  */
 #line 620 "my_lang.y"
              {
               //if rvalue type is not the same as type 
@@ -2144,10 +2162,10 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
               printf("value added\n");
               //print_var_table();
              }
-#line 2148 "y.tab.c"
+#line 2166 "y.tab.c"
     break;
 
-  case 88: /* declaration: TYPE ARRAY  */
+  case 90: /* declaration: TYPE ARRAY  */
 #line 635 "my_lang.y"
              {
               printf("The declaration is correct \n");
@@ -2157,123 +2175,127 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
               //printf("the size is %s \n", size);
               add_var(id, (yyvsp[-1].strval),"",curr_scope,true,arr_size);
              }
-#line 2161 "y.tab.c"
+#line 2179 "y.tab.c"
     break;
 
-  case 89: /* control_instruction: IF '(' condition ')' '{' instruction '}'  */
+  case 91: /* control_instruction: IF '(' condition ')' '{' instruction '}'  */
 #line 647 "my_lang.y"
 {
   printf("The if instruction is correct \n");
 }
-#line 2169 "y.tab.c"
+#line 2187 "y.tab.c"
     break;
 
-  case 90: /* control_instruction: IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}'  */
+  case 92: /* control_instruction: IF '(' condition ')' '{' instruction '}' ELSE '{' instruction '}'  */
 #line 651 "my_lang.y"
  {
   printf("The if-else instruction is correct \n");
  }
-#line 2177 "y.tab.c"
+#line 2195 "y.tab.c"
     break;
 
-  case 91: /* control_instruction: FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
+  case 93: /* control_instruction: FOR '(' TYPE ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
 #line 656 "my_lang.y"
 {
   printf("The for instruction is correct \n");
   //check if the value in condition is the same as ID 
 
 }
-#line 2187 "y.tab.c"
+#line 2205 "y.tab.c"
     break;
 
-  case 92: /* control_instruction: FOR '(' ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
+  case 94: /* control_instruction: FOR '(' ID ASSIGN rvalue ';' condition ';' for_increment ')' '{' instruction '}'  */
 #line 662 "my_lang.y"
 {
   printf("The for instruction is correct \n");
 }
-#line 2195 "y.tab.c"
+#line 2213 "y.tab.c"
     break;
 
-  case 93: /* control_instruction: WHILE '(' condition ')' '{' instruction '}'  */
+  case 95: /* control_instruction: WHILE '(' condition ')' '{' instruction '}'  */
 #line 666 "my_lang.y"
 {
   printf("The while instruction is correct \n");
 }
-#line 2203 "y.tab.c"
+#line 2221 "y.tab.c"
     break;
 
-  case 94: /* for_increment: ID ASSIGN rvalue  */
+  case 96: /* for_increment: ID ASSIGN rvalue  */
 #line 672 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2211 "y.tab.c"
+#line 2229 "y.tab.c"
     break;
 
-  case 95: /* for_increment: ID INC  */
+  case 97: /* for_increment: ID INC  */
 #line 675 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2219 "y.tab.c"
+#line 2237 "y.tab.c"
     break;
 
-  case 96: /* for_increment: ID DEC  */
+  case 98: /* for_increment: ID DEC  */
 #line 678 "my_lang.y"
 {
   printf("The for increment is correct \n");
 }
-#line 2227 "y.tab.c"
+#line 2245 "y.tab.c"
     break;
 
-  case 97: /* condition: lvalue OP_LOGIC rvalue  */
+  case 99: /* condition: lvalue OP_LOGIC rvalue  */
 #line 684 "my_lang.y"
 {
-  printf("The condition is correct here  \n");
+  //printf("The condition is correct here  \n");
   //check if the types are the same and if they are declared
-  if(strcmp(get_type((yyvsp[-2].lval),"global"),get_type((yyvsp[0].lval),"global")) != 0)
+ 
+  //printf("The operator  is %s \n",OP_LOGIC);
+  //check if the types are the same and if they are declared
+ // printf("The condition is correct \n");
+  
+  if( !same_type((yyvsp[-2].lval)->type,(yyvsp[0].lval)->type)) 
   {
-    printf("[ERROR] : The types are not the same \n");
+    printf("[ERROR] line: %d not the same type...\n",yylineno);
     exit(1);
   }
-  else if(strcmp(get_type((yyvsp[-2].lval),"main"),get_type((yyvsp[0].lval),"main")) != 0)
-  {
-    printf("[ERROR] : The types are not the same \n");
-    exit(1);
-  }
+  
+  
+
+
   
   
 
 ;}
-#line 2249 "y.tab.c"
+#line 2271 "y.tab.c"
     break;
 
-  case 98: /* condition: condition OP_LOGIC condition  */
-#line 702 "my_lang.y"
+  case 100: /* condition: condition OP_LOGIC condition  */
+#line 706 "my_lang.y"
  {
   //printf("The condition is correct \n");
  }
-#line 2257 "y.tab.c"
+#line 2279 "y.tab.c"
     break;
 
-  case 99: /* condition: condition OP_LOGIC rvalue  */
-#line 706 "my_lang.y"
+  case 101: /* condition: condition OP_LOGIC rvalue  */
+#line 710 "my_lang.y"
  {
     //printf("The condition is correct \n");
  }
-#line 2265 "y.tab.c"
+#line 2287 "y.tab.c"
     break;
 
-  case 100: /* condition: lvalue OP_LOGIC condition  */
-#line 710 "my_lang.y"
+  case 102: /* condition: lvalue OP_LOGIC condition  */
+#line 714 "my_lang.y"
   {
     //printf("The condition is correct \n");
   }
-#line 2273 "y.tab.c"
+#line 2295 "y.tab.c"
     break;
 
-  case 101: /* math_statem: math_statem OP_MATH1 math_val  */
-#line 720 "my_lang.y"
+  case 103: /* math_statem: math_statem OP_MATH1 math_val  */
+#line 724 "my_lang.y"
             {
 
              
@@ -2285,11 +2307,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
 
             }
-#line 2289 "y.tab.c"
+#line 2311 "y.tab.c"
     break;
 
-  case 102: /* math_statem: math_statem OP_MATH2 math_val  */
-#line 732 "my_lang.y"
+  case 104: /* math_statem: math_statem OP_MATH2 math_val  */
+#line 736 "my_lang.y"
             {
            // printf("The math statement is correct \n");
             struct node* root = malloc(sizeof(struct node));
@@ -2298,11 +2320,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2302 "y.tab.c"
+#line 2324 "y.tab.c"
     break;
 
-  case 103: /* math_statem: math_val OP_MATH1 math_statem  */
-#line 741 "my_lang.y"
+  case 105: /* math_statem: math_val OP_MATH1 math_statem  */
+#line 745 "my_lang.y"
             {
                //printf("math state here \n");
              //printf("The math statement is correct \n");
@@ -2313,11 +2335,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2317 "y.tab.c"
+#line 2339 "y.tab.c"
     break;
 
-  case 104: /* math_statem: math_val OP_MATH2 math_statem  */
-#line 752 "my_lang.y"
+  case 106: /* math_statem: math_val OP_MATH2 math_statem  */
+#line 756 "my_lang.y"
             {
              //printf("The math statement is correct \n");
               struct node* root = malloc(sizeof(struct node));
@@ -2326,11 +2348,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2330 "y.tab.c"
+#line 2352 "y.tab.c"
     break;
 
-  case 105: /* math_statem: math_val OP_MATH1 math_val  */
-#line 761 "my_lang.y"
+  case 107: /* math_statem: math_val OP_MATH1 math_val  */
+#line 765 "my_lang.y"
             {
               printf("the op is %s\n",(yyvsp[-2].node_ptr));
               struct node* root = malloc(sizeof(struct node));
@@ -2341,11 +2363,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2345 "y.tab.c"
+#line 2367 "y.tab.c"
     break;
 
-  case 106: /* math_statem: math_statem OP_MATH1 math_statem  */
-#line 772 "my_lang.y"
+  case 108: /* math_statem: math_statem OP_MATH1 math_statem  */
+#line 776 "my_lang.y"
             {
               //printf("The math statement is correct \n");
               struct node* root = malloc(sizeof(struct node));
@@ -2354,11 +2376,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2358 "y.tab.c"
+#line 2380 "y.tab.c"
     break;
 
-  case 107: /* math_statem: math_statem OP_MATH2 math_statem  */
-#line 781 "my_lang.y"
+  case 109: /* math_statem: math_statem OP_MATH2 math_statem  */
+#line 785 "my_lang.y"
             { 
               
              // printf("The math statement is correct \n");
@@ -2368,11 +2390,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2372 "y.tab.c"
+#line 2394 "y.tab.c"
     break;
 
-  case 108: /* math_statem: math_val OP_MATH2 math_val  */
-#line 791 "my_lang.y"
+  case 110: /* math_statem: math_val OP_MATH2 math_val  */
+#line 795 "my_lang.y"
             {
 
               //printf("the op is %s\n",$2);
@@ -2383,11 +2405,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
 
              (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,(struct node*)(yyvsp[-2].node_ptr),(struct node*)(yyvsp[0].node_ptr),1);
             }
-#line 2387 "y.tab.c"
+#line 2409 "y.tab.c"
     break;
 
-  case 109: /* math_val: lvalue  */
-#line 804 "my_lang.y"
+  case 111: /* math_val: lvalue  */
+#line 808 "my_lang.y"
           {
             
             struct node* root = malloc(sizeof(struct node));
@@ -2405,11 +2427,11 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
           
           }
-#line 2409 "y.tab.c"
+#line 2431 "y.tab.c"
     break;
 
-  case 110: /* math_val: INTEGER  */
-#line 822 "my_lang.y"
+  case 112: /* math_val: INTEGER  */
+#line 826 "my_lang.y"
           {
             printf("The math value is INT  \n");
             struct node* root = malloc(sizeof(struct node));
@@ -2417,33 +2439,33 @@ add_var((yyvsp[-3].strval), "struct", "default","global",false,0);
             (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
             
           }
-#line 2421 "y.tab.c"
-    break;
-
-  case 111: /* math_val: FLOAT  */
-#line 830 "my_lang.y"
-          {
-            struct node* root = malloc(sizeof(struct node));
-            strcpy(root->value,"0");
-            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
-            //printf("The math value is correct \n");
-          }
-#line 2432 "y.tab.c"
-    break;
-
-  case 112: /* math_val: BOOL  */
-#line 837 "my_lang.y"
-          {
-            struct node* root = malloc(sizeof(struct node));
-            strcpy(root->value,"0");
-            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
-            //printf("The math value is correct \n");
-          }
 #line 2443 "y.tab.c"
     break;
 
+  case 113: /* math_val: FLOAT  */
+#line 834 "my_lang.y"
+          {
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
+          }
+#line 2454 "y.tab.c"
+    break;
 
-#line 2447 "y.tab.c"
+  case 114: /* math_val: BOOL  */
+#line 841 "my_lang.y"
+          {
+            struct node* root = malloc(sizeof(struct node));
+            strcpy(root->value,"0");
+            (yyval.node_ptr) =(struct node*)buildTree((struct node*) root,NULL,NULL,0);
+            //printf("The math value is correct \n");
+          }
+#line 2465 "y.tab.c"
+    break;
+
+
+#line 2469 "y.tab.c"
 
       default: break;
     }
@@ -2636,7 +2658,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 849 "my_lang.y"
+#line 853 "my_lang.y"
 
 // c code part 
 int yyerror(char * s){
